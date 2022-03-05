@@ -20,6 +20,7 @@ public class RegisterUser extends AppCompatActivity implements View.OnClickListe
 
     private EditText editTextUsername, editTextPassword, editTextEmail;
     private ProgressBar progressBar;
+    private Spinner programDropdown;
 
     private FirebaseAuth mAuth;
 
@@ -36,6 +37,14 @@ public class RegisterUser extends AppCompatActivity implements View.OnClickListe
 
         TextView banner = findViewById(R.id.register_banner);
         banner.setOnClickListener(this); // Allows the user to return via the banner.
+
+        // Let the user select their program to add to user information
+        // --> can also be moved elsewhere ((edit) profile activity)
+        programDropdown = findViewById(R.id.register_program);
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(
+                this, R.array.programs, android.R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_list_item_1);
+        programDropdown.setAdapter(adapter);
 
         progressBar = findViewById(R.id.register_progress);
         editTextUsername = findViewById(R.id.register_username);
@@ -62,6 +71,8 @@ public class RegisterUser extends AppCompatActivity implements View.OnClickListe
         String username = editTextUsername.getText().toString().trim();
         // Password is not trimmed, just in case spaces are used in the password.
         String password = editTextPassword.getText().toString();
+        // Program - either Unspecified or TU/e program.
+        String program = programDropdown.getSelectedItem().toString();
 
         // Username cannot be empty, possibly want a minimum length as well.
         if (username.isEmpty()) {
@@ -101,7 +112,7 @@ public class RegisterUser extends AppCompatActivity implements View.OnClickListe
 
                         // Registration was successful.
                         if (task.isSuccessful()) {
-                            User user = new User(username, email);
+                            User user = new User(username, email, program);
 
                             // You don't want to know how long I spent getting the database to work
                             // here, and all I needed was this stupid link.

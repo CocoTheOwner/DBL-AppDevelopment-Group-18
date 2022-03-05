@@ -3,6 +3,7 @@ package com.example.myapplication;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Patterns;
 import android.view.View;
@@ -14,6 +15,7 @@ import com.google.firebase.auth.FirebaseAuth;
 
 public class ResetPassword extends AppCompatActivity {
 
+    private TextView banner;
     private EditText userMail;
     private Button resetButton;
     FirebaseAuth auth;
@@ -23,8 +25,8 @@ public class ResetPassword extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_reset_password);
 
-        userMail = findViewById(R.id.forgot_email);
-        resetButton = findViewById(R.id.forgot_reset);
+        userMail = findViewById(R.id.reset_email);
+        resetButton = findViewById(R.id.reset_reset);
         auth = FirebaseAuth.getInstance();
         resetButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -32,6 +34,16 @@ public class ResetPassword extends AppCompatActivity {
                 resetPassword();
             }
         });
+
+        banner = findViewById(R.id.reset_banner);
+        banner.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(view.getContext(), MainActivity.class));
+            }
+        });
+
+
     }
 
     private void resetPassword() {
@@ -42,7 +54,7 @@ public class ResetPassword extends AppCompatActivity {
             userMail.requestFocus();
             return;
         }
-        if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) { // TODO: should be tue domain.
+        if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
             userMail.setError("Email is invalid!");
             userMail.requestFocus();
             return;

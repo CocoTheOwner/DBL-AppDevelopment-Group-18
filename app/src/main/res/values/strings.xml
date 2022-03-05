@@ -1,3 +1,45 @@
 <resources>
-    <string name="app_name">My Application</string>
+    <string name="app_name">Meta-Forum</string>
+    <string-array name="programs">
+        <item>Unspecified</item>
+        <item>Bachelor Applied Mathematics</item>
+        <item>Bachelor Applied Physics</item>
+        <item>Bachelor Architecture, Urbanism and Building Sciences</item>
+        <item>Bachelor Automotive Technology</item>
+        <item>Bachelor Biomedical Engineering</item>
+        <item>Bachelor Chemical Engineering and Chemistry</item>
+        <item>Bachelor Computer Science and Engineering</item>
+        <item>Bachelor Data Science</item>
+        <item>Bachelor Electrical Engineering</item>
+        <item>Bachelor Industrial Design</item>
+        <item>Bachelor Industrial Engineering</item>
+        <item>Bachelor Mechanical Engineering</item>
+        <item>Bachelor Medical Sciences and Technology</item>
+        <item>Bachelor Psychology &amp; Technology</item>
+        <item>Bachelor Sustainable Innovation</item>
+        <item>Master Applied Physics</item>
+        <item>Master Architecture, Building and Planning</item>
+        <item>Master Artificial Intelligence and Engineering Systems</item>
+        <item>Master Automotive Technology</item>
+        <item>Master Biomedical Engineering</item>
+        <item>Master Chemical Engineering</item>
+        <item>Master Computer Science and Engineering</item>
+        <item>Master Construction Management and Engineering</item>
+        <item>Master Data Science and Artificial Intelligence</item>
+        <item>Master Data Science and Entrepreneurship</item>
+        <item>Master Electrical Engineering</item>
+        <item>Master Embedded Systems</item>
+        <item>Master Human-Technology Interaction</item>
+        <item>Master Industrial and Applied Mathematics</item>
+        <item>Master Industrial Design</item>
+        <item>Master Innovation Management</item>
+        <item>Master Innovation Sciences</item>
+        <item>Master Mechanical Engineering</item>
+        <item>Master Medical Engineering</item>
+        <item>Master Operations Management and Logistics</item>
+        <item>Master Science and Technology of Nuclear Fusion</item>
+        <item>Master Science Education and Communication</item>
+        <item>Master Sustainable Energy Technology</item>
+        <item>Master Systems and Control</item>
+    </string-array>
 </resources>
