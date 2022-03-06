@@ -4,10 +4,13 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="../../../../eindhoven/CS/Y2/2IS70_DBL_app_development/DBL-AppDevelopment-Group-18/app/src/main/res/layout/activity_main.xml" value="0.1" />
+        <entry key="..\:/GitHub/DBL-AppDevelopment-Group-18/app/src/main/res/layout-land/activity_main.xml" value="0.5" />
+        <entry key="..\:/GitHub/DBL-AppDevelopment-Group-18/app/src/main/res/layout-land/activity_register_user.xml" value="0.33" />
+        <entry key="..\:/GitHub/DBL-AppDevelopment-Group-18/app/src/main/res/layout-land/activity_reset_password.xml" value="0.33" />
         <entry key="..\:/GitHub/DBL-AppDevelopment-Group-18/app/src/main/res/layout/activity_landing_page.xml" value="0.18802083333333333" />
         <entry key="..\:/GitHub/DBL-AppDevelopment-Group-18/app/src/main/res/layout/activity_main.xml" value="0.25" />
         <entry key="..\:/GitHub/DBL-AppDevelopment-Group-18/app/src/main/res/layout/activity_register_user.xml" value="0.5" />
-        <entry key="..\:/GitHub/DBL-AppDevelopment-Group-18/app/src/main/res/layout/activity_reset_password.xml" value="0.18802083333333333" />
+        <entry key="..\:/GitHub/DBL-AppDevelopment-Group-18/app/src/main/res/layout/activity_reset_password.xml" value="0.33" />
       </map>
     </option>
   </component>
