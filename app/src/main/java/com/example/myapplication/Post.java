@@ -1,0 +1,61 @@
+package com.example.myapplication;
+
+import java.util.Date;
+
+/**
+ * Represents a post in the app.
+ */
+public abstract class Post {
+
+    /**
+     * The ID of the post.
+     */
+    private final long postID;
+
+    /**
+     * The author of the post.
+     */
+    private final User author;
+
+    /**
+     * The content of the post.
+     */
+    private final Content content;
+
+    /**
+     * The timestamp on which the post was created.
+     */
+    private final Date creationDate;
+
+    /**
+     * Create a new post.
+     * @param postID the ID of the post
+     * @param author the author of the post
+     * @param content the content of the post
+     * @param creationDate the date on which the post was created
+     */
+    protected Post(long postID, User author, Content content, Date creationDate) {
+        this.postID = postID;
+        this.author = author;
+        this.content = content;
+        this.creationDate = creationDate;
+    }
+
+    /**
+     * Get the time since creation in a nicely formatted string.
+     * @return the time since creation
+     */
+    public String timeDisplay(){
+        // TODO: Proper format
+        return creationDate.toString();
+    }
+
+    /**
+     * Removes this post.
+     * @return true if successful, false if not
+     */
+    public boolean remove() {
+        // TODO: Implementation
+        return true;
+    }
+}
