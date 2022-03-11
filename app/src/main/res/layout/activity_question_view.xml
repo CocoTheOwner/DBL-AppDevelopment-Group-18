@@ -33,7 +33,7 @@
         app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
-        android:id="@+id/QuestionTitle"
+        android:id="@+id/CreateTitle"
         android:layout_width="184dp"
         android:layout_height="40dp"
         android:layout_marginTop="24dp"
