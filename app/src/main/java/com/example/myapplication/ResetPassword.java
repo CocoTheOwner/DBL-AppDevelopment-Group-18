@@ -49,6 +49,7 @@ public class ResetPassword extends AppCompatActivity {
     private void resetPassword() {
         String email = userMail.getText().toString().trim();
 
+        // TODO: decompose
         if (email.isEmpty()) {
             userMail.setError("Email is required!");
             userMail.requestFocus();

@@ -74,6 +74,8 @@ public class RegisterUser extends AppCompatActivity implements View.OnClickListe
         // Program - either Unspecified or TU/e program.
         String program = programDropdown.getSelectedItem().toString();
 
+        // TODO: decompose
+
         // Username cannot be empty, possibly want a minimum length as well.
         if (username.isEmpty()) {
             editTextUsername.setError("Username is required!");
