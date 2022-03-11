@@ -42,11 +42,11 @@ public class User {
 
     /**
      * Login a User
-     * @param userName the name of the user
-     * @param userMajor the major of the user
-     * @param userID the ID to assign this user
-     * @param userEmail the email of the user
-     * @param userPassword the password
+     * @param userName      the name of the user
+     * @param userMajor     the major of the user
+     * @param userID        the ID to assign this user
+     * @param userEmail     the email of the user
+     * @param userPassword  the password
      */
     public User(String userName, String userMajor, long userID, UserType userType, String userEmail, String userPassword) {
         this.userName = userName;

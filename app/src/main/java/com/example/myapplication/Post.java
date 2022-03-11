@@ -29,9 +29,9 @@ public abstract class Post {
 
     /**
      * Create a new post.
-     * @param postID the ID of the post
-     * @param author the author of the post
-     * @param content the content of the post
+     * @param postID       the ID of the post
+     * @param author       the author of the post
+     * @param content      the content of the post
      * @param creationDate the date on which the post was created
      */
     protected Post(long postID, User author, Content content, Date creationDate) {
@@ -57,5 +57,37 @@ public abstract class Post {
     public boolean remove() {
         // TODO: Implementation
         return true;
+    }
+
+    /**
+     * Get the content of the post.
+     * @return the content
+     */
+    public Content getContent() {
+        return content;
+    }
+
+    /**
+     * Get the ID of the post.
+     * @return the ID
+     */
+    public long getPostID() {
+        return postID;
+    }
+
+    /**
+     * Get the creation date of the post.
+     * @return the creation date
+     */
+    public Date getCreationDate() {
+        return creationDate;
+    }
+
+    /**
+     * Get the author of the post.
+     * @return the author
+     */
+    public User getAuthor() {
+        return author;
     }
 }

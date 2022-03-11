@@ -1,7 +1,5 @@
 package com.example.myapplication;
 
-import android.os.Build;
-
 import androidx.annotation.NonNull;
 
 import java.io.File;
@@ -29,9 +27,9 @@ public class Content {
 
     /**
      * Create a new Content.
-     * @param attachments the attached files
-     * @param title the title
-     * @param body the body
+     * @param attachments   the attached files
+     * @param title         the title
+     * @param body          the body
      */
     public Content(@NonNull List<File> attachments, String title, String body) {
         this.attachments = attachments;
