@@ -65,6 +65,10 @@ public class RegisterUser extends AppCompatActivity implements View.OnClickListe
         }
     }
 
+    /**
+     * First checks if provided credentials adhere to the requirements, then attempts to
+     * create a Firebase user with these credentials.
+     */
     private void registerUser() {
         // using trim() to remove any trailing spaces.
         String email = editTextEmail.getText().toString().trim();
@@ -74,37 +78,21 @@ public class RegisterUser extends AppCompatActivity implements View.OnClickListe
         // Program - either Unspecified or TU/e program.
         String program = programDropdown.getSelectedItem().toString();
 
-        // TODO: decompose
-
-        // Username cannot be empty, possibly want a minimum length as well.
-        if (username.isEmpty()) {
-            editTextUsername.setError("Username is required!");
-            editTextUsername.requestFocus();
-            return;
+        // If the credentials conform to requirements, we attempt to create an account.
+        if (checkCredentials(email, username, password)) {
+            createUser(email, username, password, program);
         }
+    }
 
-        // Provided email should be a valid email (also implies non-empty)
-        if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
-            editTextEmail.setError("Email is invalid!");
-            editTextEmail.requestFocus();
-            return;
-        }
-
-        // Additionally, the email should be tue domain.
-        // TODO: We could possibly create our own regex to combine the two checks into one.
-        if (!(email.contains("@student.tue.nl") || email.contains("@tue.nl"))) {
-            editTextEmail.setError("Please use your TU/e email");
-            editTextEmail.requestFocus();
-            return;
-        }
-
-        // Firebase requires passwords to have lengths of at least 6 characters.
-        if (password.length() < 6) {
-            editTextPassword.setError("Password should have length of at least 6!");
-            editTextPassword.requestFocus();
-            return;
-        }
-
+    /**
+     * Creates a FIrebase user with provided credentials and stores a User object in the realtime
+     * database
+     * @param email provided email address
+     * @param username provided username
+     * @param password provided password
+     * @param program provided program (major)
+     */
+    private void createUser(String email, String username, String password, String program) {
         // Show the user that the registration is being processed.
         progressBar.setVisibility(View.VISIBLE);
         mAuth.createUserWithEmailAndPassword(email, password)
@@ -170,5 +158,44 @@ public class RegisterUser extends AppCompatActivity implements View.OnClickListe
                         }
                     }
                 });
+    }
+
+    /**
+     * Checks whether the provided credentials adhere to the requirements
+     * @param email provided email address
+     * @param username provided username
+     * @param password provided password
+     * @return boolean value whether requires adhere to the requirements
+     */
+    private boolean checkCredentials (String email, String username, String password) {
+        // Username cannot be empty, possibly want a minimum length as well.
+        if (username.isEmpty()) {
+            editTextUsername.setError("Username is required!");
+            editTextUsername.requestFocus();
+            return false;
+        }
+
+        // Provided email should be a valid email (also implies non-empty)
+        if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+            editTextEmail.setError("Email is invalid!");
+            editTextEmail.requestFocus();
+            return false;
+        }
+
+        // Additionally, the email should be tue domain.
+        // TODO: We could possibly create our own regex to combine the two checks into one.
+        if (!(email.contains("@student.tue.nl") || email.contains("@tue.nl"))) {
+            editTextEmail.setError("Please use your TU/e email");
+            editTextEmail.requestFocus();
+            return false;
+        }
+
+        // Firebase requires passwords to have lengths of at least 6 characters.
+        if (password.length() < 6) {
+            editTextPassword.setError("Password should have length of at least 6!");
+            editTextPassword.requestFocus();
+            return false;
+        }
+        return true;
     }
 }

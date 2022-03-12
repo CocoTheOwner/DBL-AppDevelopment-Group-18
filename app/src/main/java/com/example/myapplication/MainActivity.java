@@ -16,11 +16,8 @@ import com.google.firebase.auth.*;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
-    private TextView register, resetPassword;
     private EditText inputEmail, inputPassword;
-    private Button loginButton;
     private ProgressBar progressBar;
-
     private FirebaseAuth mAuth;
 
 
@@ -29,23 +26,31 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        // Authentication instance
         mAuth = FirebaseAuth.getInstance();
 
-        register = findViewById(R.id.login_register);
+        // Register button (clickable text)
+        TextView register = findViewById(R.id.login_register);
         register.setOnClickListener(this);
 
+        // Credential input fields (email address & password)
         inputEmail = findViewById(R.id.login_mail);
         inputPassword = findViewById(R.id.login_password);
 
-        loginButton = findViewById(R.id.login_login);
+        // Login button
+        Button loginButton = findViewById(R.id.login_login);
         loginButton.setOnClickListener(this);
 
+        // Progress bar
         progressBar = findViewById(R.id.login_progress);
 
-        resetPassword = findViewById(R.id.login_forgot);
+        // Password reset button (as clickable text)
+        TextView resetPassword = findViewById(R.id.login_forgot);
         resetPassword.setOnClickListener(this);
 
-
+        // "Continue as guest" button (as clickable text)
+        TextView contGuest = findViewById(R.id.login_guest);
+        contGuest.setOnClickListener(this);
     }
 
     @Override
@@ -55,33 +60,32 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 startActivity(new Intent(this, RegisterUser.class));
                 break;
             case R.id.login_login:
-                userLogin();
+                String email = inputEmail.getText().toString().trim();
+                String password = inputPassword.getText().toString();
+
+                // If correct credentials are given, we attempt a login.
+                if (confirmCredentials(email, password)) {
+                    userLogin(email, password);
+                }
                 break;
             case R.id.login_forgot:
                 startActivity(new Intent(this, ResetPassword.class));
                 break;
+            case R.id.login_guest:
+                /* When using this, FirebaseAuth.getInstance().getCurrentUser() will return null.
+                 This does require some additional checks for each activity, as it risks
+                 nullpointer exceptions whenever using data of the current user. */
+                startActivity(new Intent(this, LandingPage.class));
         }
 
     }
 
-    private void userLogin() {
-        String email = inputEmail.getText().toString().trim();
-        String password = inputPassword.getText().toString();
-
-        if (email.isEmpty()) {
-            inputEmail.setError("Missing email!");
-            inputEmail.requestFocus();
-            return;
-        } else if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
-            inputEmail.setError("Invalid email!");
-            inputEmail.requestFocus();
-            return;
-        } else if (password.isEmpty()) {
-            inputPassword.setError("Missing password!");
-            inputPassword.requestFocus();
-            return;
-        }
-
+    /**
+     * Attempt a login using {@param email} and {@param password} provided.
+     * @param email provided email address
+     * @param password provided password
+     */
+    private void userLogin(String email, String password) {
         progressBar.setVisibility(View.VISIBLE);
 
         mAuth.signInWithEmailAndPassword(email, password)
@@ -109,5 +113,28 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         progressBar.setVisibility(View.GONE);
                     }
                 });
+    }
+
+    /**
+     * Check if all credentials are given and conform to requireements
+     * @param email provided email address
+     * @param password provided password
+     * @return boolean value whether credentials are okay.
+     */
+    private boolean confirmCredentials (String email, String password) {
+        if (email.isEmpty()) {
+            inputEmail.setError("Missing email!");
+            inputEmail.requestFocus();
+            return false;
+        } else if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+            inputEmail.setError("Invalid email!");
+            inputEmail.requestFocus();
+            return false;
+        } else if (password.isEmpty()) {
+            inputPassword.setError("Missing password!");
+            inputPassword.requestFocus();
+            return false;
+        }
+        return true;
     }
 }

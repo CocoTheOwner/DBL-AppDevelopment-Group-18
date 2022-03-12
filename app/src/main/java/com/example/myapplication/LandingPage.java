@@ -18,7 +18,6 @@ public class LandingPage extends AppCompatActivity implements View.OnClickListen
     // To get data from Firebase
     private DatabaseReference userDataReference;
     private FirebaseUser user;
-    private String userID;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,7 +32,20 @@ public class LandingPage extends AppCompatActivity implements View.OnClickListen
 
         // TODO: make this link a project constant.
         userDataReference = FirebaseDatabase.getInstance("https://test-a19ba-default-rtdb.europe-west1.firebasedatabase.app/").getReference("/Users");
-        userID = user.getUid();
+
+        if (user != null) {
+            greetUser();
+        } else {
+            displayUser.setText("Currently signed in as Guest");
+        }
+    }
+
+    /**
+     * Displays the username of the current user on the screen if the user is logged in.
+     * Otherwise shows that the user is signed in as a Guest.
+     */
+    private void greetUser() {
+        String userID = user.getUid();
 
         // This listener will be triggered once with the value of the data at the location.
         userDataReference.child(userID).addListenerForSingleValueEvent(new ValueEventListener() {

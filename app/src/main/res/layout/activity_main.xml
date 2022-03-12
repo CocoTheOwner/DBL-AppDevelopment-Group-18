@@ -32,8 +32,8 @@
         android:layout_marginRight="32dp"
         android:ems="10"
         android:hint="Email Address"
-        android:inputType="textPersonName"
-
+        android:inputType="textEmailAddress"
+        android:autofillHints="emailAddress"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/login_banner" />
@@ -50,6 +50,7 @@
         android:ems="10"
         android:hint="Password"
         android:inputType="textPassword"
+        android:autofillHints="password"
         app:layout_constraintEnd_toEndOf="parent"
 
         app:layout_constraintStart_toStartOf="parent"
@@ -78,6 +79,27 @@
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="@+id/login_login"
         app:layout_constraintTop_toBottomOf="@+id/login_login" />
+
+    <TextView
+        android:id="@+id/TextViewAlt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:text="───── Alternatively ─────"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/login_forgot" />
+
+    <TextView
+        android:id="@+id/login_guest"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:text="Continue as Guest"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/TextViewAlt" />
 
     <Button
         android:id="@+id/login_login"
