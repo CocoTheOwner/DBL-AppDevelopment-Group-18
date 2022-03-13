@@ -12,6 +12,9 @@ import android.widget.EditText;
 
 public class MainActivity extends AppCompatActivity {
     public static final String TITLE_TEXT = "com.example.myapplication.TITLE_TEXT";
+    public static final String QUESTION_TEXT = "com.example.myapplication.QUESTION_TEXT";
+
+
     private Button submit;
 
     @Override
@@ -24,11 +27,19 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 EditText QuestionTitle = (EditText) findViewById(R.id.question_title);
-                String questionTitle = QuestionTitle.getText().toString();
+                EditText QuestionText = (EditText) findViewById(R.id.question_text);
 
-                Intent intent = new Intent(MainActivity.this, QuestionView.class);
-                intent.putExtra(TITLE_TEXT, questionTitle);
-                startActivity(intent);
+                String questionTitle = QuestionTitle.getText().toString();
+                String questionText = QuestionText.getText().toString();
+
+
+                Intent title = new Intent(MainActivity.this, QuestionView.class);
+                title.putExtra(TITLE_TEXT, questionTitle);
+                startActivity(title);
+
+                //Intent text = new Intent(MainActivity.this, QuestionView.class);
+                //text.putExtra(QUESTION_TEXT, questionText);
+                //startActivity(text);
             }
         });
 

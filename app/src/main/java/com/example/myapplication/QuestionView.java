@@ -15,8 +15,13 @@ public class QuestionView extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_question_view);
 
-        Intent intent = getIntent();
-        String titleText = intent.getStringExtra(MainActivity.TITLE_TEXT);
+        Intent title = getIntent();
+        String titleText = title.getStringExtra(MainActivity.TITLE_TEXT);
+
+        //Intent text = getIntent();
+        //String questionText = text.getStringExtra(MainActivity.QUESTION_TEXT);
+
+
 
         TextView titleView = (TextView) findViewById(R.id.CreateTitle);
 

@@ -57,7 +57,7 @@
         android:textSize="14sp"
         app:backgroundTint="#C81919"
         app:layout_constraintBottom_toTopOf="@+id/button3"
-        app:layout_constraintEnd_toStartOf="@+id/textView6"
+        app:layout_constraintEnd_toEndOf="@+id/button3"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/login_banner"
@@ -74,7 +74,7 @@
         android:textSize="14sp"
         app:backgroundTint="#C81919"
         app:layout_constraintBottom_toBottomOf="@+id/view"
-        app:layout_constraintEnd_toStartOf="@+id/textView6"
+        app:layout_constraintEnd_toStartOf="@+id/CreateText"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent" />
 
@@ -122,7 +122,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView6"
+        app:layout_constraintTop_toBottomOf="@+id/CreateText"
         app:layout_constraintVertical_bias="0.089" />
 
     <TextView
@@ -137,12 +137,12 @@
         app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
-        android:id="@+id/textView6"
+        android:id="@+id/CreateText"
         android:layout_width="313dp"
         android:layout_height="138dp"
         android:layout_marginTop="8dp"
-        android:text="TextView"
+        android:text="question text"
         app:layout_constraintTop_toBottomOf="@+id/textView"
-        tools:layout_editor_absoluteX="59dp" />
+        tools:layout_editor_absoluteX="58dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
