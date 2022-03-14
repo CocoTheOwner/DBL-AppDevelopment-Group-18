@@ -17,6 +17,7 @@ public class QuestionView extends AppCompatActivity {
 
         Intent title = getIntent();
         String titleText = title.getStringExtra(MainActivity.TITLE_TEXT);
+        String questionText = title.getStringExtra(MainActivity.QUESTION_TEXT);
 
         //Intent text = getIntent();
         //String questionText = text.getStringExtra(MainActivity.QUESTION_TEXT);
@@ -24,7 +25,9 @@ public class QuestionView extends AppCompatActivity {
 
 
         TextView titleView = (TextView) findViewById(R.id.CreateTitle);
+        TextView questionView = (TextView) findViewById(R.id.QuestText);
 
         titleView.setText(titleText);
+        questionView.setText(questionText);
     }
 }

@@ -35,6 +35,7 @@ public class MainActivity extends AppCompatActivity {
 
                 Intent title = new Intent(MainActivity.this, QuestionView.class);
                 title.putExtra(TITLE_TEXT, questionTitle);
+                title.putExtra(QUESTION_TEXT, questionText);
                 startActivity(title);
 
                 //Intent text = new Intent(MainActivity.this, QuestionView.class);
