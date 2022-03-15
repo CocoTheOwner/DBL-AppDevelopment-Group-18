@@ -13,19 +13,27 @@ public class HomePageViewModel extends ViewModel {
     private MutableLiveData<List<String>> tags = new MutableLiveData<>(new ArrayList<>());
     private MutableLiveData<String> searchString = new MutableLiveData<>("");
 
-    void setSearchString(String string) {
+    public void setSearchString(String string) {
         searchString.setValue(string);
     }
-    LiveData<String> getSearchString () {
+
+    public LiveData<String> getSearchString () {
         return searchString;
     }
-    void addTag(String tag) {
+
+    public void addTag(String tag) {
         if (! tags.getValue().contains(tag)) {
             tags.getValue().add(tag);
             tags.setValue(tags.getValue());
         }
     }
-    LiveData<List<String>> getTags() {
+
+    public LiveData<List<String>> getTags() {
         return tags;
+    }
+
+    public void removeTag(int position) {
+        tags.getValue().remove(position);
+        tags.setValue(tags.getValue());
     }
 }

@@ -1,5 +1,6 @@
 package com.example.myapplication;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentContainerView;
 import androidx.lifecycle.ViewModelProvider;
@@ -9,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.MotionEvent;
 import android.view.inputmethod.EditorInfo;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
@@ -67,7 +69,9 @@ public class MainActivity extends AppCompatActivity {
             return true;
         });
 
-        tagAdapter = new TagRecyclerAdapter(model.getTags().getValue());
+        tagAdapter = new TagRecyclerAdapter(model.getTags().getValue(), position -> {
+            removeTag(position);
+        });
 
         tags = findViewById(R.id.tags);
 
@@ -76,13 +80,18 @@ public class MainActivity extends AppCompatActivity {
         tags.setAdapter(tagAdapter);
 
         model.getTags().observe(this, tagList -> {
-            tagAdapter.notifyItemInserted(tagList.size() - 1);
+            tagAdapter.notifyDataSetChanged();
         });
+
     }
 
     void addTag(String tag) {
 
         model.addTag(tag);
+    }
+
+    void removeTag(int position) {
+        model.removeTag(position);
     }
 
     void search(String s) {

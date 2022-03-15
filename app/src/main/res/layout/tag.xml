@@ -15,5 +15,6 @@
         app:layout_constraintTop_toTopOf="parent"
         android:background="@color/light_grey"
         android:layout_marginHorizontal="5dp"
-        android:paddingHorizontal="10dp"/>
+        android:paddingHorizontal="10dp"
+        />
 </androidx.constraintlayout.widget.ConstraintLayout>

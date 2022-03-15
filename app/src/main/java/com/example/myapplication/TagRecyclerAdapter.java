@@ -1,6 +1,6 @@
 package com.example.myapplication;
 
-import android.text.Layout;
+import android.graphics.Paint;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,13 +9,12 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import org.w3c.dom.Text;
-
 import java.util.List;
 
 public class TagRecyclerAdapter extends RecyclerView.Adapter<TagRecyclerAdapter.ViewHolder> {
 
     private List<String> tags;
+    private ItemClickListener itemClickListener;
 
     class ViewHolder extends RecyclerView.ViewHolder {
 
@@ -28,8 +27,13 @@ public class TagRecyclerAdapter extends RecyclerView.Adapter<TagRecyclerAdapter.
         }
     }
 
-    public TagRecyclerAdapter(List<String> tags) {
+    interface ItemClickListener {
+        void onClick(int position);
+    }
+
+    public TagRecyclerAdapter(List<String> tags, ItemClickListener itemClickListener) {
         this.tags = tags;
+        this.itemClickListener = itemClickListener;
     }
 
     @NonNull
@@ -43,6 +47,9 @@ public class TagRecyclerAdapter extends RecyclerView.Adapter<TagRecyclerAdapter.
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         holder.tagText.setText("#" + tags.get(position));
+        holder.itemView.setOnClickListener(v -> {
+            itemClickListener.onClick(position);
+        });
     }
 
     @Override
