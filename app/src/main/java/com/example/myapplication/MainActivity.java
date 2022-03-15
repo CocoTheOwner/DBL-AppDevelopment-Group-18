@@ -1,6 +1,5 @@
 package com.example.myapplication;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentContainerView;
 import androidx.lifecycle.ViewModelProvider;
@@ -8,16 +7,13 @@ import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.view.MotionEvent;
-import android.view.inputmethod.EditorInfo;
+import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
-import android.widget.Button;
 import android.widget.SearchView;
-import android.widget.TextView;
+import android.widget.Toast;
 
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
@@ -26,11 +22,21 @@ public class MainActivity extends AppCompatActivity {
     FragmentContainerView fragmentContainer;
     RecyclerView tags;
     RecyclerView.Adapter tagAdapter;
+    List<String> availableTags;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        availableTags = Arrays.asList(
+                "erikdevink",
+                "bcs",
+                "2it90",
+                "2is70",
+                "prokert",
+                "anzats");
+
 
         fragmentContainer = findViewById(R.id.main_page_fragment_container);
         model = new ViewModelProvider(this).get(HomePageViewModel.class);
@@ -59,12 +65,23 @@ public class MainActivity extends AppCompatActivity {
         });
 
 
-        AutoCompleteTextView tagView = findViewById(R.id.tagInput);
+        AutoCompleteTextView tagInputView = findViewById(R.id.tagInput);
 
-        tagView.setOnEditorActionListener((v, actionId, e) -> {
+        tagInputView.setAdapter(new ArrayAdapter<String>(this,
+                androidx.appcompat.R.layout.support_simple_spinner_dropdown_item, availableTags));
+        tagInputView.setThreshold(1);
 
-            addTag(v.getText().toString());
-            v.setText("");
+        tagInputView.setOnEditorActionListener((v, actionId, e) -> {
+
+            String trimmed = v.getText().toString().replaceAll("[\\s#]", "");
+
+            if (availableTags.contains(trimmed.toLowerCase())) {
+                addTag(trimmed);
+                v.setText("");
+            } else {
+                Toast.makeText(getApplicationContext(),
+                        v.getText() + " is not a valid tag", Toast.LENGTH_LONG).show();
+            }
 
             return true;
         });
@@ -76,7 +93,8 @@ public class MainActivity extends AppCompatActivity {
         tags = findViewById(R.id.tags);
 
         tags.setItemAnimator(new DefaultItemAnimator());
-        tags.setLayoutManager(new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.HORIZONTAL, false));
+        tags.setLayoutManager(new LinearLayoutManager(getApplicationContext(),
+                LinearLayoutManager.HORIZONTAL, false));
         tags.setAdapter(tagAdapter);
 
         model.getTags().observe(this, tagList -> {
@@ -100,7 +118,8 @@ public class MainActivity extends AppCompatActivity {
         if (fragmentContainer.getFragment().getClass() != SearchResultsFragment.class) {
             getSupportFragmentManager().beginTransaction()
                     .setReorderingAllowed(true)
-                    .replace(R.id.main_page_fragment_container, SearchResultsFragment.class, null)
+                    .replace(R.id.main_page_fragment_container,
+                            SearchResultsFragment.class, null)
                     .commit();
         }
     }
