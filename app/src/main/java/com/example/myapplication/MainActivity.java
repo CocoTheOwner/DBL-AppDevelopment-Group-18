@@ -50,6 +50,20 @@ public class MainActivity extends AppCompatActivity {
                 .commit();
         }
 
+        setupSearchView();
+        setupTagInputView();
+        setupTagListView();
+
+        backPressedCallback = new OnBackPressedCallback(false) {
+            @Override
+            public void handleOnBackPressed() {
+                returnToOverview();
+            }
+        };
+        getOnBackPressedDispatcher().addCallback(this, backPressedCallback);
+    }
+
+    private void setupSearchView() {
         SearchView searchView = findViewById(R.id.postSearch);
 
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
@@ -65,8 +79,9 @@ public class MainActivity extends AppCompatActivity {
                 return false;
             }
         });
+    }
 
-
+    private void setupTagInputView() {
         AutoCompleteTextView tagInputView = findViewById(R.id.tagInput);
 
         tagInputView.setAdapter(new ArrayAdapter<String>(this,
@@ -87,7 +102,9 @@ public class MainActivity extends AppCompatActivity {
 
             return true;
         });
+    }
 
+    private void setupTagListView() {
         tagAdapter = new TagRecyclerAdapter(model.getTags().getValue(), position -> {
             removeTag(position);
         });
@@ -102,27 +119,20 @@ public class MainActivity extends AppCompatActivity {
         model.getTags().observe(this, tagList -> {
             tagAdapter.notifyDataSetChanged();
         });
-
-
-        backPressedCallback = new OnBackPressedCallback(false) {
-            @Override
-            public void handleOnBackPressed() {
-                returnToOverview();
-            }
-        };
-        getOnBackPressedDispatcher().addCallback(this, backPressedCallback);
     }
 
-    void addTag(String tag) {
+    private void addTag(String tag) {
 
         model.addTag(tag);
     }
 
-    void removeTag(int position) {
+    private void removeTag(int position) {
         model.removeTag(position);
     }
 
-    void search(String s) {
+
+
+    private void search(String s) {
         model.setSearchString(s);
 
         if (fragmentContainer.getFragment().getClass() != SearchResultsFragment.class) {
@@ -136,7 +146,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    void returnToOverview() {
+    private void returnToOverview() {
         if (fragmentContainer.getFragment().getClass() != OverviewFragment.class) {
             getSupportFragmentManager().beginTransaction()
                     .setReorderingAllowed(true)
