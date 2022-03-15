@@ -20,8 +20,10 @@ public class HomePageViewModel extends ViewModel {
         return searchString;
     }
     void addTag(String tag) {
-        tags.getValue().add(tag);
-        tags.setValue(tags.getValue());
+        if (! tags.getValue().contains(tag)) {
+            tags.getValue().add(tag);
+            tags.setValue(tags.getValue());
+        }
     }
     LiveData<List<String>> getTags() {
         return tags;
