@@ -16,5 +16,6 @@
         android:background="@color/light_grey"
         android:layout_marginHorizontal="5dp"
         android:paddingHorizontal="10dp"
+        android:textSize="20sp"
         />
 </androidx.constraintlayout.widget.ConstraintLayout>
