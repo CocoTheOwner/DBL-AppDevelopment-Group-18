@@ -1,5 +1,6 @@
 package com.example.myapplication;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentContainerView;
 import androidx.lifecycle.ViewModelProvider;
@@ -18,11 +19,12 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
-    HomePageViewModel model;
-    FragmentContainerView fragmentContainer;
-    RecyclerView tags;
-    RecyclerView.Adapter tagAdapter;
-    List<String> availableTags;
+    private HomePageViewModel model;
+    private FragmentContainerView fragmentContainer;
+    private RecyclerView tags;
+    private RecyclerView.Adapter tagAdapter;
+    private List<String> availableTags;
+    private OnBackPressedCallback backPressedCallback;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -101,6 +103,14 @@ public class MainActivity extends AppCompatActivity {
             tagAdapter.notifyDataSetChanged();
         });
 
+
+        backPressedCallback = new OnBackPressedCallback(false) {
+            @Override
+            public void handleOnBackPressed() {
+                returnToOverview();
+            }
+        };
+        getOnBackPressedDispatcher().addCallback(this, backPressedCallback);
     }
 
     void addTag(String tag) {
@@ -121,6 +131,20 @@ public class MainActivity extends AppCompatActivity {
                     .replace(R.id.main_page_fragment_container,
                             SearchResultsFragment.class, null)
                     .commit();
+
+            backPressedCallback.setEnabled(true);
+        }
+    }
+
+    void returnToOverview() {
+        if (fragmentContainer.getFragment().getClass() != OverviewFragment.class) {
+            getSupportFragmentManager().beginTransaction()
+                    .setReorderingAllowed(true)
+                    .replace(R.id.main_page_fragment_container,
+                            OverviewFragment.class, null)
+                    .commit();
+
+            backPressedCallback.setEnabled(false);
         }
     }
 }
