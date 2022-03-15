@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -12,6 +13,14 @@ import java.util.Set;
 public class HomePageViewModel extends ViewModel {
     private MutableLiveData<List<String>> tags = new MutableLiveData<>(new ArrayList<>());
     private MutableLiveData<String> searchString = new MutableLiveData<>("");
+
+    private final List<String> availableTags = Arrays.asList(
+            "erikdevink",
+            "bcs",
+            "2it90",
+            "2is70",
+            "prokert",
+            "anzats");
 
     public void setSearchString(String string) {
         searchString.setValue(string);
@@ -35,5 +44,9 @@ public class HomePageViewModel extends ViewModel {
     public void removeTag(int position) {
         tags.getValue().remove(position);
         tags.setValue(tags.getValue());
+    }
+
+    public List<String> getAvailableTags() {
+        return availableTags;
     }
 }

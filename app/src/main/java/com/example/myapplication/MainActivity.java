@@ -23,21 +23,12 @@ public class MainActivity extends AppCompatActivity {
     private FragmentContainerView fragmentContainer;
     private RecyclerView tags;
     private RecyclerView.Adapter tagAdapter;
-    private List<String> availableTags;
     private OnBackPressedCallback backPressedCallback;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        availableTags = Arrays.asList(
-                "erikdevink",
-                "bcs",
-                "2it90",
-                "2is70",
-                "prokert",
-                "anzats");
 
 
         fragmentContainer = findViewById(R.id.main_page_fragment_container);
@@ -85,14 +76,15 @@ public class MainActivity extends AppCompatActivity {
         AutoCompleteTextView tagInputView = findViewById(R.id.tagInput);
 
         tagInputView.setAdapter(new ArrayAdapter<String>(this,
-                androidx.appcompat.R.layout.support_simple_spinner_dropdown_item, availableTags));
+                androidx.appcompat.R.layout.support_simple_spinner_dropdown_item,
+                model.getAvailableTags()));
         tagInputView.setThreshold(1);
 
         tagInputView.setOnEditorActionListener((v, actionId, e) -> {
 
             String trimmed = v.getText().toString().replaceAll("[\\s#]", "");
 
-            if (availableTags.contains(trimmed.toLowerCase())) {
+            if (model.getAvailableTags().contains(trimmed.toLowerCase())) {
                 addTag(trimmed);
                 v.setText("");
             } else {
