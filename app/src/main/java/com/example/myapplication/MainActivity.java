@@ -9,6 +9,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.inputmethod.EditorInfo;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.SearchView;
 import android.widget.TextView;
@@ -20,6 +22,8 @@ public class MainActivity extends AppCompatActivity {
 
     HomePageViewModel model;
     FragmentContainerView fragmentContainer;
+    RecyclerView tags;
+    RecyclerView.Adapter tagAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,9 +40,9 @@ public class MainActivity extends AppCompatActivity {
                 .commit();
         }
 
-        SearchView t = findViewById(R.id.postSearch);
+        SearchView searchView = findViewById(R.id.postSearch);
 
-        t.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String s) {
                 search(s);
@@ -52,6 +56,33 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+
+        AutoCompleteTextView tagView = findViewById(R.id.tagInput);
+
+        tagView.setOnEditorActionListener((v, actionId, e) -> {
+
+            addTag(v.getText().toString());
+            v.setText("");
+
+            return true;
+        });
+
+        tagAdapter = new TagRecyclerAdapter(model.getTags().getValue());
+
+        tags = findViewById(R.id.tags);
+
+        tags.setItemAnimator(new DefaultItemAnimator());
+        tags.setLayoutManager(new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.HORIZONTAL, false));
+        tags.setAdapter(tagAdapter);
+
+        model.getTags().observe(this, tagList -> {
+            tagAdapter.notifyItemInserted(tagList.size() - 1);
+        });
+    }
+
+    void addTag(String tag) {
+
+        model.addTag(tag);
     }
 
     void search(String s) {

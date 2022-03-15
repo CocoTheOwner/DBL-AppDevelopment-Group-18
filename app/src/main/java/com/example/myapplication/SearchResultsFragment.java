@@ -37,6 +37,11 @@ public class SearchResultsFragment extends Fragment {
 
         List<String> posts = new ArrayList<>();
 
+        results.setLayoutManager(new LinearLayoutManager(requireActivity().getApplicationContext()));
+        results.setAdapter(new SearchResultsRecyclerAdapter(posts));
+        results.setItemAnimator(new DefaultItemAnimator());
+
+
         posts.add("one");
         posts.add("two");
         posts.add("three");
@@ -44,8 +49,5 @@ public class SearchResultsFragment extends Fragment {
         posts.add("five");
         posts.add("six");
 
-        results.setLayoutManager(new LinearLayoutManager(requireActivity().getApplicationContext()));
-        results.setAdapter(new SearchResultsRecyclerAdapter(posts));
-        results.setItemAnimator(new DefaultItemAnimator());
     }
 }
