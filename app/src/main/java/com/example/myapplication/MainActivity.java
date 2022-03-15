@@ -14,11 +14,5 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
 
-
-        Button courseButton = findViewById(R.id.course);
-
-        courseButton.setOnClickListener((e) -> {
-            startActivity(new Intent(this, PostListActivity.class));
-        });
     }
 }

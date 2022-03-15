@@ -24,42 +24,31 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-        <SearchView
-        android:id="@+id/searchView"
-        android:layout_width="409dp"
-        android:layout_height="wrap_content"
-        android:iconifiedByDefault="false"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/login_banner" />
-
     <LinearLayout
         android:id="@+id/tags"
         android:layout_width="409dp"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:padding="10dp"
-        app:layout_constraintBottom_toTopOf="@+id/line"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/line"
         app:layout_constraintTop_toBottomOf="@+id/searchView">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:text="#ErikDeVink"
-            android:background="@color/light_grey"
             android:layout_marginHorizontal="4dp"
+            android:background="@color/light_grey"
             android:paddingHorizontal="8dp"
-            />
+            android:text="#ErikDeVink" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:text="#BCS"
-            android:background="@color/light_grey"
             android:layout_marginHorizontal="4dp"
-            android:paddingHorizontal="8dp"/>
+            android:background="@color/light_grey"
+            android:paddingHorizontal="8dp"
+            android:text="#BCS" />
     </LinearLayout>
 
     <View
@@ -72,6 +61,7 @@
         app:layout_constraintTop_toBottomOf="@id/tags" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
@@ -82,53 +72,36 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <Button
-        android:id="@+id/off_topic"
+    <SearchView
+        android:id="@+id/searchView"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="16dp"
-        android:layout_marginTop="8dp"
-        android:backgroundTint="@color/red"
-        android:text="Off Topic"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:iconifiedByDefault="false"
+        android:queryHint="Search"
+        app:layout_constraintEnd_toStartOf="@+id/autoCompleteTextView3"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/general" />
+        app:layout_constraintTop_toBottomOf="@+id/login_banner" />
 
-    <Button
-        android:id="@+id/general"
+    <AutoCompleteTextView
+        android:id="@+id/autoCompleteTextView3"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="16dp"
-        android:layout_marginTop="8dp"
-        android:backgroundTint="@color/red"
-        android:text="General"
-        app:layout_constraintBottom_toTopOf="@+id/off_topic"
+        android:minHeight="48dp"
+        android:text=""
+        android:hint="Tags"
+        android:inputType="text"
+        android:imeOptions="actionGo"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/location" />
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/searchView"
+        app:layout_constraintTop_toBottomOf="@+id/login_banner" />
 
-    <Button
-        android:id="@+id/location"
-        android:layout_width="0dp"
+    <fragment
+        android:id="@+id/main_page_fragment_container"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="16dp"
-        android:layout_marginTop="8dp"
-        android:backgroundTint="@color/red"
-        android:text="Location"
-        app:layout_constraintBottom_toTopOf="@+id/general"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/course" />
-
-    <Button
-        android:id="@+id/course"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="16dp"
-        android:layout_marginTop="8dp"
-        android:backgroundTint="@color/red"
-        android:text="Course"
-        app:layout_constraintBottom_toTopOf="@+id/location"
+        android:name="com.example.myapplication.OverviewFragment"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/line" />
