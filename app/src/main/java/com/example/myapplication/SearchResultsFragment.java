@@ -6,11 +6,17 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class SearchResultsFragment extends Fragment {
 
@@ -23,11 +29,23 @@ public class SearchResultsFragment extends Fragment {
         HomePageViewModel model = new ViewModelProvider(requireActivity())
                 .get(HomePageViewModel.class);
 
-        TextView text = view.findViewById(R.id.search_results_text_string);
-
         model.getSearchString().observe(getViewLifecycleOwner(), s -> {
 //            System.out.println("Search string: " + s);
-            text.setText(s);
         });
+
+        RecyclerView results = view.findViewById(R.id.search_results);
+
+        List<String> posts = new ArrayList<>();
+
+        posts.add("one");
+        posts.add("two");
+        posts.add("three");
+        posts.add("four");
+        posts.add("five");
+        posts.add("six");
+
+        results.setLayoutManager(new LinearLayoutManager(requireActivity().getApplicationContext()));
+        results.setAdapter(new SearchResultsRecyclerAdapter(posts));
+        results.setItemAnimator(new DefaultItemAnimator());
     }
 }
