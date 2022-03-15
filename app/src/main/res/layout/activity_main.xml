@@ -32,7 +32,7 @@
         android:padding="10dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@+id/line"
-        app:layout_constraintTop_toBottomOf="@+id/searchView">
+        app:layout_constraintTop_toBottomOf="@+id/postSearch">
 
         <TextView
             android:layout_width="wrap_content"
@@ -73,18 +73,18 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <SearchView
-        android:id="@+id/searchView"
+        android:id="@+id/postSearch"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:iconifiedByDefault="false"
         android:queryHint="Search"
-        app:layout_constraintEnd_toStartOf="@+id/autoCompleteTextView3"
+        app:layout_constraintEnd_toStartOf="@+id/tagInput"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/login_banner" />
 
     <AutoCompleteTextView
-        android:id="@+id/autoCompleteTextView3"
+        android:id="@+id/tagInput"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:minHeight="48dp"
@@ -94,14 +94,13 @@
         android:imeOptions="actionGo"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/searchView"
+        app:layout_constraintStart_toEndOf="@+id/postSearch"
         app:layout_constraintTop_toBottomOf="@+id/login_banner" />
 
-    <fragment
+    <androidx.fragment.app.FragmentContainerView
         android:id="@+id/main_page_fragment_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:name="com.example.myapplication.OverviewFragment"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/line" />
