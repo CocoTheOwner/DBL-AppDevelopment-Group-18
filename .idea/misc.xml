@@ -3,22 +3,31 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
-        <entry key="../../../../eindhoven/CS/Y2/2IS70_DBL_app_development/DBL-AppDevelopment-Group-18/app/src/main/res/layout-land/activity_register_user.xml" value="0.1" />
-        <entry key="../../../../eindhoven/CS/Y2/2IS70_DBL_app_development/DBL-AppDevelopment-Group-18/app/src/main/res/layout-sw600dp/activity_register_user.xml" value="0.13125" />
-        <entry key="../../../../eindhoven/CS/Y2/2IS70_DBL_app_development/DBL-AppDevelopment-Group-18/app/src/main/res/layout/activity_create_question.xml" value="0.25" />
-        <entry key="../../../../eindhoven/CS/Y2/2IS70_DBL_app_development/DBL-AppDevelopment-Group-18/app/src/main/res/layout/activity_home_page.xml" value="0.5" />
+        <entry key="../../../../eindhoven/CS/Y2/2IS70_DBL_app_development/DBL-AppDevelopment-Group-18/app/src/main/res/layout-land/activity_login_page.xml" value="0.31746031746031744" />
+        <entry key="../../../../eindhoven/CS/Y2/2IS70_DBL_app_development/DBL-AppDevelopment-Group-18/app/src/main/res/layout-land/activity_register_user.xml" value="0.25" />
+        <entry key="../../../../eindhoven/CS/Y2/2IS70_DBL_app_development/DBL-AppDevelopment-Group-18/app/src/main/res/layout-land/activity_reset_password.xml" value="0.31746031746031744" />
+        <entry key="../../../../eindhoven/CS/Y2/2IS70_DBL_app_development/DBL-AppDevelopment-Group-18/app/src/main/res/layout-sw600dp/activity_login_page.xml" value="0.23292349726775957" />
+        <entry key="../../../../eindhoven/CS/Y2/2IS70_DBL_app_development/DBL-AppDevelopment-Group-18/app/src/main/res/layout-sw600dp/activity_register_user.xml" value="0.22" />
+        <entry key="../../../../eindhoven/CS/Y2/2IS70_DBL_app_development/DBL-AppDevelopment-Group-18/app/src/main/res/layout-sw600dp/activity_reset_password.xml" value="0.23292349726775957" />
+        <entry key="../../../../eindhoven/CS/Y2/2IS70_DBL_app_development/DBL-AppDevelopment-Group-18/app/src/main/res/layout/activity_create_question.xml" value="0.33" />
+        <entry key="../../../../eindhoven/CS/Y2/2IS70_DBL_app_development/DBL-AppDevelopment-Group-18/app/src/main/res/layout/activity_home_page.xml" value="0.33" />
         <entry key="../../../../eindhoven/CS/Y2/2IS70_DBL_app_development/DBL-AppDevelopment-Group-18/app/src/main/res/layout/activity_landing_page.xml" value="0.33" />
         <entry key="../../../../eindhoven/CS/Y2/2IS70_DBL_app_development/DBL-AppDevelopment-Group-18/app/src/main/res/layout/activity_login_page.xml" value="0.31875" />
         <entry key="../../../../eindhoven/CS/Y2/2IS70_DBL_app_development/DBL-AppDevelopment-Group-18/app/src/main/res/layout/activity_main.xml" value="0.25" />
         <entry key="../../../../eindhoven/CS/Y2/2IS70_DBL_app_development/DBL-AppDevelopment-Group-18/app/src/main/res/layout/activity_post_list.xml" value="0.315625" />
         <entry key="../../../../eindhoven/CS/Y2/2IS70_DBL_app_development/DBL-AppDevelopment-Group-18/app/src/main/res/layout/activity_question_view.xml" value="0.25092592592592594" />
         <entry key="../../../../eindhoven/CS/Y2/2IS70_DBL_app_development/DBL-AppDevelopment-Group-18/app/src/main/res/layout/activity_register_user.xml" value="0.175" />
+        <entry key="../../../../eindhoven/CS/Y2/2IS70_DBL_app_development/DBL-AppDevelopment-Group-18/app/src/main/res/layout/activity_reset_password.xml" value="0.3088768115942029" />
         <entry key="../../../../eindhoven/CS/Y2/2IS70_DBL_app_development/DBL-AppDevelopment-Group-18/app/src/main/res/layout/activity_user_settings.xml" value="0.33" />
+        <entry key="../../../../eindhoven/CS/Y2/2IS70_DBL_app_development/DBL-AppDevelopment-Group-18/app/src/main/res/layout/answer_list_item.xml" value="0.3088768115942029" />
         <entry key="../../../../eindhoven/CS/Y2/2IS70_DBL_app_development/DBL-AppDevelopment-Group-18/app/src/main/res/layout/answer_list_items.xml" value="0.33" />
         <entry key="../../../../eindhoven/CS/Y2/2IS70_DBL_app_development/DBL-AppDevelopment-Group-18/app/src/main/res/layout/category_item.xml" value="0.1" />
+        <entry key="../../../../eindhoven/CS/Y2/2IS70_DBL_app_development/DBL-AppDevelopment-Group-18/app/src/main/res/layout/fragment_home_page_overview.xml" value="0.3088768115942029" />
+        <entry key="../../../../eindhoven/CS/Y2/2IS70_DBL_app_development/DBL-AppDevelopment-Group-18/app/src/main/res/layout/fragment_home_page_search_results.xml" value="0.3088768115942029" />
         <entry key="../../../../eindhoven/CS/Y2/2IS70_DBL_app_development/DBL-AppDevelopment-Group-18/app/src/main/res/layout/fragment_overview.xml" value="0.36923076923076925" />
         <entry key="../../../../eindhoven/CS/Y2/2IS70_DBL_app_development/DBL-AppDevelopment-Group-18/app/src/main/res/layout/fragment_search_results.xml" value="0.33" />
         <entry key="../../../../eindhoven/CS/Y2/2IS70_DBL_app_development/DBL-AppDevelopment-Group-18/app/src/main/res/layout/header.xml" value="0.36923076923076925" />
+        <entry key="../../../../eindhoven/CS/Y2/2IS70_DBL_app_development/DBL-AppDevelopment-Group-18/app/src/main/res/layout/home_page_category_item.xml" value="0.3088768115942029" />
         <entry key="../../../../eindhoven/CS/Y2/2IS70_DBL_app_development/DBL-AppDevelopment-Group-18/app/src/main/res/layout/home_page_post_list_item.xml" value="0.375" />
         <entry key="../../../../eindhoven/CS/Y2/2IS70_DBL_app_development/DBL-AppDevelopment-Group-18/app/src/main/res/layout/home_page_tag.xml" value="0.3328804347826087" />
         <entry key="../../../../eindhoven/CS/Y2/2IS70_DBL_app_development/DBL-AppDevelopment-Group-18/app/src/main/res/layout/post_list_item.xml" value="0.375" />
