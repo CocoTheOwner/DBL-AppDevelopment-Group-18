@@ -1,9 +1,11 @@
 package com.example.myapplication;
 
+import androidx.annotation.NonNull;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
+import java.io.Closeable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
@@ -11,16 +13,10 @@ import java.util.List;
 import java.util.Set;
 
 public class HomePageViewModel extends ViewModel {
-    private MutableLiveData<List<String>> tags = new MutableLiveData<>(new ArrayList<>());
+    private MutableLiveData<TagCollection> tags = new MutableLiveData<>(new TagCollection());
     private MutableLiveData<String> searchString = new MutableLiveData<>("");
 
-    private final List<String> availableTags = Arrays.asList(
-            "erikdevink",
-            "bcs",
-            "2it90",
-            "2is70",
-            "prokert",
-            "anzats");
+    private final TagCollection availableTags = new TagCollection();
 
     private final List<Post> posts = Arrays.asList(
         new Post("What da dog doin?", Arrays.asList("ErikDeVink")),
@@ -31,6 +27,15 @@ public class HomePageViewModel extends ViewModel {
             new Post("Who asked?",  Arrays.asList())
     );
 
+    public HomePageViewModel() {
+        for (Post post : posts) {
+            for (String tag : post.getTags()) {
+                this.availableTags.addTag(tag);
+            }
+        }
+
+        System.out.println(this.availableTags.getList());
+    }
 
     public void setSearchString(String string) {
         searchString.setValue(string);
@@ -41,22 +46,20 @@ public class HomePageViewModel extends ViewModel {
     }
 
     public void addTag(String tag) {
-        if (! tags.getValue().contains(tag)) {
-            tags.getValue().add(tag);
-            tags.setValue(tags.getValue());
-        }
+        tags.getValue().addTag(TagCollection.trimTag(tag));
+        tags.setValue(tags.getValue());
     }
 
-    public LiveData<List<String>> getTags() {
+    public LiveData<TagCollection> getTags() {
         return tags;
     }
 
     public void removeTag(int position) {
-        tags.getValue().remove(position);
+        tags.getValue().removeTagAt(position);
         tags.setValue(tags.getValue());
     }
 
-    public List<String> getAvailableTags() {
+    public TagCollection getAvailableTags() {
         return availableTags;
     }
 

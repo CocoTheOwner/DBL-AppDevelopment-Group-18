@@ -77,15 +77,13 @@ public class MainActivity extends AppCompatActivity {
 
         tagInputView.setAdapter(new ArrayAdapter<String>(this,
                 androidx.appcompat.R.layout.support_simple_spinner_dropdown_item,
-                model.getAvailableTags()));
+                model.getAvailableTags().getList()));
         tagInputView.setThreshold(1);
 
         tagInputView.setOnEditorActionListener((v, actionId, e) -> {
 
-            String trimmed = v.getText().toString().replaceAll("[\\s#]", "");
-
-            if (model.getAvailableTags().contains(trimmed.toLowerCase())) {
-                addTag(trimmed);
+            if (model.getAvailableTags().containsTag(v.getText().toString())) {
+                addTag(v.getText().toString());
                 v.setText("");
             } else {
                 Toast.makeText(getApplicationContext(),
@@ -97,7 +95,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void setupTagListView() {
-        tagAdapter = new TagRecyclerAdapter(model.getTags().getValue(), position -> {
+        tagAdapter = new TagRecyclerAdapter(model.getTags().getValue().getList(), position -> {
             removeTag(position);
         });
 
