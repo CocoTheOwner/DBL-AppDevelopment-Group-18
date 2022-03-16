@@ -28,8 +28,6 @@ public class HomePageViewModel extends ViewModel {
                 this.availableTags.addTag(tag);
             }
         }
-
-        System.out.println(this.availableTags.getList());
     }
 
     public void setSearchString(String string) {

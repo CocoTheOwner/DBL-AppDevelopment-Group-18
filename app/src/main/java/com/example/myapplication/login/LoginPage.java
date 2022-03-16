@@ -31,6 +31,10 @@ public class LoginPage extends AppCompatActivity implements View.OnClickListener
         // Authentication instance
         mAuth = FirebaseAuth.getInstance();
 
+        if (mAuth.getCurrentUser() != null) {
+            startActivity(new Intent(this, HomePageActivity.class));
+        }
+
         // Register button (clickable text)
         TextView register = findViewById(com.example.myapplication.R.id.login_register);
         register.setOnClickListener(this);

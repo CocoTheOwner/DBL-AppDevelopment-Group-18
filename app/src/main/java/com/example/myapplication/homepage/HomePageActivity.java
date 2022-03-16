@@ -71,9 +71,6 @@ public class HomePageActivity extends AppCompatActivity {
     }
 
     private void checkUser() {
-
-        System.out.println("User: " + FirebaseAuth.getInstance().getCurrentUser());
-
         if (FirebaseAuth.getInstance().getCurrentUser() == null) {
             ((Button) findViewById(R.id.profileButton)).setText("Login");
         } else {
