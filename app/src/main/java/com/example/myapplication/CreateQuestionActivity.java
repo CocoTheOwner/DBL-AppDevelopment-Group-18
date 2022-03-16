@@ -1,7 +1,5 @@
 package com.example.myapplication;
 
-import static android.content.Intent.EXTRA_TEXT;
-
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
@@ -10,7 +8,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
-public class MainActivity extends AppCompatActivity {
+public class CreateQuestionActivity extends AppCompatActivity {
     public static final String TITLE_TEXT = "com.example.myapplication.TITLE_TEXT";
     public static final String QUESTION_TEXT = "com.example.myapplication.QUESTION_TEXT";
 
@@ -20,7 +18,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_create_question);
 
         submit=findViewById(R.id.submit_question);
         submit.setOnClickListener(new View.OnClickListener() {
@@ -33,7 +31,7 @@ public class MainActivity extends AppCompatActivity {
                 String questionText = QuestionText.getText().toString();
 
 
-                Intent title = new Intent(MainActivity.this, QuestionView.class);
+                Intent title = new Intent(CreateQuestionActivity.this, QuestionView.class);
                 title.putExtra(TITLE_TEXT, questionTitle);
                 title.putExtra(QUESTION_TEXT, questionText);
                 startActivity(title);
