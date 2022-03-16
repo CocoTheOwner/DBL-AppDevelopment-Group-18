@@ -20,6 +20,10 @@ public class SearchResultsRecyclerAdapter extends RecyclerView.Adapter<SearchRes
         this.posts = posts;
     }
 
+    public void setPosts(List<Post> posts) {
+        this.posts = posts;
+    }
+
     class ViewHolder extends RecyclerView.ViewHolder {
         private TextView textView;
 

@@ -27,7 +27,9 @@ public class SearchResultsFragment extends Fragment {
 
     private List<Post> sortedPosts;
     private RecyclerView results;
-    private RecyclerView.Adapter resultsAdapter;
+    private SearchResultsRecyclerAdapter resultsAdapter;
+    private HomePageViewModel model;
+    private String query = "";
 
     public SearchResultsFragment() {
         super(R.layout.fragment_search_results);
@@ -36,16 +38,19 @@ public class SearchResultsFragment extends Fragment {
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
-        HomePageViewModel model = new ViewModelProvider(requireActivity())
+        model = new ViewModelProvider(requireActivity())
                 .get(HomePageViewModel.class);
 
         sortedPosts = new ArrayList<>(model.getPosts());
 
         model.getSearchString().observe(getViewLifecycleOwner(), s -> {
-            updateSearchOrder(s);
+            this.query = s;
+            updateSearchOrder();
         });
 
-
+        model.getTags().observe(getViewLifecycleOwner(), tags -> {
+            updateSearchOrder();
+        });
 
         results = view.findViewById(R.id.search_results);
 
@@ -57,12 +62,22 @@ public class SearchResultsFragment extends Fragment {
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)
-    private void updateSearchOrder(String query) {
-        Collections.sort(sortedPosts,
-                (a, b) -> b.getSearchQueryScore(query) - a.getSearchQueryScore(query));
+    private void updateSearchOrder() {
+
+        resultsAdapter.setPosts(model
+                .getPosts()
+                .stream()
+                .sorted((a, b) ->
+                        b.getSearchQueryScore(query)
+                                - a.getSearchQueryScore(query))
+                .filter(p -> model
+                        .getTags()
+                        .getValue()
+                        .getList()
+                        .stream()
+                        .allMatch(tag -> p.getTags().containsTag(tag)))
+                .collect(Collectors.toList()));
 
         resultsAdapter.notifyDataSetChanged();
-
-        System.out.println(sortedPosts.stream().map( p -> p.getTitle()).collect(Collectors.toList()));
     }
 }
