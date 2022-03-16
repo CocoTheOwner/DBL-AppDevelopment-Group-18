@@ -14,7 +14,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.*;
 
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+public class LoginPage extends AppCompatActivity implements View.OnClickListener {
 
     private EditText inputEmail, inputPassword;
     private ProgressBar progressBar;
@@ -97,16 +97,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                             FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
                             if (user.isEmailVerified()) {
                                 // redirect to landing page
-                                startActivity(new Intent(MainActivity.this, LandingPage.class));
+                                startActivity(new Intent(LoginPage.this, LandingPage.class));
                             } else {
                                 // TODO: Allow user to re-send verification email.
-                                Toast.makeText(MainActivity.this,
+                                Toast.makeText(LoginPage.this,
                                         "Email has not yet been verified",
                                         Toast.LENGTH_LONG).show();
                             }
 
                         } else {
-                            Toast.makeText(MainActivity.this,
+                            Toast.makeText(LoginPage.this,
                                     "Failed to login, check your credentials or try again later.",
                                     Toast.LENGTH_LONG).show();
                         }

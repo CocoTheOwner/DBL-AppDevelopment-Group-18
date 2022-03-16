@@ -73,7 +73,7 @@ public class LandingPage extends AppCompatActivity implements View.OnClickListen
         switch(v.getId()) {
             case R.id.logout:
                 FirebaseAuth.getInstance().signOut();
-                startActivity(new Intent(LandingPage.this, MainActivity.class));
+                startActivity(new Intent(LandingPage.this, LoginPage.class));
         }
     }
 }

@@ -57,7 +57,7 @@ public class RegisterUser extends AppCompatActivity implements View.OnClickListe
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.register_banner:
-                startActivity(new Intent(this, MainActivity.class));
+                startActivity(new Intent(this, LoginPage.class));
                 break;
             case R.id.login_login:
                 registerUser();
@@ -134,7 +134,7 @@ public class RegisterUser extends AppCompatActivity implements View.OnClickListe
 
                                                 // Redirect to login layout
                                                 startActivity(
-                                                        new Intent(RegisterUser.this, MainActivity.class));
+                                                        new Intent(RegisterUser.this, LoginPage.class));
 
                                                 // Failed to store User object in the database.
                                             } else {
