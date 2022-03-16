@@ -1,21 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content">
 
-    <TextView
-        android:id="@+id/tagText"
+
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="TextView"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
         android:background="@color/light_grey"
-        android:layout_marginHorizontal="5dp"
-        android:paddingHorizontal="10dp"
-        android:textSize="20sp"
-        />
-</androidx.constraintlayout.widget.ConstraintLayout>
+        android:paddingLeft="5dp"
+        android:layout_marginLeft="10dp"
+        >
+
+        <TextView
+            android:id="@+id/tagText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="TextView"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:textSize="20sp"
+            />
+
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/tagText"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/ic_cross" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</FrameLayout>

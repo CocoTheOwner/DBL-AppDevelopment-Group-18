@@ -29,30 +29,24 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <Button
+        <ImageView
             android:id="@+id/profileButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Profile"
-            android:minWidth="0dp"
-            android:backgroundTint="@color/red"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
             android:layout_marginRight="10dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/ic_profile" />
 
-        <Button
+        <ImageView
             android:id="@+id/newPostButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:minWidth="0dp"
-            android:text="+"
-            android:backgroundTint="@color/red"
-            android:layout_marginRight="10dp"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/profileButton"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.48" />
+            app:srcCompat="@drawable/ic_plus" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -122,7 +116,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/line" />
-
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -14,6 +14,7 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.SearchView;
 import android.widget.Toast;
 
@@ -52,8 +53,6 @@ public class HomePageActivity extends AppCompatActivity {
         setupProfileButton();
         setupNewPostButton();
 
-        checkUser();
-
         backPressedCallback = new OnBackPressedCallback(false) {
             @Override
             public void handleOnBackPressed() {
@@ -75,7 +74,7 @@ public class HomePageActivity extends AppCompatActivity {
 
     private void setupNewPostButton() {
 
-        Button button = findViewById(R.id.newPostButton);
+        ImageView button = findViewById(R.id.newPostButton);
 
         if (FirebaseAuth.getInstance().getCurrentUser() == null) {
             button.setVisibility(View.GONE);
@@ -86,13 +85,6 @@ public class HomePageActivity extends AppCompatActivity {
         });
     }
 
-    private void checkUser() {
-        if (FirebaseAuth.getInstance().getCurrentUser() == null) {
-            ((Button) findViewById(R.id.profileButton)).setText("Login");
-        } else {
-            ((Button) findViewById(R.id.profileButton)).setText("Profile");
-        }
-    }
 
     private void setupSearchView() {
         SearchView searchView = findViewById(R.id.postSearch);
