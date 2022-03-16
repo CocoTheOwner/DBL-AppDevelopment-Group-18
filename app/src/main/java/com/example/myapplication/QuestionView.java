@@ -1,19 +1,30 @@
 package com.example.myapplication;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.TextView;
 
-public class QuestionView extends AppCompatActivity {
+import java.util.ArrayList;
 
+public class QuestionView extends AppCompatActivity {
+    private ArrayList<User> usersList;
+    private RecyclerView answerListView;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_question_view);
+        answerListView = findViewById(R.id.answerView);
+        usersList = new ArrayList<>();
+
+        setUserInfo();
+        setAdapter();
 
         Intent title = getIntent();
         String titleText = title.getStringExtra(MainActivity.TITLE_TEXT);
@@ -29,5 +40,23 @@ public class QuestionView extends AppCompatActivity {
 
         titleView.setText(titleText);
         questionView.setText(questionText);
+    }
+
+    private void setAdapter() {
+        recyclerAdapter adapter = new recyclerAdapter(usersList);
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
+        answerListView.setLayoutManager(layoutManager);
+        answerListView.setItemAnimator(new DefaultItemAnimator());
+        answerListView.setAdapter(adapter);
+    }
+
+    private void setUserInfo() {
+        usersList.add(new User("Marnick"));
+        usersList.add(new User("Fleur"));
+        usersList.add(new User("Sjoerd"));
+        usersList.add(new User("Rob"));
+        usersList.add(new User("Robie"));
+        usersList.add(new User("Rafael"));
+
     }
 }
