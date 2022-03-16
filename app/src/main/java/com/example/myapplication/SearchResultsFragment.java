@@ -33,6 +33,7 @@ public class SearchResultsFragment extends Fragment {
         super(R.layout.fragment_search_results);
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         HomePageViewModel model = new ViewModelProvider(requireActivity())
@@ -43,6 +44,8 @@ public class SearchResultsFragment extends Fragment {
         model.getSearchString().observe(getViewLifecycleOwner(), s -> {
             updateSearchOrder(s);
         });
+
+
 
         results = view.findViewById(R.id.search_results);
 
