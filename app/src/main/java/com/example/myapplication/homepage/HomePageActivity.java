@@ -16,7 +16,7 @@ import android.widget.Toast;
 
 import com.example.myapplication.R;
 
-public class MainActivity extends AppCompatActivity {
+public class HomePageActivity extends AppCompatActivity {
 
     private HomePageViewModel model;
     private FragmentContainerView fragmentContainer;
