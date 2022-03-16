@@ -25,7 +25,7 @@ public class LoginPage extends AppCompatActivity implements View.OnClickListener
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(com.example.myapplication.R.layout.activity_main);
+        setContentView(com.example.myapplication.R.layout.activity_login_page);
 
         // Authentication instance
         mAuth = FirebaseAuth.getInstance();
