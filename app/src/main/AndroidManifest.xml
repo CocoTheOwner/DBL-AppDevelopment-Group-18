@@ -11,6 +11,18 @@
         android:theme="@style/Theme.MyApplication">
         <activity
             android:name=".homepage.HomePageActivity"
+            android:exported="false" />
+        <activity
+            android:name=".login.LandingPage"
+            android:exported="false" />
+        <activity
+            android:name=".login.ResetPassword"
+            android:exported="false" />
+        <activity
+            android:name=".login.RegisterUser"
+            android:exported="false" />
+        <activity
+            android:name=".login.LoginPage"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
