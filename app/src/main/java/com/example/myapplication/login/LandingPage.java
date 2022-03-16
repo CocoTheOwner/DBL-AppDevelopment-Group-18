@@ -1,4 +1,4 @@
-package com.example.myapplication;
+package com.example.myapplication.login;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.view.*;
 import android.widget.*;
 
+import com.example.myapplication.R;
 import com.google.firebase.auth.*;
 import com.google.firebase.database.*;
 

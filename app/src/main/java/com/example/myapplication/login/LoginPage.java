@@ -1,4 +1,4 @@
-package com.example.myapplication;
+package com.example.myapplication.login;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -9,6 +9,7 @@ import android.util.Patterns;
 import android.view.*;
 import android.widget.*;
 
+import com.example.myapplication.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.*;
@@ -24,42 +25,42 @@ public class LoginPage extends AppCompatActivity implements View.OnClickListener
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(com.example.myapplication.R.layout.activity_main);
 
         // Authentication instance
         mAuth = FirebaseAuth.getInstance();
 
         // Register button (clickable text)
-        TextView register = findViewById(R.id.login_register);
+        TextView register = findViewById(com.example.myapplication.R.id.login_register);
         register.setOnClickListener(this);
 
         // Credential input fields (email address & password)
-        inputEmail = findViewById(R.id.login_mail);
-        inputPassword = findViewById(R.id.login_password);
+        inputEmail = findViewById(com.example.myapplication.R.id.login_mail);
+        inputPassword = findViewById(com.example.myapplication.R.id.login_password);
 
         // Login button
-        Button loginButton = findViewById(R.id.login_login);
+        Button loginButton = findViewById(com.example.myapplication.R.id.login_login);
         loginButton.setOnClickListener(this);
 
         // Progress bar
-        progressBar = findViewById(R.id.login_progress);
+        progressBar = findViewById(com.example.myapplication.R.id.login_progress);
 
         // Password reset button (as clickable text)
-        TextView resetPassword = findViewById(R.id.login_forgot);
+        TextView resetPassword = findViewById(com.example.myapplication.R.id.login_forgot);
         resetPassword.setOnClickListener(this);
 
         // "Continue as guest" button (as clickable text)
-        TextView contGuest = findViewById(R.id.login_guest);
+        TextView contGuest = findViewById(com.example.myapplication.R.id.login_guest);
         contGuest.setOnClickListener(this);
     }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.login_register:
+            case com.example.myapplication.R.id.login_register:
                 startActivity(new Intent(this, RegisterUser.class));
                 break;
-            case R.id.login_login:
+            case com.example.myapplication.R.id.login_login:
                 String email = inputEmail.getText().toString().trim();
                 String password = inputPassword.getText().toString();
 
@@ -68,7 +69,7 @@ public class LoginPage extends AppCompatActivity implements View.OnClickListener
                     userLogin(email, password);
                 }
                 break;
-            case R.id.login_forgot:
+            case com.example.myapplication.R.id.login_forgot:
                 startActivity(new Intent(this, ResetPassword.class));
                 break;
             case R.id.login_guest:

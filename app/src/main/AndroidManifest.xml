@@ -10,16 +10,16 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MyApplication">
         <activity
-            android:name=".LandingPage"
+            android:name=".login.LandingPage"
             android:exported="false" />
         <activity
-            android:name=".ResetPassword"
+            android:name=".login.ResetPassword"
             android:exported="false" />
         <activity
-            android:name=".RegisterUser"
+            android:name=".login.RegisterUser"
             android:exported="false" />
         <activity
-            android:name=".LoginPage"
+            android:name=".login.LoginPage"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

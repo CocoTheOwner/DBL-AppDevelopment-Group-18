@@ -1,4 +1,4 @@
-package com.example.myapplication;
+package com.example.myapplication.login;
 
 // TODO: Make this class actually store the information we require.
 public class User {
