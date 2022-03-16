@@ -1,4 +1,4 @@
-package com.example.myapplication;
+package com.example.myapplication.homepage;
 
 import java.util.List;
 

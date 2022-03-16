@@ -1,4 +1,4 @@
-package com.example.myapplication;
+package com.example.myapplication.homepage;
 
 import androidx.activity.OnBackPressedCallback;
 import androidx.appcompat.app.AppCompatActivity;
@@ -14,8 +14,7 @@ import android.widget.AutoCompleteTextView;
 import android.widget.SearchView;
 import android.widget.Toast;
 
-import java.util.Arrays;
-import java.util.List;
+import com.example.myapplication.R;
 
 public class MainActivity extends AppCompatActivity {
 

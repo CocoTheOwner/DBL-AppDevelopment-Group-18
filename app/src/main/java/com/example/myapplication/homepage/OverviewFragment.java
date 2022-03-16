@@ -1,4 +1,4 @@
-package com.example.myapplication;
+package com.example.myapplication.homepage;
 
 import android.os.Build;
 import android.os.Bundle;
@@ -11,9 +11,9 @@ import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
+
+import com.example.myapplication.R;
 
 import java.util.Arrays;
 import java.util.List;
