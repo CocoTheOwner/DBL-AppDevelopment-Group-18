@@ -22,6 +22,16 @@ public class HomePageViewModel extends ViewModel {
             "prokert",
             "anzats");
 
+    private final List<Post> posts = Arrays.asList(
+        new Post("What da dog doin?", Arrays.asList("ErikDeVink")),
+            new Post("Lost in metaforum", Arrays.asList()),
+            new Post("How to caclulus?", Arrays.asList("2WCB0")),
+            new Post("How to analysis?", Arrays.asList("prokert", "anzats")),
+            new Post("2IT90 2023 exam answers please",  Arrays.asList("2IT90", "BCS")),
+            new Post("Who asked?",  Arrays.asList())
+    );
+
+
     public void setSearchString(String string) {
         searchString.setValue(string);
     }
@@ -48,5 +58,9 @@ public class HomePageViewModel extends ViewModel {
 
     public List<String> getAvailableTags() {
         return availableTags;
+    }
+
+    public List<Post> getPosts() {
+        return posts;
     }
 }

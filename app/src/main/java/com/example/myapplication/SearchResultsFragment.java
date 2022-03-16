@@ -35,19 +35,8 @@ public class SearchResultsFragment extends Fragment {
 
         RecyclerView results = view.findViewById(R.id.search_results);
 
-        List<String> posts = new ArrayList<>();
-
         results.setLayoutManager(new LinearLayoutManager(requireActivity().getApplicationContext()));
-        results.setAdapter(new SearchResultsRecyclerAdapter(posts));
+        results.setAdapter(new SearchResultsRecyclerAdapter(model.getPosts()));
         results.setItemAnimator(new DefaultItemAnimator());
-
-
-        posts.add("one");
-        posts.add("two");
-        posts.add("three");
-        posts.add("four");
-        posts.add("five");
-        posts.add("six");
-
     }
 }
