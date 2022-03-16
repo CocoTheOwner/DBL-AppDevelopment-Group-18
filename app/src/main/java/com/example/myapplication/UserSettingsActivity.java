@@ -8,7 +8,6 @@ import android.os.Bundle;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.myapplication.login.LandingPage;
 import com.example.myapplication.login.LoginPage;
 import com.example.myapplication.login.User;
 import com.google.firebase.auth.FirebaseAuth;
