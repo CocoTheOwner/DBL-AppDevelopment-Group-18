@@ -11,7 +11,7 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
-public class QuestionView extends AppCompatActivity {
+public class QuestionViewActivity extends AppCompatActivity {
     private ArrayList<User> usersList;
     private RecyclerView answerListView;
 
@@ -43,7 +43,7 @@ public class QuestionView extends AppCompatActivity {
     }
 
     private void setAdapter() {
-        recyclerAdapter adapter = new recyclerAdapter(usersList);
+        AnswersRecyclerAdapter adapter = new AnswersRecyclerAdapter(usersList);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
         answerListView.setLayoutManager(layoutManager);
         answerListView.setItemAnimator(new DefaultItemAnimator());

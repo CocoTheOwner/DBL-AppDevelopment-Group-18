@@ -31,7 +31,7 @@ public class CreateQuestionActivity extends AppCompatActivity {
                 String questionText = QuestionText.getText().toString();
 
 
-                Intent title = new Intent(CreateQuestionActivity.this, QuestionView.class);
+                Intent title = new Intent(CreateQuestionActivity.this, QuestionViewActivity.class);
                 title.putExtra(TITLE_TEXT, questionTitle);
                 title.putExtra(QUESTION_TEXT, questionText);
                 startActivity(title);
