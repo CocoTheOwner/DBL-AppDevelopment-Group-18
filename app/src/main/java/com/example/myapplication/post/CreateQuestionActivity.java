@@ -22,7 +22,8 @@ public class CreateQuestionActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_question);
 
-        submit=findViewById(R.id.submit_question);
+        submit = findViewById(R.id.submit_question);
+
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
@@ -19,6 +20,7 @@ import android.widget.Toast;
 import com.example.myapplication.R;
 import com.example.myapplication.UserSettingsActivity;
 import com.example.myapplication.login.LoginPage;
+import com.example.myapplication.post.CreateQuestionActivity;
 import com.google.firebase.auth.FirebaseAuth;
 
 public class HomePageActivity extends AppCompatActivity {
@@ -48,6 +50,7 @@ public class HomePageActivity extends AppCompatActivity {
         setupTagInputView();
         setupTagListView();
         setupProfileButton();
+        setupNewPostButton();
 
         checkUser();
 
@@ -67,6 +70,19 @@ public class HomePageActivity extends AppCompatActivity {
             } else {
                 startActivity(new Intent(this, UserSettingsActivity.class));
             }
+        });
+    }
+
+    private void setupNewPostButton() {
+
+        Button button = findViewById(R.id.newPostButton);
+
+        if (FirebaseAuth.getInstance().getCurrentUser() == null) {
+            button.setVisibility(View.GONE);
+        }
+
+        button.setOnClickListener(v -> {
+            startActivity(new Intent(HomePageActivity.this, CreateQuestionActivity.class));
         });
     }
 
