@@ -1,93 +1,29 @@
 package com.example.myapplication;
 
-import java.util.Date;
+import java.util.List;
 
-/**
- * Represents a post in the app.
- */
-public abstract class Post {
+import me.xdrop.fuzzywuzzy.FuzzySearch;
 
-    /**
-     * The ID of the post.
-     */
-    private final long postID;
+public class Post {
 
-    /**
-     * The author of the post.
-     */
-    private final User author;
+    private TagCollection tags;
 
-    /**
-     * The content of the post.
-     */
-    private final Content content;
+    private String title;
 
-    /**
-     * The timestamp on which the post was created.
-     */
-    private final Date creationDate;
-
-    /**
-     * Create a new post.
-     * @param postID       the ID of the post
-     * @param author       the author of the post
-     * @param content      the content of the post
-     * @param creationDate the date on which the post was created
-     */
-    protected Post(long postID, User author, Content content, Date creationDate) {
-        this.postID = postID;
-        this.author = author;
-        this.content = content;
-        this.creationDate = creationDate;
+    public Post(String title, List<String> tags) {
+        this.title = title;
+        this.tags = new TagCollection(tags);
     }
 
-    /**
-     * Get the time since creation in a nicely formatted string.
-     * @return the time since creation
-     */
-    public String timeDisplay(){
-        // TODO: Proper format
-        return creationDate.toString();
+    public TagCollection getTags() {
+        return tags;
     }
 
-    /**
-     * Removes this post.
-     * @return true if successful, false if not
-     */
-    public boolean remove() {
-        // TODO: Implementation
-        return true;
+    public String getTitle() {
+        return title;
     }
 
-    /**
-     * Get the content of the post.
-     * @return the content
-     */
-    public Content getContent() {
-        return content;
-    }
-
-    /**
-     * Get the ID of the post.
-     * @return the ID
-     */
-    public long getPostID() {
-        return postID;
-    }
-
-    /**
-     * Get the creation date of the post.
-     * @return the creation date
-     */
-    public Date getCreationDate() {
-        return creationDate;
-    }
-
-    /**
-     * Get the author of the post.
-     * @return the author
-     */
-    public User getAuthor() {
-        return author;
+    public int getSearchQueryScore(String query) {
+        return FuzzySearch.weightedRatio(query, title);
     }
 }

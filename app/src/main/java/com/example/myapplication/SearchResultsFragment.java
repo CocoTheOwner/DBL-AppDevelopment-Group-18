@@ -1,8 +1,10 @@
 package com.example.myapplication;
 
+import android.os.Build;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
@@ -16,38 +18,66 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class SearchResultsFragment extends Fragment {
+
+    private List<Post> sortedPosts;
+    private RecyclerView results;
+    private SearchResultsRecyclerAdapter resultsAdapter;
+    private HomePageViewModel model;
+    private String query = "";
 
     public SearchResultsFragment() {
         super(R.layout.fragment_search_results);
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
-        HomePageViewModel model = new ViewModelProvider(requireActivity())
+        model = new ViewModelProvider(requireActivity())
                 .get(HomePageViewModel.class);
 
+        sortedPosts = new ArrayList<>(model.getPosts());
+
         model.getSearchString().observe(getViewLifecycleOwner(), s -> {
-//            System.out.println("Search string: " + s);
+            this.query = s;
+            updateSearchOrder();
         });
 
-        RecyclerView results = view.findViewById(R.id.search_results);
+        model.getTags().observe(getViewLifecycleOwner(), tags -> {
+            updateSearchOrder();
+        });
 
-        List<String> posts = new ArrayList<>();
+        results = view.findViewById(R.id.search_results);
+
+        resultsAdapter = new SearchResultsRecyclerAdapter(sortedPosts);
 
         results.setLayoutManager(new LinearLayoutManager(requireActivity().getApplicationContext()));
-        results.setAdapter(new SearchResultsRecyclerAdapter(posts));
+        results.setAdapter(resultsAdapter);
         results.setItemAnimator(new DefaultItemAnimator());
+    }
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    private void updateSearchOrder() {
 
-        posts.add("one");
-        posts.add("two");
-        posts.add("three");
-        posts.add("four");
-        posts.add("five");
-        posts.add("six");
+        resultsAdapter.setPosts(model
+                .getPosts()
+                .stream()
+                .sorted((a, b) ->
+                        b.getSearchQueryScore(query)
+                                - a.getSearchQueryScore(query))
+                .filter(p -> model
+                        .getTags()
+                        .getValue()
+                        .getList()
+                        .stream()
+                        .allMatch(tag -> p.getTags().containsTag(tag)))
+                .collect(Collectors.toList()));
 
+        resultsAdapter.notifyDataSetChanged();
     }
 }

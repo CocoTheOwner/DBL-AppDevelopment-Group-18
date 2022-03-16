@@ -1,22 +1,26 @@
 package com.example.myapplication;
 
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
-
-import org.w3c.dom.Text;
 
 import java.util.List;
 
 public class SearchResultsRecyclerAdapter extends RecyclerView.Adapter<SearchResultsRecyclerAdapter.ViewHolder> {
 
-    private List<String> posts;
+    private List<Post> posts;
 
-    public SearchResultsRecyclerAdapter(List<String> posts) {
+    public SearchResultsRecyclerAdapter(List<Post> posts) {
+        this.posts = posts;
+    }
+
+    public void setPosts(List<Post> posts) {
         this.posts = posts;
     }
 
@@ -25,7 +29,7 @@ public class SearchResultsRecyclerAdapter extends RecyclerView.Adapter<SearchRes
 
         public ViewHolder(final View view) {
             super(view);
-            textView = view.findViewById(R.id.textView);
+            textView = view.findViewById(R.id.content);
         }
     }
 
@@ -39,7 +43,13 @@ public class SearchResultsRecyclerAdapter extends RecyclerView.Adapter<SearchRes
 
     @Override
     public void onBindViewHolder(@NonNull SearchResultsRecyclerAdapter.ViewHolder holder, int position) {
-        holder.textView.setText(posts.get(position));
+        holder.textView.setText(
+                Html.fromHtml(
+                        "<u>"+posts.get(position).getTitle()+"</u>"
+                + " (+69) By "
+                                // TODO: Figure out how to make this color string not hardcoded
+                                // This will probably be done using spannable in the future
+                + "<font color=#87ceeb>Joe Shmo</font>"));
     }
 
     @Override
