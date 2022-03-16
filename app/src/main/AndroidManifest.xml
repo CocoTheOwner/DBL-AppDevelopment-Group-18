@@ -10,6 +10,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MyApplication">
         <activity
+            android:name=".UserSettingsActivity"
+            android:exported="false" />
+        <activity
             android:name=".homepage.HomePageActivity"
             android:exported="false" />
         <activity
@@ -35,8 +38,7 @@
             android:exported="false" />
         <activity
             android:name=".post.CreateQuestionActivity"
-            android:exported="true"/>
-
+            android:exported="true" />
     </application>
 
 </manifest>

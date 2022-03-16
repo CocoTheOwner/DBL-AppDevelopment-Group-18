@@ -5,15 +5,15 @@
       <map>
         <entry key="../../../../eindhoven/CS/Y2/2IS70_DBL_app_development/DBL-AppDevelopment-Group-18/app/src/main/res/layout-land/activity_register_user.xml" value="0.1" />
         <entry key="../../../../eindhoven/CS/Y2/2IS70_DBL_app_development/DBL-AppDevelopment-Group-18/app/src/main/res/layout-sw600dp/activity_register_user.xml" value="0.13125" />
+        <entry key="../../../../eindhoven/CS/Y2/2IS70_DBL_app_development/DBL-AppDevelopment-Group-18/app/src/main/res/layout/activity_home_page.xml" value="0.31875" />
+        <entry key="../../../../eindhoven/CS/Y2/2IS70_DBL_app_development/DBL-AppDevelopment-Group-18/app/src/main/res/layout/activity_landing_page.xml" value="0.33" />
+        <entry key="../../../../eindhoven/CS/Y2/2IS70_DBL_app_development/DBL-AppDevelopment-Group-18/app/src/main/res/layout/activity_login_page.xml" value="0.31875" />
         <entry key="../../../../eindhoven/CS/Y2/2IS70_DBL_app_development/DBL-AppDevelopment-Group-18/app/src/main/res/layout/activity_main.xml" value="0.25" />
         <entry key="../../../../eindhoven/CS/Y2/2IS70_DBL_app_development/DBL-AppDevelopment-Group-18/app/src/main/res/layout/activity_post_list.xml" value="0.315625" />
-<<<<<<< HEAD
-        <entry key="../../../../eindhoven/CS/Y2/2IS70_DBL_app_development/DBL-AppDevelopment-Group-18/app/src/main/res/layout/activity_register_user.xml" value="0.175" />
-=======
         <entry key="../../../../eindhoven/CS/Y2/2IS70_DBL_app_development/DBL-AppDevelopment-Group-18/app/src/main/res/layout/activity_question_view.xml" value="0.25092592592592594" />
         <entry key="../../../../eindhoven/CS/Y2/2IS70_DBL_app_development/DBL-AppDevelopment-Group-18/app/src/main/res/layout/activity_register_user.xml" value="0.175" />
+        <entry key="../../../../eindhoven/CS/Y2/2IS70_DBL_app_development/DBL-AppDevelopment-Group-18/app/src/main/res/layout/activity_user_settings.xml" value="0.33" />
         <entry key="../../../../eindhoven/CS/Y2/2IS70_DBL_app_development/DBL-AppDevelopment-Group-18/app/src/main/res/layout/answer_list_items.xml" value="0.33" />
->>>>>>> create-question-merge-prep
         <entry key="../../../../eindhoven/CS/Y2/2IS70_DBL_app_development/DBL-AppDevelopment-Group-18/app/src/main/res/layout/category_item.xml" value="0.1" />
         <entry key="../../../../eindhoven/CS/Y2/2IS70_DBL_app_development/DBL-AppDevelopment-Group-18/app/src/main/res/layout/fragment_overview.xml" value="0.36923076923076925" />
         <entry key="../../../../eindhoven/CS/Y2/2IS70_DBL_app_development/DBL-AppDevelopment-Group-18/app/src/main/res/layout/fragment_search_results.xml" value="0.33" />

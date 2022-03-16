@@ -7,22 +7,55 @@
     tools:context=".homepage.HomePageActivity">
 
 
-    <TextView
-        android:id="@+id/login_banner"
-        android:layout_width="match_parent"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/header"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginTop="4dp"
         android:background="@color/light_grey"
-        android:padding="15dp"
-        android:text="@string/header"
-        android:textColor="@color/red"
-        android:textSize="40sp"
-        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/header"
+            android:layout_marginVertical="10dp"
+            android:layout_marginHorizontal="20dp"
+            android:textColor="@color/red"
+            android:textSize="30sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <Button
+            android:id="@+id/profileButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Profile"
+            android:minWidth="0dp"
+            android:backgroundTint="@color/red"
+            android:layout_marginRight="10dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <Button
+            android:id="@+id/newPostButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:minWidth="0dp"
+            android:text="+"
+            android:backgroundTint="@color/red"
+            android:layout_marginRight="10dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/profileButton"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.48" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/tags"
@@ -64,21 +97,22 @@
         app:layout_constraintEnd_toStartOf="@+id/tagInput"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/login_banner" />
+        app:layout_constraintTop_toBottomOf="@+id/header" />
 
     <AutoCompleteTextView
         android:id="@+id/tagInput"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:hint="Tags"
+        android:imeOptions="actionGo"
+        android:inputType="text"
         android:minHeight="48dp"
         android:text=""
-        android:hint="Tags"
-        android:inputType="text"
-        android:imeOptions="actionGo"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/postSearch"
-        app:layout_constraintTop_toBottomOf="@+id/login_banner" />
+        app:layout_constraintTop_toBottomOf="@id/header"
+         />
 
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/main_page_fragment_container"
@@ -88,6 +122,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/line" />
+
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -10,6 +10,7 @@ import android.view.*;
 import android.widget.*;
 
 import com.example.myapplication.R;
+import com.example.myapplication.homepage.HomePageActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.*;
@@ -76,7 +77,8 @@ public class LoginPage extends AppCompatActivity implements View.OnClickListener
                 /* When using this, FirebaseAuth.getInstance().getCurrentUser() will return null.
                  This does require some additional checks for each activity, as it risks
                  nullpointer exceptions whenever using data of the current user. */
-                startActivity(new Intent(this, LandingPage.class));
+                FirebaseAuth.getInstance().signOut();
+                startActivity(new Intent(this, HomePageActivity.class));
         }
 
     }
@@ -98,7 +100,7 @@ public class LoginPage extends AppCompatActivity implements View.OnClickListener
                             FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
                             if (user.isEmailVerified()) {
                                 // redirect to landing page
-                                startActivity(new Intent(LoginPage.this, LandingPage.class));
+                                startActivity(new Intent(LoginPage.this, HomePageActivity.class));
                             } else {
                                 // TODO: Allow user to re-send verification email.
                                 Toast.makeText(LoginPage.this,

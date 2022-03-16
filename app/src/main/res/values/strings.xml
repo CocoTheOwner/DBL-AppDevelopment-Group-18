@@ -2,6 +2,7 @@
     <string name="app_name">Meta-Forum</string>
     <string name="header">Meta-Forum</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="sign_out"><u>Sign out</u></string>
     <string-array name="programs">
         <item>Unspecified</item>
         <item>Bachelor Applied Mathematics</item>

@@ -8,13 +8,18 @@ import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
+import android.widget.Button;
 import android.widget.SearchView;
 import android.widget.Toast;
 
 import com.example.myapplication.R;
+import com.example.myapplication.UserSettingsActivity;
+import com.example.myapplication.login.LoginPage;
+import com.google.firebase.auth.FirebaseAuth;
 
 public class HomePageActivity extends AppCompatActivity {
 
@@ -29,7 +34,6 @@ public class HomePageActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home_page);
 
-
         fragmentContainer = findViewById(R.id.main_page_fragment_container);
         model = new ViewModelProvider(this).get(HomePageViewModel.class);
 
@@ -43,6 +47,9 @@ public class HomePageActivity extends AppCompatActivity {
         setupSearchView();
         setupTagInputView();
         setupTagListView();
+        setupProfileButton();
+
+        checkUser();
 
         backPressedCallback = new OnBackPressedCallback(false) {
             @Override
@@ -51,6 +58,27 @@ public class HomePageActivity extends AppCompatActivity {
             }
         };
         getOnBackPressedDispatcher().addCallback(this, backPressedCallback);
+    }
+
+    private void setupProfileButton() {
+        findViewById(R.id.profileButton).setOnClickListener(v -> {
+            if (FirebaseAuth.getInstance().getCurrentUser() == null) {
+                startActivity(new Intent(this, LoginPage.class));
+            } else {
+                startActivity(new Intent(this, UserSettingsActivity.class));
+            }
+        });
+    }
+
+    private void checkUser() {
+
+        System.out.println("User: " + FirebaseAuth.getInstance().getCurrentUser());
+
+        if (FirebaseAuth.getInstance().getCurrentUser() == null) {
+            ((Button) findViewById(R.id.profileButton)).setText("Login");
+        } else {
+            ((Button) findViewById(R.id.profileButton)).setText("Profile");
+        }
     }
 
     private void setupSearchView() {
