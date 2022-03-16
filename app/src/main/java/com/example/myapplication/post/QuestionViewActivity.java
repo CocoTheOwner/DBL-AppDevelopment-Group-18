@@ -1,4 +1,4 @@
-package com.example.myapplication;
+package com.example.myapplication.post;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.DefaultItemAnimator;
@@ -8,6 +8,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.TextView;
+
+import com.example.myapplication.R;
 
 import java.util.ArrayList;
 

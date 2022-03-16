@@ -10,10 +10,10 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MyApplication">
         <activity
-            android:name=".QuestionViewActivity"
+            android:name=".post.QuestionViewActivity"
             android:exported="false" />
         <activity
-            android:name=".CreateQuestionActivity"
+            android:name=".post.CreateQuestionActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
