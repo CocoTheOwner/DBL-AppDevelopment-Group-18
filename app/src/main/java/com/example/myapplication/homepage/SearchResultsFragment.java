@@ -28,7 +28,7 @@ public class SearchResultsFragment extends Fragment {
     private String query = "";
 
     public SearchResultsFragment() {
-        super(R.layout.fragment_search_results);
+        super(R.layout.fragment_home_page_search_results);
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)

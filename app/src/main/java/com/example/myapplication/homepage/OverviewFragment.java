@@ -24,7 +24,7 @@ public class OverviewFragment extends Fragment {
     private HomePageViewModel model;
 
     public OverviewFragment() {
-        super(R.layout.fragment_overview);
+        super(R.layout.fragment_home_page_overview);
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)

@@ -40,7 +40,7 @@ public class TagRecyclerAdapter extends RecyclerView.Adapter<TagRecyclerAdapter.
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.tag, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.home_page_tag, parent, false);
 
         return new ViewHolder(view);
     }
