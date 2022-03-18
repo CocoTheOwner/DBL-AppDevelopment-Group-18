@@ -9,6 +9,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.myapplication.R;
+import com.example.myapplication.User;
 
 import java.util.ArrayList;
 
@@ -38,7 +39,7 @@ public class AnswersRecyclerAdapter extends RecyclerView.Adapter<AnswersRecycler
     @Override
     public void onBindViewHolder(@NonNull AnswersRecyclerAdapter.myViewHolder holder, int position) {
         //Sets the text for the questions
-        String name = userList.get(position).getUsername();
+        String name = userList.get(position).getUserName();
         holder.answerUserN.setText("posted by: " + name);
     }
 

@@ -9,7 +9,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.myapplication.login.LoginPage;
-import com.example.myapplication.login.User;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -38,10 +37,10 @@ public class UserSettingsActivity extends AppCompatActivity {
         userDataReference.child(userID).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                com.example.myapplication.login.User userProfile = dataSnapshot.getValue(User.class);
+                User userProfile = dataSnapshot.getValue(User.class);
 
                 if (userProfile != null) {
-                    String username = userProfile.username;
+                    String username = userProfile.getUserName();
                     ((TextView) findViewById(R.id.userName)).setText("Username: " + username);
                 }
             }

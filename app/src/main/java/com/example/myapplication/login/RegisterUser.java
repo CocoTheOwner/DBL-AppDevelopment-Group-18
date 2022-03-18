@@ -1,15 +1,18 @@
 package com.example.myapplication.login;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Patterns;
 import android.view.View;
 import android.widget.*;
 
 import com.example.myapplication.R;
+import com.example.myapplication.User;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -98,12 +101,29 @@ public class RegisterUser extends AppCompatActivity implements View.OnClickListe
         progressBar.setVisibility(View.VISIBLE);
         mAuth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                    @RequiresApi(api = Build.VERSION_CODES.N)
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
 
+                        User.UserType type;
+
+                        if (task.getResult().getAdditionalUserInfo() == null ||
+                                task.getResult().getAdditionalUserInfo().getProfile() == null) {
+                            type = User.UserType.USER;
+                        } else {
+                            type = (User.UserType) task.getResult().getAdditionalUserInfo().getProfile().getOrDefault("UserType", User.UserType.USER);
+                        }
+
                         // Registration was successful.
-                        if (task.isSuccessful()) {
-                            User user = new User(username, email, program);
+                        if (task.isSuccessful() && task.getResult() != null && task.getResult().getUser() != null) {
+                            User user = new User(
+                                    username,
+                                    program,
+                                    task.getResult().getUser().getUid(),
+                                    type,
+                                    email,
+                                    ""
+                            );
 
                             // You don't want to know how long I spent getting the database to work
                             // here, and all I needed was this stupid link.

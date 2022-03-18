@@ -1,9 +1,18 @@
 package com.example.myapplication;
 
+import androidx.annotation.NonNull;
+
+import java.util.Random;
+
 /**
  * Represents a user in the network.
  */
 public class User {
+
+    /**
+     * Random generator for user IDs. TODO: Replace by Firebase IDs
+     */
+    private static final Random RANDOM = new Random();
 
     /**
      * The name of the user account.
@@ -18,7 +27,7 @@ public class User {
     /**
      * The user ID.
      */
-    private final long userID;
+    private final String userID;
 
     /**
      * The type of the user account.
@@ -48,7 +57,7 @@ public class User {
      * @param userEmail     the email of the user
      * @param userPassword  the password
      */
-    public User(String userName, String userMajor, long userID, UserType userType, String userEmail, String userPassword) {
+    public User(String userName, String userMajor, String userID, UserType userType, String userEmail, String userPassword) {
         this.userName = userName;
         this.userMajor = userMajor;
         this.userID = userID;
@@ -116,6 +125,16 @@ public class User {
      */
     public void resetPassword() {
 
+    }
+
+    /**
+     * Get a new ID for a user.
+     * @return the new ID
+     * TODO: Replace with firebase IDs
+     */
+    @NonNull
+    public static String getNewUserID() {
+        return String.valueOf(RANDOM.nextLong());
     }
 
     /**

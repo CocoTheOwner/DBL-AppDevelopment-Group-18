@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.widget.TextView;
 
 import com.example.myapplication.R;
+import com.example.myapplication.User;
 
 import java.util.ArrayList;
 
@@ -53,12 +54,12 @@ public class QuestionViewActivity extends AppCompatActivity {
     }
 
     private void setUserInfo() {
-        usersList.add(new User("Marnick"));
-        usersList.add(new User("Fleur"));
-        usersList.add(new User("Sjoerd"));
-        usersList.add(new User("Rob"));
-        usersList.add(new User("Robie"));
-        usersList.add(new User("Rafael"));
+        usersList.add(new User("Marnick", "Computer Science", User.getNewUserID(), User.UserType.USER, "", ""));
+        usersList.add(new User("Fleur", "Computer Science", User.getNewUserID(), User.UserType.USER, "", ""));
+        usersList.add(new User("Sjoerd", "Computer Science", User.getNewUserID(), User.UserType.USER, "", ""));
+        usersList.add(new User("Rob", "Computer Science", User.getNewUserID(), User.UserType.USER, "", ""));
+        usersList.add(new User("Robie", "Computer Science", User.getNewUserID(), User.UserType.USER, "", ""));
+        usersList.add(new User("Rafael", "Computer Science", User.getNewUserID(), User.UserType.USER, "", ""));
 
     }
 }
