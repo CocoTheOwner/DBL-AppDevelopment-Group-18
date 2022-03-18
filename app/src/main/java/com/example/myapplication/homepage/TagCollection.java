@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.Locale;
 
 public class TagCollection {
-    private List<String> tags;
+    private final List<String> tags;
 
     public TagCollection() {
         tags = new ArrayList<>();
