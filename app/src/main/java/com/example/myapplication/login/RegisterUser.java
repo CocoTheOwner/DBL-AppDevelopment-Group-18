@@ -72,6 +72,7 @@ public class RegisterUser extends AppCompatActivity implements View.OnClickListe
     /**
      * First checks if provided credentials adhere to the requirements, then attempts to
      * create a Firebase user with these credentials.
+     * TODO: Move this to user?
      */
     private void registerUser() {
         // using trim() to remove any trailing spaces.
@@ -95,6 +96,7 @@ public class RegisterUser extends AppCompatActivity implements View.OnClickListe
      * @param username provided username
      * @param password provided password
      * @param program provided program (major)
+     * TODO: Move this to user?
      */
     private void createUser(String email, String username, String password, String program) {
         // Show the user that the registration is being processed.
@@ -187,6 +189,7 @@ public class RegisterUser extends AppCompatActivity implements View.OnClickListe
      * @param username provided username
      * @param password provided password
      * @return boolean value whether requires adhere to the requirements
+     * TODO: Move this to user?
      */
     private boolean checkCredentials (String email, String username, String password) {
         // Username cannot be empty, possibly want a minimum length as well.
@@ -204,8 +207,7 @@ public class RegisterUser extends AppCompatActivity implements View.OnClickListe
         }
 
         // Additionally, the email should be tue domain.
-        // TODO: We could possibly create our own regex to combine the two checks into one.
-        if (!(email.contains("@student.tue.nl") || email.contains("@tue.nl"))) {
+        if (!(email.endsWith("@student.tue.nl") || email.endsWith("@tue.nl"))) {
             editTextEmail.setError("Please use your TU/e email");
             editTextEmail.requestFocus();
             return false;
