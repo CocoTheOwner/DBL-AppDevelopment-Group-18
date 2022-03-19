@@ -45,13 +45,16 @@ public class SearchResultsRecyclerAdapter extends RecyclerView.Adapter<SearchRes
 
     @Override
     public void onBindViewHolder(@NonNull SearchResultsRecyclerAdapter.ViewHolder holder, int position) {
+
+        Question question = questions.get(position);
+
         holder.textView.setText(
                 Html.fromHtml(
-                        "<u>"+ questions.get(position).getContent().getTitle()+"</u>"
-                + " (+69) By "
+                        "<u>"+ question.getContent().getTitle()+"</u>"
+                + " ("+question.getVoteScoreString()+") By "
                                 // TODO: Figure out how to make this color string not hardcoded
                                 // This will probably be done using spannable in the future
-                + "<font color=#87ceeb>Joe Shmo</font>"));
+                + "<font color=#87ceeb>"+question.getAuthor().getUserName()+"</font>"));
     }
 
     @Override

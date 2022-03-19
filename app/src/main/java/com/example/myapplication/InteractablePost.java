@@ -49,6 +49,10 @@ public abstract class InteractablePost extends Post {
         return upvotedBy.size() - downvotedBy.size();
     }
 
+    public String getVoteScoreString() {
+        return (this.getVoteScore() >= 0 ? "+" : "") + this.getVoteScore();
+    }
+
     /**
      * Upvote this post.
      * @param userID the ID of the user that upvoted the post
