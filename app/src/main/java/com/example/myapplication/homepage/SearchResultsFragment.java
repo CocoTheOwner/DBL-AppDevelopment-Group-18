@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.View;
 
+import com.example.myapplication.Question;
 import com.example.myapplication.R;
 
 import java.util.ArrayList;
@@ -21,7 +22,7 @@ import java.util.stream.Collectors;
 
 public class SearchResultsFragment extends Fragment {
 
-    private List<Post> sortedPosts;
+    private List<Question> sortedQuestions;
     private RecyclerView results;
     private SearchResultsRecyclerAdapter resultsAdapter;
     private HomePageViewModel model;
@@ -37,7 +38,7 @@ public class SearchResultsFragment extends Fragment {
         model = new ViewModelProvider(requireActivity())
                 .get(HomePageViewModel.class);
 
-        sortedPosts = new ArrayList<>(model.getPosts());
+        sortedQuestions = new ArrayList<>(model.getQuestions());
 
         model.getSearchString().observe(getViewLifecycleOwner(), s -> {
             this.query = s;
@@ -50,7 +51,7 @@ public class SearchResultsFragment extends Fragment {
 
         results = view.findViewById(R.id.search_results);
 
-        resultsAdapter = new SearchResultsRecyclerAdapter(sortedPosts);
+        resultsAdapter = new SearchResultsRecyclerAdapter(sortedQuestions);
 
         results.setLayoutManager(new LinearLayoutManager(requireActivity().getApplicationContext()));
         results.setAdapter(resultsAdapter);
@@ -60,12 +61,12 @@ public class SearchResultsFragment extends Fragment {
     @RequiresApi(api = Build.VERSION_CODES.N)
     private void updateSearchOrder() {
 
-        resultsAdapter.setPosts(model
-                .getPosts()
+        resultsAdapter.setQuestions(model
+                .getQuestions()
                 .stream()
                 .sorted((a, b) ->
-                        b.getSearchQueryScore(query)
-                                - a.getSearchQueryScore(query))
+                        b.getContent().getSearchQueryScore(query)
+                                - a.getContent().getSearchQueryScore(query))
                 .filter(p -> model
                         .getTags()
                         .getValue()

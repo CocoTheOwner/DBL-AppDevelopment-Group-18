@@ -14,6 +14,7 @@ public class Question extends InteractablePost {
      */
     private final List<Response> responses = new ArrayList<>();
 
+    private TagCollection tags = new TagCollection();
     /**
      * Create a new post.
      *
@@ -22,8 +23,10 @@ public class Question extends InteractablePost {
      * @param content      the content of the post
      * @param creationDate the date on which the post was created
      */
-    public Question(long postID, User author, Content content, Date creationDate) {
+    public Question(long postID, User author, Content content, Date creationDate, List<String> tags) {
         super(postID, author, content, creationDate);
+
+        this.tags = new TagCollection(tags);
     }
 
     /**
@@ -40,6 +43,10 @@ public class Question extends InteractablePost {
         }
         responses.add(response);
         return true;
+    }
+
+    public TagCollection getTags() {
+        return this.tags;
     }
 
 }

@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.View;
 
+import com.example.myapplication.Question;
 import com.example.myapplication.R;
 
 import java.util.Arrays;
@@ -41,8 +42,7 @@ public class OverviewFragment extends Fragment {
 
         categoryRecyclerView.setAdapter(
                 new CategoryRecyclerAdapter(Arrays.asList(
-                        new Category("General", model.getPosts()
-                                .stream().limit(5).collect(Collectors.toList())),
+                        new Category("General", model.getQuestions().subList(0, 5)),
                         new Category("Course", getCategoryPosts("course")),
                         new Category("Location",getCategoryPosts("location")),
                         new Category("Off Topic", getCategoryPosts("offtopic"))
@@ -51,8 +51,8 @@ public class OverviewFragment extends Fragment {
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)
-    private List<Post> getCategoryPosts(String name) {
-        return model.getPosts()
+    private List<Question> getCategoryPosts(String name) {
+        return model.getQuestions()
                 .stream()
                 .filter(post -> post.getTags().containsTag(name))
                 .limit(5)

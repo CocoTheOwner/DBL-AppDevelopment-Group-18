@@ -1,12 +1,14 @@
 package com.example.myapplication.homepage;
 
+import com.example.myapplication.Question;
+
 import java.util.List;
 
 public class Category {
     private String name;
-    private List<Post> posts;
+    private List<Question> posts;
 
-    Category (String name, List<Post> posts) {
+    Category (String name, List<Question> posts) {
         this.name = name;
         this.posts = posts;
     }
@@ -15,7 +17,7 @@ public class Category {
         return name;
     }
 
-    public List<Post> getPosts() {
+    public List<Question> getPosts() {
         return posts;
     }
 }

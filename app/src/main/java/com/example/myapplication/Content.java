@@ -5,6 +5,8 @@ import androidx.annotation.NonNull;
 import java.io.File;
 import java.util.List;
 
+import me.xdrop.fuzzywuzzy.FuzzySearch;
+
 /**
  * Represents both the text and non-text content of a {@link Post}.
  */
@@ -35,5 +37,21 @@ public class Content {
         this.attachments = attachments;
         this.title = title;
         this.body = body;
+    }
+
+    public int getSearchQueryScore(String query) {
+        return FuzzySearch.weightedRatio(query, title) + FuzzySearch.weightedRatio(query, body);
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public String getBody() {
+        return body;
+    }
+
+    public List<File> getAttachments() {
+        return attachments;
     }
 }
