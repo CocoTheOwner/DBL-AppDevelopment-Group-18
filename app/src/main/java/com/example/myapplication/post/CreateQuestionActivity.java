@@ -53,6 +53,16 @@ public class CreateQuestionActivity extends AppCompatActivity {
                 //REPLACE THIS WITH FIREBASE...
                 title.putExtra(TITLE_TEXT, questionTitle);
                 title.putExtra(QUESTION_TEXT, questionText);
+
+                //TODO
+                // new question entry {
+                // add Title to database
+                // add Quest body to database
+                // add tags to database
+                // add user ID of question poster
+                // add image to base
+
+
                 startActivity(title);
 
                 //Intent text = new Intent(MainActivity.this, QuestionView.class);
