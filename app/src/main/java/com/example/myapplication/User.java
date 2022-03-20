@@ -17,37 +17,41 @@ public class User {
     /**
      * The name of the user account.
      */
-    private String userName;
+    private String username;
 
     /**
      * The major of the user.
      */
-    private String userMajor;
+    private String program;
 
     /**
      * The user ID.
      */
-    private final String userID;
+    private String userID;
 
     /**
      * The type of the user account.
      */
-    private final UserType userType;
+    private UserType userType;
 
     /**
      * The email of the user.
      */
-    private final String userEmail;
+    private String email;
 
     /**
      * The password of the user.
      */
-    private final String userPassword;
+    private String userPassword;
 
     /**
      * Whether the account is disabled or not.
      */
     private boolean disabled = false;
+
+    public User() {
+
+    }
 
     /**
      * Login a User
@@ -58,11 +62,11 @@ public class User {
      * @param userPassword  the password
      */
     public User(String userName, String userMajor, String userID, UserType userType, String userEmail, String userPassword) {
-        this.userName = userName;
-        this.userMajor = userMajor;
+        this.username = userName;
+        this.program = userMajor;
         this.userID = userID;
         this.userType = userType;
-        this.userEmail = userEmail;
+        this.email = userEmail;
         this.userPassword = userPassword;
     }
 
@@ -101,7 +105,7 @@ public class User {
      * @param userName the new username
      */
     public void setUserName(String userName) {
-        this.userName = userName;
+        this.username = userName;
     }
 
     /**
@@ -109,15 +113,15 @@ public class User {
      * @return the username
      */
     public String getUserName() {
-        return userName;
+        return username;
     }
 
     /**
      * Get the user's email address.
      * @return the email address
      */
-    public String getUserEmail() {
-        return userEmail;
+    public String getEmail() {
+        return email;
     }
 
     /**
