@@ -32,6 +32,7 @@ public class QuestionViewActivity extends AppCompatActivity {
         Intent title = getIntent();
         String titleText = title.getStringExtra(CreateQuestionActivity.TITLE_TEXT);
         String questionText = title.getStringExtra(CreateQuestionActivity.QUESTION_TEXT);
+        String questionTime = title.getStringExtra(CreateQuestionActivity.QUESTION_TIME);
 
         //Intent text = getIntent();
         //String questionText = text.getStringExtra(MainActivity.QUESTION_TEXT);
@@ -40,9 +41,11 @@ public class QuestionViewActivity extends AppCompatActivity {
 
         TextView titleView = (TextView) findViewById(R.id.CreateTitle);
         TextView questionView = (TextView) findViewById(R.id.QuestText);
+        TextView timeView = (TextView) findViewById(R.id.QuestTime);
 
         titleView.setText(titleText);
         questionView.setText(questionText);
+        timeView.setText(questionTime);
     }
 
     private void setAdapter() {

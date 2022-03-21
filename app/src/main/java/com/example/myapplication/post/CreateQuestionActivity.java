@@ -1,14 +1,18 @@
 package com.example.myapplication.post;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
+import java.time.format.DateTimeFormatter;
+import java.time.LocalDateTime;
 
 import com.example.myapplication.R;
 import com.example.myapplication.homepage.HomePageActivity;
@@ -18,6 +22,7 @@ import java.util.ArrayList;
 public class CreateQuestionActivity extends AppCompatActivity {
     public static final String TITLE_TEXT = "com.example.myapplication.TITLE_TEXT";
     public static final String QUESTION_TEXT = "com.example.myapplication.QUESTION_TEXT";
+    public static final String QUESTION_TIME = "com.example.myapplication.QUESTION_TIME";
 
 
     private Button submit;
@@ -40,6 +45,7 @@ public class CreateQuestionActivity extends AppCompatActivity {
         });
 
         submit.setOnClickListener(new View.OnClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.O)
             @Override
             public void onClick(View view) {
                 EditText QuestionTitle = (EditText) findViewById(R.id.question_title);
@@ -48,11 +54,16 @@ public class CreateQuestionActivity extends AppCompatActivity {
                 String questionTitle = QuestionTitle.getText().toString();
                 String questionText = QuestionText.getText().toString();
 
+                DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+                LocalDateTime now = LocalDateTime.now();
+                String questionTime = dtf.format(now);
+
 
                 Intent title = new Intent(CreateQuestionActivity.this, QuestionViewActivity.class);
                 //REPLACE THIS WITH FIREBASE...
                 title.putExtra(TITLE_TEXT, questionTitle);
                 title.putExtra(QUESTION_TEXT, questionText);
+                title.putExtra(QUESTION_TIME, questionTime);
 
                 //TODO
                 // new question entry {

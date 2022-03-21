@@ -5,6 +5,7 @@
     android:id="@+id/register_register"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#E1E1E1"
     tools:context=".post.CreateQuestionActivity">
 
     <TextView
@@ -39,6 +40,7 @@
         android:layout_width="292dp"
         android:layout_height="68dp"
         android:layout_marginTop="16dp"
+        android:background="#FFFFFF"
         android:text="Title of Question"
         android:textColor="#000000"
         android:textSize="22sp"
@@ -97,6 +99,7 @@
         android:layout_marginTop="4dp"
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
+        android:background="#FFFFFF"
         android:text="time of post"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/CreateTitle" />
@@ -110,6 +113,7 @@
         android:layout_marginTop="4dp"
         android:layout_marginEnd="16dp"
         android:layout_marginRight="16dp"
+        android:background="#FFFFFF"
         android:text="By: user"
         app:layout_constraintEnd_toStartOf="@+id/QuestTime"
         app:layout_constraintHorizontal_bias="0.4"
@@ -131,20 +135,23 @@
 
     <TextView
         android:id="@+id/QuestText"
-        android:layout_width="295dp"
-        android:layout_height="131dp"
-        android:layout_marginTop="12dp"
+        android:layout_width="292dp"
+        android:layout_height="134dp"
+        android:layout_marginTop="8dp"
+        android:background="#FFFFFF"
         android:text="question text"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.907"
+        app:layout_constraintHorizontal_bias="0.861"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/horizontalScrollView" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/answerView"
-        android:layout_width="358dp"
-        android:layout_height="275dp"
-        android:layout_marginBottom="168dp"
+        android:layout_width="match_parent"
+        android:layout_height="295dp"
+        android:layout_marginBottom="148dp"
+        android:background="#C8C8C8"
+        android:outlineAmbientShadowColor="@color/black"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
@@ -155,6 +162,7 @@
         android:layout_width="294dp"
         android:layout_height="26dp"
         android:layout_marginTop="4dp"
+        android:background="#FFFFFF"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.893"
         app:layout_constraintStart_toStartOf="parent"
@@ -168,11 +176,11 @@
 
     <EditText
         android:id="@+id/replyBox"
-        android:layout_width="260dp"
-        android:layout_height="153dp"
-        android:layout_marginStart="10dp"
-        android:layout_marginLeft="10dp"
-        android:background="#8FD8D8D8"
+        android:layout_width="264dp"
+        android:layout_height="134dp"
+        android:layout_marginStart="12dp"
+        android:layout_marginLeft="16dp"
+        android:background="#8FFFFFFF"
         android:ems="10"
         android:fadingEdge="horizontal|vertical"
         android:inputType="textPersonName"
@@ -181,8 +189,7 @@
         android:textSize="10sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/answerView"
-        app:layout_constraintVertical_bias="0.666" />
+        app:layout_constraintTop_toBottomOf="@+id/answerView" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
