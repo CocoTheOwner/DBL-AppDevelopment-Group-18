@@ -23,10 +23,12 @@ public class AnswersRecyclerAdapter extends RecyclerView.Adapter<AnswersRecycler
 
     public class myViewHolder extends RecyclerView.ViewHolder{
         private TextView answerUserN;
+        private TextView body;
 
         public myViewHolder(final View view){
             super(view);
-                    answerUserN = view.findViewById(R.id.answerUser);
+            answerUserN = view.findViewById(R.id.answerUser);
+            body = view.findViewById(R.id.answerText);
         }
     }
 
@@ -40,8 +42,9 @@ public class AnswersRecyclerAdapter extends RecyclerView.Adapter<AnswersRecycler
     @Override
     public void onBindViewHolder(@NonNull AnswersRecyclerAdapter.myViewHolder holder, int position) {
         //Sets the text for the questions
-        String name = responses.get(position).getAuthor().getUserName();
-        holder.answerUserN.setText("posted by: " + name);
+        Response response = responses.get(position);
+        holder.answerUserN.setText("posted by: " + response.getAuthor().getUserName());
+        holder.body.setText(response.getContent().getBody());
     }
 
     @Override
