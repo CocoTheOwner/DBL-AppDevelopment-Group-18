@@ -59,25 +59,33 @@ public class OverviewFragment extends Fragment {
 
         categoryRecyclerView.setItemAnimator(new DefaultItemAnimator());
 
+
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    @Override
+    public void onStart() {
+        super.onStart();
+
         db.collection("questions").get().addOnSuccessListener(questionDocs -> {
 
             List<Question> questions = new ArrayList<>();
 
-           List<Task<DocumentSnapshot>> tasks = questionDocs.getDocuments().stream().map(doc -> {
+            List<Task<DocumentSnapshot>> tasks = questionDocs.getDocuments().stream().map(doc -> {
 
-               QuestionDatabaseRecord record = doc.toObject(QuestionDatabaseRecord.class);
+                QuestionDatabaseRecord record = doc.toObject(QuestionDatabaseRecord.class);
 
-               Task<DocumentSnapshot> task = db.collection("users")
-                       .document(record.post.authorId).get();
+                Task<DocumentSnapshot> task = db.collection("users")
+                        .document(record.post.authorId).get();
 
-               task.addOnSuccessListener(doc2 -> {
-                   questions.add(Question.fromDatabaseRecord(doc.getId(),
-                           record, User.fromDatabaseRecord(doc2.getId(),
-                                   doc2.toObject(UserDatabaseRecord.class))));
-               });
+                task.addOnSuccessListener(doc2 -> {
+                    questions.add(Question.fromDatabaseRecord(doc.getId(),
+                            record, User.fromDatabaseRecord(doc2.getId(),
+                                    doc2.toObject(UserDatabaseRecord.class))));
+                });
 
-               return task;
-           }).collect(Collectors.toList());
+                return task;
+            }).collect(Collectors.toList());
 
             Tasks.whenAll(tasks).addOnSuccessListener(x -> {
                 updateQuestions(questions);
