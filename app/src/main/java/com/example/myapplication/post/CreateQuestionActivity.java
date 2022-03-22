@@ -28,6 +28,7 @@ public class CreateQuestionActivity extends AppCompatActivity {
     private Button submit;
     private Button exit;
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,43 +45,44 @@ public class CreateQuestionActivity extends AppCompatActivity {
             }
         });
 
-        submit.setOnClickListener(new View.OnClickListener() {
-            @RequiresApi(api = Build.VERSION_CODES.O)
-            @Override
-            public void onClick(View view) {
-                EditText QuestionTitle = (EditText) findViewById(R.id.question_title);
-                EditText QuestionText = (EditText) findViewById(R.id.question_text);
+        submit.setOnClickListener(view -> submit());
 
-                String questionTitle = QuestionTitle.getText().toString();
-                String questionText = QuestionText.getText().toString();
+    }
 
-                DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-                LocalDateTime now = LocalDateTime.now();
-                String questionTime = dtf.format(now);
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    private void submit() {
+        EditText QuestionTitle = (EditText) findViewById(R.id.question_title);
+        EditText QuestionText = (EditText) findViewById(R.id.question_text);
 
+        String questionTitle = QuestionTitle.getText().toString();
+        String questionText = QuestionText.getText().toString();
 
-                Intent title = new Intent(CreateQuestionActivity.this, QuestionViewActivity.class);
-                //REPLACE THIS WITH FIREBASE...
-                title.putExtra(TITLE_TEXT, questionTitle);
-                title.putExtra(QUESTION_TEXT, questionText);
-                title.putExtra(QUESTION_TIME, questionTime);
-
-                //TODO
-                // new question entry {
-                // add Title to database
-                // add Quest body to database
-                // add tags to database
-                // add user ID of question poster
-                // add image to base
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        LocalDateTime now = LocalDateTime.now();
+        String questionTime = dtf.format(now);
 
 
-                startActivity(title);
+        Intent title = new Intent(CreateQuestionActivity.this, QuestionViewActivity.class);
+        //REPLACE THIS WITH FIREBASE...
+        title.putExtra(TITLE_TEXT, questionTitle);
+        title.putExtra(QUESTION_TEXT, questionText);
+        title.putExtra(QUESTION_TIME, questionTime);
 
-                //Intent text = new Intent(MainActivity.this, QuestionView.class);
-                //text.putExtra(QUESTION_TEXT, questionText);
-                //startActivity(text);
-            }
-        });
+        //TODO
+        // new question entry {
+        // add Title to database
+        // add Quest body to database
+        // add tags to database
+        // add user ID of question poster
+        // add image to base
 
+
+        startActivity(title);
+
+
+
+        //Intent text = new Intent(MainActivity.this, QuestionView.class);
+        //text.putExtra(QUESTION_TEXT, questionText);
+        //startActivity(text);
     }
 }
