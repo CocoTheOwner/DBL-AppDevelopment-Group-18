@@ -1,5 +1,6 @@
 package com.example.myapplication.homepage;
 
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 
@@ -19,6 +20,7 @@ import com.example.myapplication.QuestionDatabaseRecord;
 import com.example.myapplication.R;
 import com.example.myapplication.User;
 import com.example.myapplication.UserDatabaseRecord;
+import com.example.myapplication.post.QuestionViewActivity;
 import com.google.android.gms.tasks.Task;
 import com.google.android.gms.tasks.Tasks;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -91,12 +93,18 @@ public class OverviewFragment extends Fragment {
                         new Category("Course", getCategoryPosts(questions, "course")),
                         new Category("Location",getCategoryPosts(questions, "location")),
                         new Category("Off Topic", getCategoryPosts(questions, "offtopic"))
-                )));
+                ), questionId -> {
+                    Intent intent = new Intent(requireActivity().getApplicationContext(), QuestionViewActivity.class);
+
+                    intent.putExtra("documentId", questionId);
+
+                    startActivity(intent);
+                }));
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     private List<Question> getCategoryPosts(List<Question> questions, String name) {
-        return model.getQuestions()
+        return questions
                 .stream()
                 .filter(post -> post.getTags().containsTag(name))
                 .limit(5)

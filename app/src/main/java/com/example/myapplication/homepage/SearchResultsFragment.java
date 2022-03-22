@@ -51,7 +51,9 @@ public class SearchResultsFragment extends Fragment {
 
         results = view.findViewById(R.id.search_results);
 
-        resultsAdapter = new SearchResultsRecyclerAdapter(sortedQuestions);
+        resultsAdapter = new SearchResultsRecyclerAdapter(sortedQuestions, position -> {
+            System.out.println("Pos: " + position);
+        });
 
         results.setLayoutManager(new LinearLayoutManager(requireActivity().getApplicationContext()));
         results.setAdapter(resultsAdapter);

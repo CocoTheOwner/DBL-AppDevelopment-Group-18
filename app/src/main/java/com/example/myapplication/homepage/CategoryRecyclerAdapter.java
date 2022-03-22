@@ -17,6 +17,7 @@ import java.util.List;
 public class CategoryRecyclerAdapter extends RecyclerView.Adapter<CategoryRecyclerAdapter.ViewHolder> {
 
     private List<Category> categories;
+    private SearchResultsRecyclerAdapter.ItemClickListener listener;
 
     class ViewHolder extends RecyclerView.ViewHolder {
 
@@ -31,8 +32,10 @@ public class CategoryRecyclerAdapter extends RecyclerView.Adapter<CategoryRecycl
         }
     }
 
-    public CategoryRecyclerAdapter(List<Category> categories) {
+    public CategoryRecyclerAdapter(List<Category> categories,
+                                   SearchResultsRecyclerAdapter.ItemClickListener listener) {
         this.categories = categories;
+        this.listener = listener;
     }
 
     @NonNull
@@ -49,7 +52,7 @@ public class CategoryRecyclerAdapter extends RecyclerView.Adapter<CategoryRecycl
 
         postRecycler.setLayoutManager(new LinearLayoutManager(postRecycler.getContext()));
         postRecycler.setAdapter(
-                new SearchResultsRecyclerAdapter(this.categories.get(position).getPosts()));
+                new SearchResultsRecyclerAdapter(this.categories.get(position).getPosts(), listener));
         postRecycler.setItemAnimator(new DefaultItemAnimator());
         holder.title.setText(this.categories.get(position).getName());
     }

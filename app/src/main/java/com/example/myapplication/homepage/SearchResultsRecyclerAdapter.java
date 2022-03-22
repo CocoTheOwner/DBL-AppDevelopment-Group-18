@@ -17,9 +17,16 @@ import java.util.List;
 public class SearchResultsRecyclerAdapter extends RecyclerView.Adapter<SearchResultsRecyclerAdapter.ViewHolder> {
 
     private List<Question> questions;
+    private ItemClickListener listener;
 
-    public SearchResultsRecyclerAdapter(List<Question> questions) {
+    public SearchResultsRecyclerAdapter(List<Question> questions, ItemClickListener listener) {
+
         this.questions = questions;
+        this.listener = listener;
+    }
+
+    interface ItemClickListener {
+        void onClick(String id);
     }
 
     public void setQuestions(List<Question> questions) {
@@ -55,6 +62,10 @@ public class SearchResultsRecyclerAdapter extends RecyclerView.Adapter<SearchRes
                                 // TODO: Figure out how to make this color string not hardcoded
                                 // This will probably be done using spannable in the future
                 + "<font color=#87ceeb>"+question.getAuthor().getUserName()+"</font>"));
+
+        holder.textView.setOnClickListener(v -> {
+            listener.onClick(question.getPostID());
+        });
     }
 
     @Override
