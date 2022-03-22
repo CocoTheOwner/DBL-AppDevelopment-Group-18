@@ -15,9 +15,9 @@ import com.example.myapplication.User;
 import java.util.ArrayList;
 
 public class AnswersRecyclerAdapter extends RecyclerView.Adapter<AnswersRecyclerAdapter.myViewHolder> {
-    private ArrayList<PostDatabaseRecord> userList;
+    private ArrayList<User> userList;
 
-    public AnswersRecyclerAdapter(ArrayList<PostDatabaseRecord> userList) {
+    public AnswersRecyclerAdapter(ArrayList<User> userList) {
         this.userList = userList;
     }
 
