@@ -49,4 +49,11 @@ public class Question extends InteractablePost {
         return this.tags;
     }
 
+
+    public static Question fromDatabaseRecord(String id, QuestionDatabaseRecord record, User user) {
+        return new Question(id,
+                user,
+                Content.fromDatabaseRecord(record.post.content),
+                record.post.creationDate, record.tags);
+    }
 }
