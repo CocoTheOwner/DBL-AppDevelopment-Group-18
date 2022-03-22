@@ -9,6 +9,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import com.example.myapplication.ContentDatabaseRecord;
@@ -33,6 +35,7 @@ import java.util.stream.Collectors;
 public class QuestionViewActivity extends AppCompatActivity {
     private RecyclerView answerListView;
     private FirebaseFirestore db;
+    private FirebaseAuth auth;
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
@@ -42,12 +45,32 @@ public class QuestionViewActivity extends AppCompatActivity {
         answerListView = findViewById(R.id.answerView);
 
         db = FirebaseFirestore.getInstance();
+        auth = FirebaseAuth.getInstance();
+
 
         Intent intent = getIntent();
         String documentId = intent.getStringExtra("documentId");
 
+        setupResponseButton(documentId);
+
+
         db.collection("questions").document(documentId).get().addOnCompleteListener(task -> {
             handleQuestionData(task.getResult());
+        });
+    }
+
+    private void setupResponseButton(String documentId) {
+        Button responseButton = findViewById(R.id.replyButton);
+        EditText replyBox = findViewById(R.id.replyBox);
+
+        responseButton.setOnClickListener(v -> {
+            db.collection("questions")
+                    .document(documentId)
+                    .collection("responses")
+                    .add(new PostDatabaseRecord(auth.getCurrentUser().getUid(),
+                            new ContentDatabaseRecord(new ArrayList<>(), "",
+                                    replyBox.getText().toString()),
+                            new Date()));
         });
     }
 
@@ -68,23 +91,13 @@ public class QuestionViewActivity extends AppCompatActivity {
 
         timeView.setText(dtf.format(record.post.creationDate));
 
-        String userID = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        String userID = auth.getCurrentUser().getUid();
 
         db.collection("users")
                 .document(userID)
                 .get().addOnSuccessListener(doc -> {
                     userView.setText("By: " + doc.toObject(UserDatabaseRecord.class).userName);
         });
-
-        db.collection("questions")
-                .document(document.getId())
-                .collection("respones").add(new PostDatabaseRecord(userID,
-                    new ContentDatabaseRecord(new ArrayList<>(), "Manke", "Stanke"), new Date()));
-
-        db.collection("questions")
-                .document(document.getId())
-                .collection("respones").add(new PostDatabaseRecord(userID,
-                new ContentDatabaseRecord(new ArrayList<>(), "Manke2", "Stanke2Electricboogaloo"), new Date()));
 
         setAdapter(document);
     }
@@ -94,11 +107,13 @@ public class QuestionViewActivity extends AppCompatActivity {
 
         db.collection("questions")
                 .document(document.getId())
-                .collection("respones").get().addOnSuccessListener(responsesDoc -> {
-                    handleResponses(responsesDoc);
+                .collection("responses")
+                .addSnapshotListener((responseSnapshot, e) -> {
+                    handleResponses(responseSnapshot);
+                });
 
 
-        });
+
 
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
         answerListView.setLayoutManager(layoutManager);
