@@ -10,7 +10,7 @@ public abstract class Post {
     /**
      * The ID of the post.
      */
-    private final long postID;
+    private final String postID;
 
     /**
      * The author of the post.
@@ -34,7 +34,7 @@ public abstract class Post {
      * @param content      the content of the post
      * @param creationDate the date on which the post was created
      */
-    protected Post(long postID, User author, Content content, Date creationDate) {
+    protected Post(String postID, User author, Content content, Date creationDate) {
         this.postID = postID;
         this.author = author;
         this.content = content;
@@ -71,7 +71,7 @@ public abstract class Post {
      * Get the ID of the post.
      * @return the ID
      */
-    public long getPostID() {
+    public String getPostID() {
         return postID;
     }
 

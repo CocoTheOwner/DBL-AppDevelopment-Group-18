@@ -48,26 +48,19 @@ public class User {
      * Whether the account is disabled or not.
      */
     private boolean disabled = false;
-
-    public User() {
-
-    }
-
     /**
      * Login a User
      * @param userName      the name of the user
      * @param userMajor     the major of the user
      * @param userID        the ID to assign this user
      * @param userEmail     the email of the user
-     * @param userPassword  the password
      */
-    public User(String userName, String userMajor, String userID, UserType userType, String userEmail, String userPassword) {
+    public User(String userName, String userMajor, String userID, UserType userType, String userEmail) {
         this.username = userName;
         this.program = userMajor;
         this.userID = userID;
         this.userType = userType;
         this.email = userEmail;
-        this.userPassword = userPassword;
     }
 
     /**
@@ -159,5 +152,15 @@ public class User {
          * Guest with no permissions to change, but only view. Effectively read-only.
          */
         GUEST
+    }
+
+    public static User fromDatabaseRecord(String id, UserDatabaseRecord record) {
+        return new User(record.userName,
+                record.program,
+                id,
+                record.userType,
+                record.email
+                );
+
     }
 }

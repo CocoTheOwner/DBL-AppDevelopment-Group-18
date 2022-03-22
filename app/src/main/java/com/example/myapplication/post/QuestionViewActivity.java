@@ -1,6 +1,5 @@
 package com.example.myapplication.post;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.DefaultItemAnimator;
@@ -11,25 +10,19 @@ import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.myapplication.ContentDatabaseRecord;
 import com.example.myapplication.PostDatabaseRecord;
 import com.example.myapplication.QuestionDatabaseRecord;
 import com.example.myapplication.R;
-import com.example.myapplication.User;
-import com.example.myapplication.UserSettingsActivity;
+import com.example.myapplication.Response;
+import com.example.myapplication.UserDatabaseRecord;
+import com.google.android.gms.tasks.Task;
+import com.google.android.gms.tasks.Tasks;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
-import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -75,65 +68,73 @@ public class QuestionViewActivity extends AppCompatActivity {
 
         timeView.setText(dtf.format(record.post.creationDate));
 
+        String userID = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
-        DatabaseReference userDataReference = FirebaseDatabase.getInstance("https://test-a19ba-default-rtdb.europe-west1.firebasedatabase.app/").getReference("/Users");
-
-        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        String userID = user.getUid();
-
-        userDataReference.child(userID).addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                User userProfile = dataSnapshot.getValue(User.class);
-
-                if (userProfile != null) {
-                    String username = userProfile.getUserName();
-                    userView.setText("By: " + username);
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-                Toast.makeText(getApplicationContext(),
-                        "Something went wrong!",
-                        Toast.LENGTH_LONG).show();
-            }
+        db.collection("users")
+                .document(userID)
+                .get().addOnSuccessListener(doc -> {
+                    userView.setText("By: " + doc.toObject(UserDatabaseRecord.class).userName);
         });
-//
-//        db.collection("questions")
-//                .document(document.getId())
-//                .collection("respones").add(new PostDatabaseRecord(userID,
-//                    new ContentDatabaseRecord(new ArrayList<>(), "Manke", "Stanke"), new Date()));
+
+        db.collection("questions")
+                .document(document.getId())
+                .collection("respones").add(new PostDatabaseRecord(userID,
+                    new ContentDatabaseRecord(new ArrayList<>(), "Manke", "Stanke"), new Date()));
+
+        db.collection("questions")
+                .document(document.getId())
+                .collection("respones").add(new PostDatabaseRecord(userID,
+                new ContentDatabaseRecord(new ArrayList<>(), "Manke2", "Stanke2Electricboogaloo"), new Date()));
 
         setAdapter(document);
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     private void setAdapter(DocumentSnapshot document) {
-//
-//        db.collection("questions")
-//                .document(document.getId())
-//                .collection("respones").get().addOnCompleteListener(task -> {
-//                    for (QueryDocumentSnapshot doc : task.getResult()) {
-//                        System.out.println(doc.toObject(PostDatabaseRecord.class).content.title);
-//                        System.out.println(doc.toObject(PostDatabaseRecord.class).content.body);
-//                        System.out.println(doc.toObject(PostDatabaseRecord.class).authorId);
-//                    }
-//
-//                    List<PostDatabaseRecord> respones = task.getResult()
-//                            .getDocuments()
-//                            .stream()
-//                            .map(doc -> doc.toObject(PostDatabaseRecord.class))
-//                            .collect(Collectors.toList());
-//
-//            AnswersRecyclerAdapter adapter = new AnswersRecyclerAdapter(respones);
-//
-//            answerListView.setAdapter(adapter);
-//        });
+
+        db.collection("questions")
+                .document(document.getId())
+                .collection("respones").get().addOnSuccessListener(responsesDoc -> {
+                    handleResponses(responsesDoc);
+
+
+        });
 
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
         answerListView.setLayoutManager(layoutManager);
         answerListView.setItemAnimator(new DefaultItemAnimator());
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    private void handleResponses(QuerySnapshot responsesDoc) {
+        List<Response> responses = new ArrayList<>();
+
+        List<Task<DocumentSnapshot>> userQueries = responsesDoc
+                .getDocuments()
+                .stream()
+                .map(responseDoc -> {
+                    PostDatabaseRecord record = responseDoc.toObject(PostDatabaseRecord.class);
+
+
+                    Task<DocumentSnapshot> userQuery = db.collection("users")
+                            .document(record.authorId)
+                            .get();
+
+
+
+                    userQuery.addOnSuccessListener(userDoc ->
+                            responses
+                                    .add(Response.fromDatabaseRecord(responseDoc.getId(),
+                                            record,
+                                            userDoc.toObject(UserDatabaseRecord.class))));
+
+                    return userQuery;
+                }).collect(Collectors.toList());
+
+        Tasks.whenAllSuccess(userQueries).addOnSuccessListener(x -> {
+            AnswersRecyclerAdapter adapter = new AnswersRecyclerAdapter(responses);
+            answerListView.setAdapter(adapter);
+        });
     }
 
 //    private void setUserInfo() {

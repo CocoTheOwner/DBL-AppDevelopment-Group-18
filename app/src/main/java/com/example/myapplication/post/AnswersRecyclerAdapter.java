@@ -8,17 +8,17 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.myapplication.PostDatabaseRecord;
 import com.example.myapplication.R;
-import com.example.myapplication.User;
+import com.example.myapplication.Response;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class AnswersRecyclerAdapter extends RecyclerView.Adapter<AnswersRecyclerAdapter.myViewHolder> {
-    private ArrayList<User> userList;
+    private List<Response> responses;
 
-    public AnswersRecyclerAdapter(ArrayList<User> userList) {
-        this.userList = userList;
+    public AnswersRecyclerAdapter(List<Response> responses) {
+        this.responses = responses;
     }
 
     public class myViewHolder extends RecyclerView.ViewHolder{
@@ -40,13 +40,13 @@ public class AnswersRecyclerAdapter extends RecyclerView.Adapter<AnswersRecycler
     @Override
     public void onBindViewHolder(@NonNull AnswersRecyclerAdapter.myViewHolder holder, int position) {
         //Sets the text for the questions
-        String name = userList.get(position).getUserName();
+        String name = responses.get(position).getAuthor().getUserName();
         holder.answerUserN.setText("posted by: " + name);
     }
 
     @Override
     public int getItemCount() {
         //Gets the amount of answers for the question
-        return userList.size();
+        return responses.size();
     }
 }

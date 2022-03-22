@@ -37,7 +37,7 @@ public abstract class InteractablePost extends Post {
      * @param content      the content of the post
      * @param creationDate the date on which the post was created
      */
-    public InteractablePost(long postID, User author, Content content, Date creationDate) {
+    public InteractablePost(String postID, User author, Content content, Date creationDate) {
         super(postID, author, content, creationDate);
     }
 

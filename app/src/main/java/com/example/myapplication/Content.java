@@ -54,4 +54,8 @@ public class Content {
     public List<File> getAttachments() {
         return attachments;
     }
+
+    public static Content fromDatabaseRecord(ContentDatabaseRecord record) {
+        return new Content(record.attachments, record.title, record.body);
+    }
 }

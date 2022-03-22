@@ -26,45 +26,45 @@ public class HomePageViewModel extends ViewModel {
     public HomePageViewModel() {
 
         users.add(new User("Marnick", "Computer Science", User.getNewUserID(),
-                User.UserType.USER, "", ""));
+                User.UserType.USER, ""));
         users.add(new User("Fleur", "Computer Science",
-                User.getNewUserID(), User.UserType.USER, "", ""));
+                User.getNewUserID(), User.UserType.USER, ""));
         users.add(new User("Sjoerd", "Computer Science",
-                User.getNewUserID(), User.UserType.USER, "", ""));
+                User.getNewUserID(), User.UserType.USER, ""));
         users.add(new User("Rob", "Applied Mathematics",
-                User.getNewUserID(), User.UserType.USER, "", ""));
+                User.getNewUserID(), User.UserType.USER, ""));
         users.add(new User("Robie", "Computer Science",
-                User.getNewUserID(), User.UserType.USER, "", ""));
+                User.getNewUserID(), User.UserType.USER, ""));
         users.add(new User("Rafael", "Computer Science",
-                User.getNewUserID(), User.UserType.USER, "", ""));
+                User.getNewUserID(), User.UserType.USER, ""));
 
         questions = Arrays.asList(
-                new Question(0,
+                new Question("0",
                         users.get(0),
                         new Content(new ArrayList<>(), "Lost in metaforum", ""),
                         new Date(),
                         Arrays.asList("Location")),
-                new Question(1,
+                new Question("1",
                         users.get(1),
                         new Content(new ArrayList<>(), "What da dog doin?", ""),
                         new Date(),
                         Arrays.asList("ErikDeVink", "OffTopic")),
-                new Question(2,
+                new Question("2",
                         users.get(2),
                         new Content(new ArrayList<>(), "How to caclulus?", ""),
                         new Date(),
                         Arrays.asList("2WCB0", "Course")),
-                new Question(3,
+                new Question("3",
                         users.get(3),
                         new Content(new ArrayList<>(), "How to analysis?", ""),
                         new Date(),
                         Arrays.asList("prokert", "anzats", "Course")),
-                new Question(4,
+                new Question("4",
                         users.get(4),
                         new Content(new ArrayList<>(), "2IT90 2023 exam answers please", ""),
                         new Date(),
                         Arrays.asList("2IT90", "BCS", "Course")),
-                new Question(5,
+                new Question("5",
                         users.get(5),
                         new Content(new ArrayList<>(), "Who asked?", ""),
                         new Date(),
