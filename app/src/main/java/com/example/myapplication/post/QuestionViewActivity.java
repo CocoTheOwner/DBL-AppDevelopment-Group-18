@@ -1,5 +1,6 @@
 package com.example.myapplication.post;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -8,16 +9,28 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.example.myapplication.QuestionDatabaseRecord;
 import com.example.myapplication.R;
 import com.example.myapplication.User;
+import com.example.myapplication.UserSettingsActivity;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
 public class QuestionViewActivity extends AppCompatActivity {
     private ArrayList<User> usersList;
     private RecyclerView answerListView;
-
+    private FirebaseFirestore db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,26 +39,58 @@ public class QuestionViewActivity extends AppCompatActivity {
         answerListView = findViewById(R.id.answerView);
         usersList = new ArrayList<>();
 
+        db = FirebaseFirestore.getInstance();
+
         setUserInfo();
         setAdapter();
 
-        Intent title = getIntent();
-        String titleText = title.getStringExtra(CreateQuestionActivity.TITLE_TEXT);
-        String questionText = title.getStringExtra(CreateQuestionActivity.QUESTION_TEXT);
-        String questionTime = title.getStringExtra(CreateQuestionActivity.QUESTION_TIME);
+        Intent intent = getIntent();
+        String documentId = intent.getStringExtra("documentId");
 
-        //Intent text = getIntent();
-        //String questionText = text.getStringExtra(MainActivity.QUESTION_TEXT);
+        db.collection("questions").document(documentId).get().addOnCompleteListener(task -> {
+            handleQuestionData(task.getResult().toObject(QuestionDatabaseRecord.class));
+        });
+    }
+
+    private void handleQuestionData(QuestionDatabaseRecord record) {
+        TextView titleView = findViewById(R.id.CreateTitle);
+        TextView questionView = findViewById(R.id.QuestText);
+        TextView timeView = findViewById(R.id.QuestTime);
+        TextView userView = findViewById(R.id.QuestUser);
 
 
+        titleView.setText(record.post.content.title);
+        questionView.setText(record.post.content.body);
 
-        TextView titleView = (TextView) findViewById(R.id.CreateTitle);
-        TextView questionView = (TextView) findViewById(R.id.QuestText);
-        TextView timeView = (TextView) findViewById(R.id.QuestTime);
+        SimpleDateFormat dtf = new SimpleDateFormat("dd/MM/yyyy");
 
-        titleView.setText(titleText);
-        questionView.setText(questionText);
-        timeView.setText(questionTime);
+        timeView.setText(dtf.format(record.post.creationDate));
+
+
+        DatabaseReference userDataReference = FirebaseDatabase.getInstance("https://test-a19ba-default-rtdb.europe-west1.firebasedatabase.app/").getReference("/Users");
+
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        String userID = user.getUid();
+
+        userDataReference.child(userID).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                User userProfile = dataSnapshot.getValue(User.class);
+
+                if (userProfile != null) {
+                    String username = userProfile.getUserName();
+                    userView.setText("By: " + username);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                Toast.makeText(getApplicationContext(),
+                        "Something went wrong!",
+                        Toast.LENGTH_LONG).show();
+            }
+        });
+
     }
 
     private void setAdapter() {

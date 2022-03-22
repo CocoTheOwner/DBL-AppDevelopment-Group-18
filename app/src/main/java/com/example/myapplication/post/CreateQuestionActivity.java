@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.MultiAutoCompleteTextView;
+import android.widget.Toast;
 
 import java.text.SimpleDateFormat;
 import java.time.format.DateTimeFormatter;
@@ -66,7 +67,6 @@ public class CreateQuestionActivity extends AppCompatActivity {
         });
 
         submit.setOnClickListener(view -> submit());
-
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
@@ -83,18 +83,10 @@ public class CreateQuestionActivity extends AppCompatActivity {
         Date now = new Date();
         String questionTime = dtf.format(now);
 
-
-        Intent title = new Intent(CreateQuestionActivity.this, QuestionViewActivity.class);
-        //REPLACE THIS WITH FIREBASE...
-        title.putExtra(TITLE_TEXT, questionTitle);
-        title.putExtra(QUESTION_TEXT, questionText);
-        title.putExtra(QUESTION_TIME, questionTime);
-
         createPost(questionTitle, questionText, Arrays.asList(tags), now);
 
 
-
-                //TODO
+        //TODO
         // new question entry {
         // add Title to database
         // add Quest body to database
@@ -102,13 +94,6 @@ public class CreateQuestionActivity extends AppCompatActivity {
         // add user ID of question poster
         // add image to base
 
-        startActivity(title);
-
-
-
-        //Intent text = new Intent(MainActivity.this, QuestionView.class);
-        //text.putExtra(QUESTION_TEXT, questionText);
-        //startActivity(text);
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
@@ -124,6 +109,14 @@ public class CreateQuestionActivity extends AppCompatActivity {
                         ), date), tags);
 
 
-        db.collection("questions").add(newQuestionRecord);
+        db.collection("questions").add(newQuestionRecord).addOnSuccessListener(doc -> {
+            Intent intent = new Intent(CreateQuestionActivity.this, QuestionViewActivity.class);
+
+            intent.putExtra("documentId", doc.getId());
+
+            startActivity(intent);
+        }).addOnFailureListener(
+                error -> Toast.makeText(getApplicationContext(),
+                        "Failed to create question", Toast.LENGTH_LONG).show());
     }
 }
