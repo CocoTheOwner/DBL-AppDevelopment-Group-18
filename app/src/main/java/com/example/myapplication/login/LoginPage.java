@@ -31,7 +31,7 @@ public class LoginPage extends AppCompatActivity implements View.OnClickListener
         // Authentication instance
         mAuth = FirebaseAuth.getInstance();
 
-        if (mAuth.getCurrentUser() != null) {
+        if (mAuth.getCurrentUser() != null && mAuth.getCurrentUser().isEmailVerified()) {
             startActivity(new Intent(this, HomePageActivity.class));
         }
 
