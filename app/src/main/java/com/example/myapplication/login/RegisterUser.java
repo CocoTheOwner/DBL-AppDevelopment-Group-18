@@ -13,12 +13,14 @@ import android.widget.*;
 
 import com.example.myapplication.R;
 import com.example.myapplication.User;
+import com.example.myapplication.UserDatabaseRecord;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 public class RegisterUser extends AppCompatActivity implements View.OnClickListener {
 
@@ -118,14 +120,6 @@ public class RegisterUser extends AppCompatActivity implements View.OnClickListe
 
                         // Registration was successful.
                         if (task.isSuccessful() && task.getResult() != null && task.getResult().getUser() != null) {
-                            User user = new User(
-                                    username,
-                                    program,
-                                    task.getResult().getUser().getUid(),
-                                    type,
-                                    email,
-                                    ""
-                            );
 
                             // You don't want to know how long I spent getting the database to work
                             // here, and all I needed was this stupid link.
@@ -136,40 +130,34 @@ public class RegisterUser extends AppCompatActivity implements View.OnClickListe
                             //      (3) We locate the current user (which does not exist yet)
                             //      (4) We set as value the newly created User object.
                             //      (5) OnCompleteListener to signal success/failure
-                            FirebaseDatabase
-                                    .getInstance("https://test-a19ba-default-rtdb.europe-west1.firebasedatabase.app/")
-                                    .getReference("/Users")
-                                    .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
-                                    .setValue(user)
-                                    .addOnCompleteListener(new OnCompleteListener<Void>() {
-                                        @Override
-                                        public void onComplete(@NonNull Task<Void> task) {
-                                            if (task.isSuccessful()) {
-                                                Toast.makeText(RegisterUser.this,
-                                                        "Successfully registered",
-                                                        Toast.LENGTH_LONG).show();
-                                                progressBar.setVisibility(View.GONE);
+                            FirebaseFirestore
+                                    .getInstance()
+                                    .collection("users")
+                                    .document(task.getResult().getUser().getUid())
+                                    .set(new UserDatabaseRecord(email, username, type, program))
+                            .addOnSuccessListener(doc -> {
+                                Toast.makeText(RegisterUser.this,
+                                        "Successfully registered",
+                                        Toast.LENGTH_LONG).show();
+                                progressBar.setVisibility(View.GONE);
 
-                                                // Send the user a verification email.
-                                                FirebaseUser user = FirebaseAuth.getInstance()
-                                                        .getCurrentUser();
-                                                user.sendEmailVerification();
+                                // Send the user a verification email.
+                                FirebaseUser user = FirebaseAuth.getInstance()
+                                        .getCurrentUser();
+                                user.sendEmailVerification();
 
-                                                // Redirect to login layout
-                                                startActivity(
-                                                        new Intent(RegisterUser.this, LoginPage.class));
+                                // Redirect to login layout
+                                startActivity(
+                                        new Intent(RegisterUser.this, LoginPage.class));
 
-                                                // Failed to store User object in the database.
-                                            } else {
-                                                Toast.makeText(RegisterUser.this,
-                                                        "Failed to register! Failed to access " +
-                                                                "database instance.",
-                                                        Toast.LENGTH_LONG).show();
-                                                progressBar.setVisibility(View.GONE);
-                                            }
-                                        }
-                                    });
-
+                                // Failed to store User object in the database.
+                            }).addOnFailureListener(e -> {
+                                Toast.makeText(RegisterUser.this,
+                                        "Failed to register! Failed to access " +
+                                                "database instance.",
+                                        Toast.LENGTH_LONG).show();
+                                progressBar.setVisibility(View.GONE);
+                            });
                             // Registration was not successful, happens when:
                             //  (1) An account already exists.
                         } else {
