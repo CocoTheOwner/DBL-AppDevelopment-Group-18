@@ -16,6 +16,8 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 public class UserSettingsActivity extends AppCompatActivity {
 
@@ -29,31 +31,16 @@ public class UserSettingsActivity extends AppCompatActivity {
             startActivity(new Intent(this, LoginPage.class));
         });
 
-        DatabaseReference userDataReference = FirebaseDatabase.getInstance("https://test-a19ba-default-rtdb.europe-west1.firebasedatabase.app/").getReference("/Users");
-
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        String userID = user.getUid();
 
-
-
-
-        userDataReference.child(userID).addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                User userProfile = dataSnapshot.getValue(User.class);
-
-                if (userProfile != null) {
-                    String username = userProfile.getUserName();
-                    ((TextView) findViewById(R.id.userName)).setText("Username: " + username);
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-                Toast.makeText(UserSettingsActivity.this,
-                        "Something went wrong!",
-                        Toast.LENGTH_LONG).show();
-            }
+        // TODO: Handle failure
+        FirebaseFirestore
+                .getInstance()
+                .collection("users")
+                .document(user.getUid())
+                .get().addOnSuccessListener(doc -> {
+            ((TextView) findViewById(R.id.userName))
+                    .setText("Username: " + doc.toObject(UserDatabaseRecord.class).userName);
         });
     }
 }
