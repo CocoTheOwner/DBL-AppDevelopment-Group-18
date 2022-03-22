@@ -1,16 +1,20 @@
 package com.example.myapplication.post;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.myapplication.ContentDatabaseRecord;
+import com.example.myapplication.PostDatabaseRecord;
 import com.example.myapplication.QuestionDatabaseRecord;
 import com.example.myapplication.R;
 import com.example.myapplication.User;
@@ -22,37 +26,42 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class QuestionViewActivity extends AppCompatActivity {
-    private ArrayList<User> usersList;
     private RecyclerView answerListView;
     private FirebaseFirestore db;
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_question_view);
         answerListView = findViewById(R.id.answerView);
-        usersList = new ArrayList<>();
 
         db = FirebaseFirestore.getInstance();
-
-        setUserInfo();
-        setAdapter();
 
         Intent intent = getIntent();
         String documentId = intent.getStringExtra("documentId");
 
         db.collection("questions").document(documentId).get().addOnCompleteListener(task -> {
-            handleQuestionData(task.getResult().toObject(QuestionDatabaseRecord.class));
+            handleQuestionData(task.getResult());
         });
     }
 
-    private void handleQuestionData(QuestionDatabaseRecord record) {
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    private void handleQuestionData(DocumentSnapshot document) {
+        QuestionDatabaseRecord record = document.toObject(QuestionDatabaseRecord.class);
+
         TextView titleView = findViewById(R.id.CreateTitle);
         TextView questionView = findViewById(R.id.QuestText);
         TextView timeView = findViewById(R.id.QuestTime);
@@ -90,24 +99,50 @@ public class QuestionViewActivity extends AppCompatActivity {
                         Toast.LENGTH_LONG).show();
             }
         });
+//
+//        db.collection("questions")
+//                .document(document.getId())
+//                .collection("respones").add(new PostDatabaseRecord(userID,
+//                    new ContentDatabaseRecord(new ArrayList<>(), "Manke", "Stanke"), new Date()));
 
+        setAdapter(document);
     }
 
-    private void setAdapter() {
-        AnswersRecyclerAdapter adapter = new AnswersRecyclerAdapter(usersList);
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    private void setAdapter(DocumentSnapshot document) {
+//
+//        db.collection("questions")
+//                .document(document.getId())
+//                .collection("respones").get().addOnCompleteListener(task -> {
+//                    for (QueryDocumentSnapshot doc : task.getResult()) {
+//                        System.out.println(doc.toObject(PostDatabaseRecord.class).content.title);
+//                        System.out.println(doc.toObject(PostDatabaseRecord.class).content.body);
+//                        System.out.println(doc.toObject(PostDatabaseRecord.class).authorId);
+//                    }
+//
+//                    List<PostDatabaseRecord> respones = task.getResult()
+//                            .getDocuments()
+//                            .stream()
+//                            .map(doc -> doc.toObject(PostDatabaseRecord.class))
+//                            .collect(Collectors.toList());
+//
+//            AnswersRecyclerAdapter adapter = new AnswersRecyclerAdapter(respones);
+//
+//            answerListView.setAdapter(adapter);
+//        });
+
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
         answerListView.setLayoutManager(layoutManager);
         answerListView.setItemAnimator(new DefaultItemAnimator());
-        answerListView.setAdapter(adapter);
     }
 
-    private void setUserInfo() {
-        usersList.add(new User("Marnick", "Computer Science", User.getNewUserID(), User.UserType.USER, "", ""));
-        usersList.add(new User("Fleur", "Computer Science", User.getNewUserID(), User.UserType.USER, "", ""));
-        usersList.add(new User("Sjoerd", "Computer Science", User.getNewUserID(), User.UserType.USER, "", ""));
-        usersList.add(new User("Rob", "Computer Science", User.getNewUserID(), User.UserType.USER, "", ""));
-        usersList.add(new User("Robie", "Computer Science", User.getNewUserID(), User.UserType.USER, "", ""));
-        usersList.add(new User("Rafael", "Computer Science", User.getNewUserID(), User.UserType.USER, "", ""));
-
-    }
+//    private void setUserInfo() {
+//        usersList.add(new User("Marnick", "Computer Science", User.getNewUserID(), User.UserType.USER, "", ""));
+//        usersList.add(new User("Fleur", "Computer Science", User.getNewUserID(), User.UserType.USER, "", ""));
+//        usersList.add(new User("Sjoerd", "Computer Science", User.getNewUserID(), User.UserType.USER, "", ""));
+//        usersList.add(new User("Rob", "Computer Science", User.getNewUserID(), User.UserType.USER, "", ""));
+//        usersList.add(new User("Robie", "Computer Science", User.getNewUserID(), User.UserType.USER, "", ""));
+//        usersList.add(new User("Rafael", "Computer Science", User.getNewUserID(), User.UserType.USER, "", ""));
+//
+//    }
 }

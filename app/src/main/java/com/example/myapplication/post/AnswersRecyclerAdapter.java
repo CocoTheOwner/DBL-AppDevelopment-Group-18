@@ -8,15 +8,16 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.myapplication.PostDatabaseRecord;
 import com.example.myapplication.R;
 import com.example.myapplication.User;
 
 import java.util.ArrayList;
 
 public class AnswersRecyclerAdapter extends RecyclerView.Adapter<AnswersRecyclerAdapter.myViewHolder> {
-    private ArrayList<User> userList;
+    private ArrayList<PostDatabaseRecord> userList;
 
-    public AnswersRecyclerAdapter(ArrayList<User> userList) {
+    public AnswersRecyclerAdapter(ArrayList<PostDatabaseRecord> userList) {
         this.userList = userList;
     }
 
