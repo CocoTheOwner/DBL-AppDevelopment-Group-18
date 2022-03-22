@@ -10,6 +10,7 @@ import android.os.health.SystemHealthManager;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.MultiAutoCompleteTextView;
 
 import java.text.SimpleDateFormat;
 import java.time.format.DateTimeFormatter;
@@ -22,10 +23,13 @@ import com.example.myapplication.R;
 import com.example.myapplication.homepage.HomePageActivity;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class CreateQuestionActivity extends AppCompatActivity {
@@ -69,9 +73,11 @@ public class CreateQuestionActivity extends AppCompatActivity {
     private void submit() {
         EditText QuestionTitle = (EditText) findViewById(R.id.question_title);
         EditText QuestionText = (EditText) findViewById(R.id.question_text);
+        MultiAutoCompleteTextView tagInputView = findViewById(R.id.question_tags);
 
         String questionTitle = QuestionTitle.getText().toString();
         String questionText = QuestionText.getText().toString();
+        String[] tags = tagInputView.getText().toString().split("\\s*,\\s*");
 
         SimpleDateFormat dtf = new SimpleDateFormat("dd/MM/yyyy");
         Date now = new Date();
@@ -84,7 +90,7 @@ public class CreateQuestionActivity extends AppCompatActivity {
         title.putExtra(QUESTION_TEXT, questionText);
         title.putExtra(QUESTION_TIME, questionTime);
 
-        createPost(questionTitle, questionText, now);
+        createPost(questionTitle, questionText, Arrays.asList(tags), now);
 
 
 
@@ -106,7 +112,7 @@ public class CreateQuestionActivity extends AppCompatActivity {
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
-    private void createPost(String title, String body, Date date) {
+    private void createPost(String title, String body, List<String> tags, Date date) {
 
         String userId = auth.getCurrentUser().getUid();
 
@@ -115,6 +121,9 @@ public class CreateQuestionActivity extends AppCompatActivity {
                         new ContentDatabaseRecord(
                                 new ArrayList<>(),
                                 title, body
-                        ), date), new ArrayList<>());
+                        ), date), tags);
+
+
+        db.collection("questions").add(newQuestionRecord);
     }
 }
