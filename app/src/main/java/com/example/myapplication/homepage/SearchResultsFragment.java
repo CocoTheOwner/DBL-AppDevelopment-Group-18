@@ -14,10 +14,18 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.View;
 
 import com.example.myapplication.Question;
+import com.example.myapplication.QuestionDatabaseRecord;
 import com.example.myapplication.R;
+import com.example.myapplication.User;
+import com.example.myapplication.UserDatabaseRecord;
+import com.google.android.gms.tasks.Task;
+import com.google.android.gms.tasks.Tasks;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 public class SearchResultsFragment extends Fragment {
@@ -27,6 +35,7 @@ public class SearchResultsFragment extends Fragment {
     private SearchResultsRecyclerAdapter resultsAdapter;
     private HomePageViewModel model;
     private String query = "";
+    private FirebaseFirestore db;
 
     public SearchResultsFragment() {
         super(R.layout.fragment_home_page_search_results);
@@ -38,15 +47,17 @@ public class SearchResultsFragment extends Fragment {
         model = new ViewModelProvider(requireActivity())
                 .get(HomePageViewModel.class);
 
+        db = FirebaseFirestore.getInstance();
+
         sortedQuestions = new ArrayList<>(model.getQuestions());
 
         model.getSearchString().observe(getViewLifecycleOwner(), s -> {
             this.query = s;
-            updateSearchOrder();
+            updateSearchResults();
         });
 
         model.getTags().observe(getViewLifecycleOwner(), tags -> {
-            updateSearchOrder();
+            updateSearchResults();
         });
 
         results = view.findViewById(R.id.search_results);
@@ -61,10 +72,48 @@ public class SearchResultsFragment extends Fragment {
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)
-    private void updateSearchOrder() {
+    private void updateSearchResults() {
 
-        resultsAdapter.setQuestions(model
-                .getQuestions()
+        db.collection("questions")
+                .get()
+                .addOnSuccessListener(docs -> {
+                    List<Question> questions = new ArrayList<>();
+
+                    List<Task<DocumentSnapshot>> tasks = docs
+                            .getDocuments()
+                            .stream()
+                            .map(doc -> {
+                                QuestionDatabaseRecord record =
+                                        doc.toObject(QuestionDatabaseRecord.class);
+
+                                Task<DocumentSnapshot> task = db.collection("users")
+                                        .document(record.post.authorId)
+                                        .get();
+
+                                task.addOnSuccessListener(doc2 -> {
+                                    User user = User.fromDatabaseRecord(record.post.authorId,
+                                            doc2.toObject(UserDatabaseRecord.class));
+
+                                    questions
+                                            .add(Question.fromDatabaseRecord(doc.getId(),
+                                                    record,
+                                                    user));
+                                });
+
+                                return task;
+                            }).collect(Collectors.toList());
+
+                    Tasks.whenAll(tasks).addOnSuccessListener(x -> {
+                       displaySearchResults(questions);
+                    });
+                });
+
+
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    private void displaySearchResults(List<Question> questions) {
+        resultsAdapter.setQuestions(questions
                 .stream()
                 .sorted((a, b) ->
                         b.getContent().getSearchQueryScore(query)
