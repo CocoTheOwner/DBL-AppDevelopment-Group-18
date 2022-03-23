@@ -21,6 +21,8 @@ import com.example.myapplication.ContentDatabaseRecord;
 import com.example.myapplication.PostDatabaseRecord;
 import com.example.myapplication.QuestionDatabaseRecord;
 import com.example.myapplication.R;
+import com.example.myapplication.TagCollection;
+import com.example.myapplication.TagDatabaseRecord;
 import com.example.myapplication.homepage.HomePageActivity;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -31,7 +33,9 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 public class CreateQuestionActivity extends AppCompatActivity {
     public static final String TITLE_TEXT = "com.example.myapplication.TITLE_TEXT";
@@ -77,13 +81,19 @@ public class CreateQuestionActivity extends AppCompatActivity {
 
         String questionTitle = QuestionTitle.getText().toString();
         String questionText = QuestionText.getText().toString();
-        String[] tags = tagInputView.getText().toString().split("\\s*,\\s*");
+        List<String> tags = Arrays.asList(tagInputView
+                .getText()
+                .toString()
+                .split("\\s*,\\s*"))
+                .stream()
+                .map(tag -> TagCollection.trimTag(tag))
+                .collect(Collectors.toList());
 
         SimpleDateFormat dtf = new SimpleDateFormat("dd/MM/yyyy");
         Date now = new Date();
         String questionTime = dtf.format(now);
 
-        createPost(questionTitle, questionText, Arrays.asList(tags), now);
+        createPost(questionTitle, questionText, tags, now);
 
 
         //TODO
@@ -118,5 +128,26 @@ public class CreateQuestionActivity extends AppCompatActivity {
         }).addOnFailureListener(
                 error -> Toast.makeText(getApplicationContext(),
                         "Failed to create question", Toast.LENGTH_LONG).show());
+
+        updateTags(tags);
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    private void updateTags(List<String> tags) {
+        for (String tag : tags) {
+            db.collection("tags")
+                    .whereEqualTo("lower", tag.toLowerCase(Locale.ROOT))
+                    .get()
+                    .addOnSuccessListener(docs -> {
+                        if (docs.size() <= 0) {
+                            uploadTag(tag);
+                        }
+                    }).addOnFailureListener(e -> System.out.println(e.getMessage()));
+        }
+    }
+
+    private void uploadTag(String tag) {
+        db.collection("tags")
+                .add(new TagDatabaseRecord(tag));
     }
 }

@@ -1,6 +1,7 @@
 package com.example.myapplication.homepage;
 
 import androidx.activity.OnBackPressedCallback;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentContainerView;
 import androidx.lifecycle.ViewModelProvider;
@@ -9,6 +10,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -19,10 +21,16 @@ import android.widget.SearchView;
 import android.widget.Toast;
 
 import com.example.myapplication.R;
+import com.example.myapplication.TagCollection;
+import com.example.myapplication.TagDatabaseRecord;
 import com.example.myapplication.UserSettingsActivity;
 import com.example.myapplication.login.LoginPage;
 import com.example.myapplication.post.CreateQuestionActivity;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.FirebaseFirestore;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class HomePageActivity extends AppCompatActivity {
 
@@ -31,11 +39,14 @@ public class HomePageActivity extends AppCompatActivity {
     private RecyclerView tags;
     private RecyclerView.Adapter tagAdapter;
     private OnBackPressedCallback backPressedCallback;
+    private FirebaseFirestore db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home_page);
+
+        db = FirebaseFirestore.getInstance();
 
         fragmentContainer = findViewById(R.id.main_page_fragment_container);
         model = new ViewModelProvider(this).get(HomePageViewModel.class);
@@ -48,7 +59,6 @@ public class HomePageActivity extends AppCompatActivity {
         }
 
         setupSearchView();
-        setupTagInputView();
         setupTagListView();
         setupProfileButton();
         setupNewPostButton();
@@ -60,6 +70,14 @@ public class HomePageActivity extends AppCompatActivity {
             }
         };
         getOnBackPressedDispatcher().addCallback(this, backPressedCallback);
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    @Override
+    public void onStart() {
+        super.onStart();
+
+        setupTagInputView();
     }
 
     private void setupProfileButton() {
@@ -104,17 +122,33 @@ public class HomePageActivity extends AppCompatActivity {
         });
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
     private void setupTagInputView() {
+
+        db.collection("tags").get()
+                .addOnSuccessListener(docs -> {
+                   TagCollection tags = new TagCollection(docs.getDocuments()
+                           .stream()
+                           .map(doc -> doc.toObject(TagDatabaseRecord.class).display)
+                           .collect(Collectors.toList()));
+
+                   addTagsToAutocomplete(tags);
+                });
+
+
+    }
+
+    private void addTagsToAutocomplete(TagCollection tags) {
         AutoCompleteTextView tagInputView = findViewById(R.id.tagInput);
 
         tagInputView.setAdapter(new ArrayAdapter<String>(this,
                 androidx.appcompat.R.layout.support_simple_spinner_dropdown_item,
-                model.getAvailableTags().getList()));
+                tags.getList()));
         tagInputView.setThreshold(1);
 
         tagInputView.setOnEditorActionListener((v, actionId, e) -> {
 
-            if (model.getAvailableTags().containsTag(v.getText().toString())) {
+            if (tags.containsTag(v.getText().toString())) {
                 addTag(v.getText().toString());
                 v.setText("");
             } else {
