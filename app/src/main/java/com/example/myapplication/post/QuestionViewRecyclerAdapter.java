@@ -13,10 +13,10 @@ import com.example.myapplication.Response;
 
 import java.util.List;
 
-public class AnswersRecyclerAdapter extends RecyclerView.Adapter<AnswersRecyclerAdapter.myViewHolder> {
+public class QuestionViewRecyclerAdapter extends RecyclerView.Adapter<QuestionViewRecyclerAdapter.myViewHolder> {
     private List<Response> responses;
 
-    public AnswersRecyclerAdapter(List<Response> responses) {
+    public QuestionViewRecyclerAdapter(List<Response> responses) {
         this.responses = responses;
     }
 
@@ -33,13 +33,13 @@ public class AnswersRecyclerAdapter extends RecyclerView.Adapter<AnswersRecycler
 
     @NonNull
     @Override
-    public AnswersRecyclerAdapter.myViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public QuestionViewRecyclerAdapter.myViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View answerView = LayoutInflater.from(parent.getContext()).inflate(R.layout.answer_list_item, parent, false);
         return new myViewHolder(answerView);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull AnswersRecyclerAdapter.myViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull QuestionViewRecyclerAdapter.myViewHolder holder, int position) {
         //Sets the text for the questions
         Response response = responses.get(position);
         holder.answerUserN.setText("posted by: " + response.getAuthor().getUserName());

@@ -17,6 +17,7 @@ import com.example.myapplication.R;
 import com.example.myapplication.Response;
 import com.example.myapplication.UserDatabaseRecord;
 import com.google.android.gms.tasks.Task;
+import com.google.android.gms.tasks.Tasks;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -144,10 +145,10 @@ public class QuestionViewActivity extends AppCompatActivity {
                     return userQuery;
                 }).collect(Collectors.toList());
 
-//        Tasks.whenAllSuccess(userQueries).addOnSuccessListener(x -> {
-//            AnswersRecyclerAdapter adapter = new AnswersRecyclerAdapter(responses);
-//            QuestionListView.setAdapter(adapter);
- //       });
+        Tasks.whenAllSuccess(userQueries).addOnSuccessListener(x -> {
+            QuestionViewRecyclerAdapter adapter = new QuestionViewRecyclerAdapter(responses);
+            QuestionListView.setAdapter(adapter);
+        });
     }
 
 //    private void setUserInfo() {
