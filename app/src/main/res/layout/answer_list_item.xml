@@ -4,34 +4,35 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="#66CCCCCC">
+    android:background="#FFFFFF">
 
     <TextView
-        android:id="@+id/answerText"
+        android:id="@+id/ReplyText"
         android:layout_width="266dp"
         android:layout_height="165dp"
         android:layout_marginTop="52dp"
         android:layout_marginEnd="16dp"
         android:layout_marginRight="16dp"
-        android:background="#BDBDBD"
+        android:background="#FFFFFF"
         android:text="Answer"
         android:textSize="8sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageButton
-        android:id="@+id/imageButton"
+        android:id="@+id/ReplyUpVote"
         android:layout_width="38dp"
         android:layout_height="32dp"
         android:layout_marginStart="16dp"
         android:layout_marginLeft="16dp"
-        android:layout_marginTop="52dp"
+        android:layout_marginTop="32dp"
+
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/ic_upvote" />
 
     <TextView
-        android:id="@+id/textView2"
+        android:id="@+id/ReplyScore"
         android:layout_width="40dp"
         android:layout_height="25dp"
         android:layout_marginStart="16dp"
@@ -39,10 +40,10 @@
         android:layout_marginTop="4dp"
         android:text="TextView"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageButton" />
+        app:layout_constraintTop_toBottomOf="@+id/ReplyUpVote" />
 
     <ImageButton
-        android:id="@+id/imageButton2"
+        android:id="@+id/ReplyDownVote"
         android:layout_width="38dp"
         android:layout_height="32dp"
         android:layout_marginStart="16dp"
@@ -51,12 +52,12 @@
         android:layout_marginBottom="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView2"
+        app:layout_constraintTop_toBottomOf="@+id/ReplyScore"
         app:layout_constraintVertical_bias="0.0"
         app:srcCompat="@drawable/ic_downvote" />
 
     <TextView
-        android:id="@+id/answerUser3"
+        android:id="@+id/ReplyTags"
         android:layout_width="139dp"
         android:layout_height="19dp"
         android:layout_marginEnd="16dp"
@@ -64,19 +65,19 @@
         android:text="tags"
         android:textSize="10sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView4" />
+        app:layout_constraintTop_toBottomOf="@+id/BestAnswer" />
 
     <TextView
-        android:id="@+id/answerUser"
+        android:id="@+id/ReplyUser"
         android:layout_width="127dp"
         android:layout_height="19dp"
         android:text="By:"
         android:textSize="10sp"
-        app:layout_constraintTop_toBottomOf="@+id/textView4"
+        app:layout_constraintTop_toBottomOf="@+id/BestAnswer"
         tools:layout_editor_absoluteX="78dp" />
 
     <TextView
-        android:id="@+id/textView4"
+        android:id="@+id/BestAnswer"
         android:layout_width="266dp"
         android:layout_height="17dp"
         android:layout_marginTop="16dp"
@@ -85,7 +86,7 @@
         tools:layout_editor_absoluteX="78dp" />
 
     <ImageView
-        android:id="@+id/imageView2"
+        android:id="@+id/ReplyDelete"
         android:layout_width="38dp"
         android:layout_height="32dp"
         android:layout_marginStart="16dp"
@@ -95,15 +96,16 @@
         app:srcCompat="@drawable/ic_delete" />
 
     <ImageView
-        android:id="@+id/imageView3"
+        android:id="@+id/ReplyAccept"
         android:layout_width="38dp"
         android:layout_height="32dp"
         android:layout_marginStart="16dp"
         android:layout_marginLeft="16dp"
         android:layout_marginTop="3dp"
-        app:layout_constraintBottom_toTopOf="@+id/imageView2"
+        app:layout_constraintBottom_toTopOf="@+id/ReplyDelete"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageButton2"
+        app:layout_constraintTop_toBottomOf="@+id/ReplyDownVote"
+        app:layout_constraintVertical_bias="0.625"
         app:srcCompat="@drawable/ic_accept" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

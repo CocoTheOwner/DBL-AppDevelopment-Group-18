@@ -11,7 +11,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.myapplication.R;
 import com.example.myapplication.Response;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class AnswersRecyclerAdapter extends RecyclerView.Adapter<AnswersRecyclerAdapter.myViewHolder> {
@@ -27,8 +26,8 @@ public class AnswersRecyclerAdapter extends RecyclerView.Adapter<AnswersRecycler
 
         public myViewHolder(final View view){
             super(view);
-            answerUserN = view.findViewById(R.id.answerUser);
-            body = view.findViewById(R.id.answerText);
+            answerUserN = view.findViewById(R.id.ReplyUser);
+            body = view.findViewById(R.id.ReplyText);
         }
     }
 
