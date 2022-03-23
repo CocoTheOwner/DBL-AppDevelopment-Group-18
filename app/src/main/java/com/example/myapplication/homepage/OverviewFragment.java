@@ -78,11 +78,9 @@ public class OverviewFragment extends Fragment {
                 Task<DocumentSnapshot> task = db.collection("users")
                         .document(record.post.authorId).get();
 
-                task.addOnSuccessListener(doc2 -> {
-                    questions.add(Question.fromDatabaseRecord(doc.getId(),
-                            record, User.fromDatabaseRecord(doc2.getId(),
-                                    doc2.toObject(UserDatabaseRecord.class))));
-                });
+                task.addOnSuccessListener(doc2 -> questions.add(Question.fromDatabaseRecord(doc.getId(),
+                        record, User.fromDatabaseRecord(doc2.getId(),
+                                doc2.toObject(UserDatabaseRecord.class)))));
 
                 return task;
             }).collect(Collectors.toList());

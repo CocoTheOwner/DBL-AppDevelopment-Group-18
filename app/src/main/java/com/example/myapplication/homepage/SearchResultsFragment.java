@@ -51,7 +51,7 @@ public class SearchResultsFragment extends Fragment {
 
         db = FirebaseFirestore.getInstance();
 
-        sortedQuestions = new ArrayList<>(model.getQuestions());
+        sortedQuestions = new ArrayList<>();
 
         model.getSearchString().observe(getViewLifecycleOwner(), s -> {
             this.query = s;
