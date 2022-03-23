@@ -84,13 +84,13 @@ public class QuestionViewActivity extends AppCompatActivity {
     private void handleQuestionData(DocumentSnapshot document) {
         QuestionDatabaseRecord record = document.toObject(QuestionDatabaseRecord.class);
 
-        TextView titleView = findViewById(R.id.CreateTitle);
+        TextView titleView = findViewById(R.id.questionTitleView);
         TextView questionView = findViewById(R.id.QuestText);
         TextView timeView = findViewById(R.id.QuestTime);
         TextView userView = findViewById(R.id.QuestUser);
 
 
-//        titleView.setText(record.post.content.title);
+        titleView.setText(record.post.content.title);
         questionView.setText(record.post.content.body);
 //
         SimpleDateFormat dtf = new SimpleDateFormat("dd/MM/yyyy");
