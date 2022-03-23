@@ -16,6 +16,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.example.myapplication.homepage.Category;
 import com.example.myapplication.homepage.CategoryRecyclerAdapter;
@@ -55,7 +56,11 @@ public class BannerFragment extends Fragment {
     }
 
     private void setupBannerText(View v) {
+        TextView bannerText = v.findViewById(R.id.banner_text);
 
+        bannerText.setOnClickListener(x -> {
+            startActivity(new Intent(requireActivity(), HomePageActivity.class));
+        });
     }
 
     private void setupNewPostButton(View v) {
