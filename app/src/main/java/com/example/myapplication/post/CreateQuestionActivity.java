@@ -17,6 +17,7 @@ import java.text.SimpleDateFormat;
 import java.time.format.DateTimeFormatter;
 import java.time.LocalDateTime;
 
+import com.example.myapplication.BannerFragment;
 import com.example.myapplication.ContentDatabaseRecord;
 import com.example.myapplication.PostDatabaseRecord;
 import com.example.myapplication.QuestionDatabaseRecord;
@@ -71,6 +72,17 @@ public class CreateQuestionActivity extends AppCompatActivity {
         });
 
         submit.setOnClickListener(view -> submit());
+
+        if (savedInstanceState == null) {
+            Bundle bundle = new Bundle();
+            bundle.putBoolean("noCreateQuestionButton", true);
+
+            getSupportFragmentManager().beginTransaction()
+                    .setReorderingAllowed(true)
+                    .add(R.id.login_banner, BannerFragment.class, bundle)
+                    .commit();
+        }
+
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)

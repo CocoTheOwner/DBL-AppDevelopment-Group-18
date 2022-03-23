@@ -19,21 +19,14 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/question_tags" />
 
-    <TextView
+    <androidx.fragment.app.FragmentContainerView
         android:id="@+id/login_banner"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:background="#E5E7E6"
-        android:text="@string/header"
-        android:textColor="@color/red"
-        android:textSize="30sp"
-        android:textStyle="bold"
-        android:paddingVertical="10dp"
-        android:paddingHorizontal="20dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"/>
 
     <EditText
         android:id="@+id/question_title"
