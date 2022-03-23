@@ -60,8 +60,6 @@ public class HomePageActivity extends AppCompatActivity {
 
         setupSearchView();
         setupTagListView();
-        setupProfileButton();
-        setupNewPostButton();
 
         backPressedCallback = new OnBackPressedCallback(false) {
             @Override
@@ -79,30 +77,6 @@ public class HomePageActivity extends AppCompatActivity {
 
         setupTagInputView();
     }
-
-    private void setupProfileButton() {
-        findViewById(R.id.profileButton).setOnClickListener(v -> {
-            if (FirebaseAuth.getInstance().getCurrentUser() == null) {
-                startActivity(new Intent(this, LoginPage.class));
-            } else {
-                startActivity(new Intent(this, UserSettingsActivity.class));
-            }
-        });
-    }
-
-    private void setupNewPostButton() {
-
-        ImageView button = findViewById(R.id.newPostButton);
-
-        if (FirebaseAuth.getInstance().getCurrentUser() == null) {
-            button.setVisibility(View.GONE);
-        }
-
-        button.setOnClickListener(v -> {
-            startActivity(new Intent(HomePageActivity.this, CreateQuestionActivity.class));
-        });
-    }
-
 
     private void setupSearchView() {
         SearchView searchView = findViewById(R.id.postSearch);
