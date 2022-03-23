@@ -9,19 +9,14 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
-import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.TextView;
 
-import com.example.myapplication.ContentDatabaseRecord;
 import com.example.myapplication.PostDatabaseRecord;
 import com.example.myapplication.QuestionDatabaseRecord;
 import com.example.myapplication.R;
 import com.example.myapplication.Response;
 import com.example.myapplication.UserDatabaseRecord;
 import com.google.android.gms.tasks.Task;
-import com.google.android.gms.tasks.Tasks;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -29,12 +24,11 @@ import com.google.firebase.firestore.QuerySnapshot;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
 public class QuestionViewActivity extends AppCompatActivity {
-    private RecyclerView answerListView;
+    private RecyclerView QuestionListView;
     private FirebaseFirestore db;
     private FirebaseAuth auth;
 
@@ -43,7 +37,7 @@ public class QuestionViewActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_question_view);
-        answerListView = findViewById(R.id.QuestionViewRecycler);
+        QuestionListView = findViewById(R.id.QuestionViewRecycler);
 
         db = FirebaseFirestore.getInstance();
         auth = FirebaseAuth.getInstance();
@@ -52,7 +46,7 @@ public class QuestionViewActivity extends AppCompatActivity {
         Intent intent = getIntent();
         String documentId = intent.getStringExtra("documentId");
 
-        setupResponseButton(documentId);
+    //    setupResponseButton(documentId);
 
 
         db.collection("questions").document(documentId).get().addOnCompleteListener(task -> {
@@ -60,25 +54,25 @@ public class QuestionViewActivity extends AppCompatActivity {
         });
     }
 
-    private void setupResponseButton(String documentId) {
-        ImageButton responseButton = findViewById(R.id.replyButton);
-        EditText replyBox = findViewById(R.id.replyBox);
-
-        if (auth.getCurrentUser() != null) {
-            responseButton.setOnClickListener(v -> {
-                db.collection("questions")
-                        .document(documentId)
-                        .collection("responses")
-                        .add(new PostDatabaseRecord(auth.getCurrentUser().getUid(),
-                                new ContentDatabaseRecord(new ArrayList<>(), "",
-                                        replyBox.getText().toString()),
-                                new Date()));
-            });
-        } else {
-            responseButton.setVisibility(View.GONE);
-            replyBox.setVisibility(View.GONE);
-        }
-    }
+//    private void setupResponseButton(String documentId) {
+//        ImageButton responseButton = findViewById(R.id.replyButton);
+//        EditText replyBox = findViewById(R.id.replyBox);
+//
+//        if (auth.getCurrentUser() != null) {
+//            responseButton.setOnClickListener(v -> {
+//                db.collection("questions")
+//                        .document(documentId)
+//                        .collection("responses")
+//                        .add(new PostDatabaseRecord(auth.getCurrentUser().getUid(),
+//                                new ContentDatabaseRecord(new ArrayList<>(), "",
+//                                        replyBox.getText().toString()),
+//                                new Date()));
+//            });
+//        } else {
+//            responseButton.setVisibility(View.GONE);
+//            replyBox.setVisibility(View.GONE);
+//        }
+//    }
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     private void handleQuestionData(DocumentSnapshot document) {
@@ -90,18 +84,18 @@ public class QuestionViewActivity extends AppCompatActivity {
         TextView userView = findViewById(R.id.QuestUser);
 
 
-        titleView.setText(record.post.content.title);
-        questionView.setText(record.post.content.body);
-
-        SimpleDateFormat dtf = new SimpleDateFormat("dd/MM/yyyy");
-
-        timeView.setText(dtf.format(record.post.creationDate));
-
-        db.collection("users")
-                .document(record.post.authorId)
-                .get().addOnSuccessListener(doc -> {
-                    userView.setText("By: " + doc.toObject(UserDatabaseRecord.class).userName);
-        });
+//        titleView.setText(record.post.content.title);
+//        questionView.setText(record.post.content.body);
+//
+//        SimpleDateFormat dtf = new SimpleDateFormat("dd/MM/yyyy");
+//
+//        timeView.setText(dtf.format(record.post.creationDate));
+//
+//        db.collection("users")
+//                .document(record.post.authorId)
+//                .get().addOnSuccessListener(doc -> {
+//                    userView.setText("By: " + doc.toObject(UserDatabaseRecord.class).userName);
+//        });
 
         setAdapter(document);
     }
@@ -120,8 +114,8 @@ public class QuestionViewActivity extends AppCompatActivity {
 
 
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
-        answerListView.setLayoutManager(layoutManager);
-        answerListView.setItemAnimator(new DefaultItemAnimator());
+        QuestionListView.setLayoutManager(layoutManager);
+        QuestionListView.setItemAnimator(new DefaultItemAnimator());
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)
@@ -150,10 +144,10 @@ public class QuestionViewActivity extends AppCompatActivity {
                     return userQuery;
                 }).collect(Collectors.toList());
 
-        Tasks.whenAllSuccess(userQueries).addOnSuccessListener(x -> {
-            AnswersRecyclerAdapter adapter = new AnswersRecyclerAdapter(responses);
-            answerListView.setAdapter(adapter);
-        });
+//        Tasks.whenAllSuccess(userQueries).addOnSuccessListener(x -> {
+//            AnswersRecyclerAdapter adapter = new AnswersRecyclerAdapter(responses);
+//            QuestionListView.setAdapter(adapter);
+ //       });
     }
 
 //    private void setUserInfo() {

@@ -62,7 +62,7 @@
     <TextView
         android:id="@+id/questionTitleView"
         android:layout_width="306dp"
-        android:layout_height="65dp"
+        android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="4dp"
         android:text="Question Title"
@@ -75,27 +75,29 @@
     <TextView
         android:id="@+id/QuestUser"
         android:layout_width="168dp"
-        android:layout_height="29dp"
+        android:layout_height="wrap_content"
         android:layout_marginTop="12dp"
         android:layout_marginEnd="4dp"
         android:text="By: ....."
+        android:textSize="12sp"
         app:layout_constraintEnd_toStartOf="@+id/QuestTime"
         app:layout_constraintTop_toBottomOf="@+id/questionTitleView" />
 
     <TextView
         android:id="@+id/QuestTime"
         android:layout_width="134dp"
-        android:layout_height="28dp"
+        android:layout_height="wrap_content"
         android:layout_marginTop="12dp"
         android:layout_marginEnd="4dp"
         android:text="At:"
+        android:textSize="12sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/questionTitleView" />
 
     <TextView
         android:id="@+id/QuestText"
         android:layout_width="306dp"
-        android:layout_height="121dp"
+        android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="4dp"
         android:text="This is my Question"
@@ -107,7 +109,7 @@
     <ImageView
         android:id="@+id/QuestionImage"
         android:layout_width="306dp"
-        android:layout_height="79dp"
+        android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="4dp"
         android:layout_marginRight="4dp"
