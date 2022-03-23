@@ -91,10 +91,8 @@ public class QuestionViewActivity extends AppCompatActivity {
 
         timeView.setText(dtf.format(record.post.creationDate));
 
-        String userID = auth.getCurrentUser().getUid();
-
         db.collection("users")
-                .document(userID)
+                .document(record.post.authorId)
                 .get().addOnSuccessListener(doc -> {
                     userView.setText("By: " + doc.toObject(UserDatabaseRecord.class).userName);
         });
