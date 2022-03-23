@@ -9,8 +9,12 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
+import com.example.myapplication.ContentDatabaseRecord;
 import com.example.myapplication.PostDatabaseRecord;
 import com.example.myapplication.QuestionDatabaseRecord;
 import com.example.myapplication.R;
@@ -25,6 +29,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -47,7 +52,7 @@ public class QuestionViewActivity extends AppCompatActivity {
         Intent intent = getIntent();
         String documentId = intent.getStringExtra("documentId");
 
-    //    setupResponseButton(documentId);
+        setupResponseButton(documentId);
 
 
         db.collection("questions").document(documentId).get().addOnCompleteListener(task -> {
@@ -55,25 +60,25 @@ public class QuestionViewActivity extends AppCompatActivity {
         });
     }
 
-//    private void setupResponseButton(String documentId) {
-//        ImageButton responseButton = findViewById(R.id.replyButton);
-//        EditText replyBox = findViewById(R.id.replyBox);
-//
-//        if (auth.getCurrentUser() != null) {
-//            responseButton.setOnClickListener(v -> {
-//                db.collection("questions")
-//                        .document(documentId)
-//                        .collection("responses")
-//                        .add(new PostDatabaseRecord(auth.getCurrentUser().getUid(),
-//                                new ContentDatabaseRecord(new ArrayList<>(), "",
-//                                        replyBox.getText().toString()),
-//                                new Date()));
-//            });
-//        } else {
-//            responseButton.setVisibility(View.GONE);
-//            replyBox.setVisibility(View.GONE);
-//        }
-//    }
+    private void setupResponseButton(String documentId) {
+        ImageButton responseButton = findViewById(R.id.replyButton);
+        EditText replyBox = findViewById(R.id.replyBox);
+
+        if (auth.getCurrentUser() != null) {
+            responseButton.setOnClickListener(v -> {
+                db.collection("questions")
+                        .document(documentId)
+                        .collection("responses")
+                        .add(new PostDatabaseRecord(auth.getCurrentUser().getUid(),
+                                new ContentDatabaseRecord(new ArrayList<>(), "",
+                                        replyBox.getText().toString()),
+                                new Date()));
+            });
+        } else {
+            responseButton.setVisibility(View.GONE);
+            replyBox.setVisibility(View.GONE);
+        }
+    }
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     private void handleQuestionData(DocumentSnapshot document) {
@@ -86,17 +91,17 @@ public class QuestionViewActivity extends AppCompatActivity {
 
 
 //        titleView.setText(record.post.content.title);
-//        questionView.setText(record.post.content.body);
+        questionView.setText(record.post.content.body);
 //
-//        SimpleDateFormat dtf = new SimpleDateFormat("dd/MM/yyyy");
+        SimpleDateFormat dtf = new SimpleDateFormat("dd/MM/yyyy");
 //
-//        timeView.setText(dtf.format(record.post.creationDate));
+        timeView.setText("Posted on: " + dtf.format(record.post.creationDate));
 //
-//        db.collection("users")
-//                .document(record.post.authorId)
-//                .get().addOnSuccessListener(doc -> {
-//                    userView.setText("By: " + doc.toObject(UserDatabaseRecord.class).userName);
-//        });
+        db.collection("users")
+                .document(record.post.authorId)
+                .get().addOnSuccessListener(doc -> {
+                    userView.setText("By: " + doc.toObject(UserDatabaseRecord.class).userName);
+        });
 
         setAdapter(document);
     }
