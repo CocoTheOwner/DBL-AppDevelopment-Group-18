@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -63,15 +64,20 @@ public class QuestionViewActivity extends AppCompatActivity {
         Button responseButton = findViewById(R.id.replyButton);
         EditText replyBox = findViewById(R.id.replyBox);
 
-        responseButton.setOnClickListener(v -> {
-            db.collection("questions")
-                    .document(documentId)
-                    .collection("responses")
-                    .add(new PostDatabaseRecord(auth.getCurrentUser().getUid(),
-                            new ContentDatabaseRecord(new ArrayList<>(), "",
-                                    replyBox.getText().toString()),
-                            new Date()));
-        });
+        if (auth.getCurrentUser() != null) {
+            responseButton.setOnClickListener(v -> {
+                db.collection("questions")
+                        .document(documentId)
+                        .collection("responses")
+                        .add(new PostDatabaseRecord(auth.getCurrentUser().getUid(),
+                                new ContentDatabaseRecord(new ArrayList<>(), "",
+                                        replyBox.getText().toString()),
+                                new Date()));
+            });
+        } else {
+            responseButton.setVisibility(View.GONE);
+            replyBox.setVisibility(View.GONE);
+        }
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)
