@@ -11,7 +11,7 @@
         android:layout_width="38dp"
         android:layout_height="32dp"
         android:layout_marginStart="4dp"
-        android:layout_marginBottom="16dp"
+        android:layout_marginBottom="28dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:srcCompat="@drawable/ic_delete" />
@@ -21,7 +21,11 @@
         android:layout_width="40dp"
         android:layout_height="25dp"
         android:layout_marginStart="4dp"
-        android:text="TextView"
+        android:gravity="center"
+        android:text="0"
+        android:textColor="#000000"
+        android:textSize="18sp"
+        android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/QuestionUpVote" />
 
@@ -99,4 +103,25 @@
         android:textSize="12sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/QuestionTagsView" />
+
+    <ImageView
+        android:id="@+id/QuestionImage"
+        android:layout_width="306dp"
+        android:layout_height="79dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="4dp"
+        android:layout_marginRight="4dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/QuestText"
+        app:srcCompat="@android:drawable/ic_menu_report_image" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="4dp"
+        android:layout_marginTop="12dp"
+        android:background="@color/red"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/QuestionImage" />
 </androidx.constraintlayout.widget.ConstraintLayout>

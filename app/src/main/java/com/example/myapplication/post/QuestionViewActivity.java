@@ -43,7 +43,7 @@ public class QuestionViewActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_question_view);
-        answerListView = findViewById(R.id.answerView);
+        answerListView = findViewById(R.id.QuestionViewRecycler);
 
         db = FirebaseFirestore.getInstance();
         auth = FirebaseAuth.getInstance();
@@ -61,7 +61,7 @@ public class QuestionViewActivity extends AppCompatActivity {
     }
 
     private void setupResponseButton(String documentId) {
-        Button responseButton = findViewById(R.id.replyButton);
+        ImageButton responseButton = findViewById(R.id.replyButton);
         EditText replyBox = findViewById(R.id.replyBox);
 
         if (auth.getCurrentUser() != null) {
