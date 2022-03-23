@@ -1,5 +1,6 @@
 package com.example.myapplication.homepage;
 
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 
@@ -18,6 +19,7 @@ import com.example.myapplication.QuestionDatabaseRecord;
 import com.example.myapplication.R;
 import com.example.myapplication.User;
 import com.example.myapplication.UserDatabaseRecord;
+import com.example.myapplication.post.QuestionViewActivity;
 import com.google.android.gms.tasks.Task;
 import com.google.android.gms.tasks.Tasks;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -62,8 +64,13 @@ public class SearchResultsFragment extends Fragment {
 
         results = view.findViewById(R.id.search_results);
 
-        resultsAdapter = new SearchResultsRecyclerAdapter(sortedQuestions, position -> {
-            System.out.println("Pos: " + position);
+        resultsAdapter = new SearchResultsRecyclerAdapter(sortedQuestions, id -> {
+            Intent intent = new Intent(requireActivity().getApplicationContext(),
+                    QuestionViewActivity.class);
+
+            intent.putExtra("documentId", id);
+
+            startActivity(intent);
         });
 
         results.setLayoutManager(new LinearLayoutManager(requireActivity().getApplicationContext()));
