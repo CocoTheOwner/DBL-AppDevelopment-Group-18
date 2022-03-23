@@ -126,8 +126,7 @@ public class HomePageActivity extends AppCompatActivity {
                 addTag(v.getText().toString());
                 v.setText("");
             } else {
-                Toast.makeText(getApplicationContext(),
-                        v.getText() + " is not a valid tag", Toast.LENGTH_LONG).show();
+                v.setError("This tag does not exist");
             }
 
             return true;

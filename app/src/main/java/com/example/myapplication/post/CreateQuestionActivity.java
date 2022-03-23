@@ -98,6 +98,7 @@ public class CreateQuestionActivity extends AppCompatActivity {
                 .toString()
                 .split("\\s*,\\s*"))
                 .stream()
+                .filter(s -> !s.isEmpty())
                 .map(tag -> TagCollection.trimTag(tag))
                 .collect(Collectors.toList());
 
