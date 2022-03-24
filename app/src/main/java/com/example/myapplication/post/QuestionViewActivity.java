@@ -92,11 +92,10 @@ public class QuestionViewActivity extends AppCompatActivity {
 
         titleView.setText(record.post.content.title);
         questionView.setText(record.post.content.body);
-//
+
         SimpleDateFormat dtf = new SimpleDateFormat("dd/MM/yyyy");
-//
         timeView.setText("Posted on: " + dtf.format(record.post.creationDate));
-//
+
         db.collection("users")
                 .document(record.post.authorId)
                 .get().addOnSuccessListener(doc -> {
@@ -115,8 +114,6 @@ public class QuestionViewActivity extends AppCompatActivity {
                 .addSnapshotListener((responseSnapshot, e) -> {
                     handleResponses(responseSnapshot);
                 });
-
-
 
 
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
@@ -155,14 +152,4 @@ public class QuestionViewActivity extends AppCompatActivity {
             QuestionListView.setAdapter(adapter);
         });
     }
-
-//    private void setUserInfo() {
-//        usersList.add(new User("Marnick", "Computer Science", User.getNewUserID(), User.UserType.USER, "", ""));
-//        usersList.add(new User("Fleur", "Computer Science", User.getNewUserID(), User.UserType.USER, "", ""));
-//        usersList.add(new User("Sjoerd", "Computer Science", User.getNewUserID(), User.UserType.USER, "", ""));
-//        usersList.add(new User("Rob", "Computer Science", User.getNewUserID(), User.UserType.USER, "", ""));
-//        usersList.add(new User("Robie", "Computer Science", User.getNewUserID(), User.UserType.USER, "", ""));
-//        usersList.add(new User("Rafael", "Computer Science", User.getNewUserID(), User.UserType.USER, "", ""));
-//
-//    }
 }

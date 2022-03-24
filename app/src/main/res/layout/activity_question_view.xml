@@ -19,173 +19,171 @@
         android:name="com.example.myapplication.BannerFragment"
         />
 
-<ScrollView
-    android:layout_height="0dp"
-    android:layout_width="match_parent"
-    app:layout_constraintStart_toStartOf="parent"
-    app:layout_constraintEnd_toEndOf="parent"
-    app:layout_constraintTop_toBottomOf="@id/header"
-    app:layout_constraintBottom_toBottomOf="parent">
-
-
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <ScrollView
+        android:layout_height="0dp"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/header"
+        app:layout_constraintBottom_toBottomOf="parent">
 
-        <TextView
-            android:id="@+id/QuestionScore"
-            android:layout_width="40dp"
-            android:layout_height="25dp"
-            android:layout_marginStart="4dp"
-            android:layout_marginLeft="4dp"
-            android:gravity="center"
-            android:text="0"
-            android:textColor="#000000"
-            android:textSize="18sp"
-            android:textStyle="bold"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/QuestionUpVote" />
 
-        <ImageButton
-            android:id="@+id/QuestionUpVote"
-            android:layout_width="38dp"
-            android:layout_height="32dp"
-            android:layout_marginStart="4dp"
-            android:layout_marginTop="16dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/ic_upvote" />
-
-        <ImageButton
-            android:id="@+id/QuestionDownVote"
-            android:layout_width="38dp"
-            android:layout_height="32dp"
-            android:layout_marginStart="4dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/QuestionScore"
-            app:srcCompat="@drawable/ic_downvote" />
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/QuestionTagsView"
-            android:layout_width="306dp"
-            android:layout_height="45dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="4dp"
-            android:orientation="horizontal"
-            android:padding="10dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/QuestUser" />
-
-        <TextView
-            android:id="@+id/questionTitleView"
-            android:layout_width="306dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:layout_marginEnd="4dp"
-            android:text="Question Title"
-            android:textColor="#000000"
-            android:textSize="18sp"
-            android:textStyle="bold"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <TextView
-            android:id="@+id/QuestUser"
-            android:layout_width="168dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
-            android:layout_marginEnd="4dp"
-            android:text="By: ....."
-            android:textSize="12sp"
-            app:layout_constraintEnd_toStartOf="@+id/QuestTime"
-            app:layout_constraintTop_toBottomOf="@+id/questionTitleView" />
-
-        <TextView
-            android:id="@+id/QuestTime"
-            android:layout_width="134dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
-            android:layout_marginEnd="4dp"
-            android:text="At:"
-            android:textSize="12sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/questionTitleView" />
-
-        <TextView
-            android:id="@+id/QuestText"
-            android:layout_width="306dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="4dp"
-            android:text="This is my Question"
-            android:textColor="#000000"
-            android:textSize="12sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/QuestionTagsView" />
-
-        <ImageView
-            android:id="@+id/QuestionImage"
-            android:layout_width="306dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="4dp"
-            android:layout_marginRight="4dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/QuestText"
-            app:srcCompat="@android:drawable/ic_menu_report_image" />
-
-        <View
-            android:id="@+id/view"
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="4dp"
-            android:layout_marginTop="12dp"
-            android:background="@color/red"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/QuestionImage" />
+            android:layout_height="match_parent">
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/QuestionViewRecycler"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:nestedScrollingEnabled="false"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/view" />
+            <TextView
+                android:id="@+id/QuestionScore"
+                android:layout_width="40dp"
+                android:layout_height="25dp"
+                android:layout_marginStart="4dp"
+                android:layout_marginLeft="4dp"
+                android:gravity="center"
+                android:text="0"
+                android:textColor="#000000"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/QuestionUpVote" />
 
-        <EditText
-            android:id="@+id/replyBox"
-            android:layout_width="273dp"
-            android:layout_height="82dp"
-            android:layout_marginStart="4dp"
-            android:layout_marginTop="20dp"
-            android:ellipsize="end"
-            android:ems="10"
-            android:gravity="top|left"
-            android:hint="Type your reply here"
-            android:inputType="textPersonName"
-            android:textColor="#000000"
-            android:textSize="12sp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/QuestionViewRecycler"
-            app:layout_constraintVertical_bias="1.0" />
+            <ImageButton
+                android:id="@+id/QuestionUpVote"
+                android:layout_width="38dp"
+                android:layout_height="32dp"
+                android:layout_marginStart="4dp"
+                android:layout_marginTop="16dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/ic_upvote" />
 
-        <ImageButton
-            android:id="@+id/replyButton"
-            android:layout_width="82dp"
-            android:layout_height="82dp"
-            android:layout_marginTop="20dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/QuestionViewRecycler"
-            app:layout_constraintVertical_bias="1.0"
-            app:srcCompat="@android:drawable/ic_menu_send" />
+            <ImageButton
+                android:id="@+id/QuestionDownVote"
+                android:layout_width="38dp"
+                android:layout_height="32dp"
+                android:layout_marginStart="4dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/QuestionScore"
+                app:srcCompat="@drawable/ic_downvote" />
 
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/QuestionTagsView"
+                android:layout_width="306dp"
+                android:layout_height="45dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="4dp"
+                android:orientation="horizontal"
+                android:padding="10dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/QuestUser" />
+
+            <TextView
+                android:id="@+id/questionTitleView"
+                android:layout_width="306dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="4dp"
+                android:text="Question Title"
+                android:textColor="#000000"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/QuestUser"
+                android:layout_width="168dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:layout_marginEnd="4dp"
+                android:text="By: ....."
+                android:textSize="12sp"
+                app:layout_constraintEnd_toStartOf="@+id/QuestTime"
+                app:layout_constraintTop_toBottomOf="@+id/questionTitleView" />
+
+            <TextView
+                android:id="@+id/QuestTime"
+                android:layout_width="134dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:layout_marginEnd="4dp"
+                android:text="At:"
+                android:textSize="12sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/questionTitleView" />
+
+            <TextView
+                android:id="@+id/QuestText"
+                android:layout_width="306dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="4dp"
+                android:text="This is my Question"
+                android:textColor="#000000"
+                android:textSize="12sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/QuestionTagsView" />
+
+            <ImageView
+                android:id="@+id/QuestionImage"
+                android:layout_width="306dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="4dp"
+                android:layout_marginRight="4dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/QuestText"
+                app:srcCompat="@android:drawable/ic_menu_report_image" />
+
+            <View
+                android:id="@+id/view"
+                android:layout_width="match_parent"
+                android:layout_height="4dp"
+                android:layout_marginTop="12dp"
+                android:background="@color/red"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/QuestionImage" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/QuestionViewRecycler"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:nestedScrollingEnabled="false"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/view" />
+
+            <EditText
+                android:id="@+id/replyBox"
+                android:layout_width="273dp"
+                android:layout_height="82dp"
+                android:layout_marginStart="4dp"
+                android:layout_marginTop="20dp"
+                android:ellipsize="end"
+                android:ems="10"
+                android:gravity="top|left"
+                android:hint="Type your reply here"
+                android:inputType="textPersonName"
+                android:textColor="#000000"
+                android:textSize="12sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/QuestionViewRecycler"
+                app:layout_constraintVertical_bias="1.0" />
+
+            <ImageButton
+                android:id="@+id/replyButton"
+                android:layout_width="82dp"
+                android:layout_height="82dp"
+                android:layout_marginTop="20dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/QuestionViewRecycler"
+                app:layout_constraintVertical_bias="1.0"
+                app:srcCompat="@android:drawable/ic_menu_send" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
-
 
     </ScrollView>
 </androidx.constraintlayout.widget.ConstraintLayout>
