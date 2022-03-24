@@ -7,11 +7,13 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
+import android.media.Image;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.myapplication.ContentDatabaseRecord;
@@ -48,15 +50,14 @@ public class QuestionViewActivity extends AppCompatActivity {
         db = FirebaseFirestore.getInstance();
         auth = FirebaseAuth.getInstance();
 
-
         Intent intent = getIntent();
         String documentId = intent.getStringExtra("documentId");
 
         setupResponseButton(documentId);
 
-
         db.collection("questions").document(documentId).get().addOnCompleteListener(task -> {
             handleQuestionData(task.getResult());
+            QuestionDeletionAndVote(task.getResult());
         });
     }
 
@@ -77,6 +78,25 @@ public class QuestionViewActivity extends AppCompatActivity {
         } else {
             responseButton.setVisibility(View.GONE);
             replyBox.setVisibility(View.GONE);
+        }
+    }
+
+    private void QuestionDeletionAndVote(DocumentSnapshot document) {
+        //Make delete and best answer buttons invisible for correct users.
+        ImageButton deleteQButton = findViewById(R.id.QuestionDeleteButton);
+        ImageButton QUpVoteButton = findViewById(R.id.QuestionUpVote);
+        ImageButton QDownVoteButton = findViewById(R.id.QuestionDownVote);
+        TextView QScoreText = findViewById(R.id.QuestionScore);
+
+        if (auth.getCurrentUser() != null ) {
+            //TODO
+            // IMPLEMENT DELETION FOR IF OP AND OTHERWISE VOTING HERE
+        } else {
+            //If a gues delete illegal buttons and move the score down.
+            deleteQButton.setVisibility(View.GONE);
+            QUpVoteButton.setVisibility(View.GONE);
+            QDownVoteButton.setVisibility(View.GONE);
+            QScoreText.setTranslationY(50);
         }
     }
 
@@ -107,7 +127,6 @@ public class QuestionViewActivity extends AppCompatActivity {
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     private void setAdapter(DocumentSnapshot document) {
-
         db.collection("questions")
                 .document(document.getId())
                 .collection("responses")
@@ -115,10 +134,10 @@ public class QuestionViewActivity extends AppCompatActivity {
                     handleResponses(responseSnapshot);
                 });
 
-
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
         QuestionListView.setLayoutManager(layoutManager);
         QuestionListView.setItemAnimator(new DefaultItemAnimator());
+
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)
@@ -135,7 +154,6 @@ public class QuestionViewActivity extends AppCompatActivity {
                     Task<DocumentSnapshot> userQuery = db.collection("users")
                             .document(record.authorId)
                             .get();
-
 
 
                     userQuery.addOnSuccessListener(userDoc ->
