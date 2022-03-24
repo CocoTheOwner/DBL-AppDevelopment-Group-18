@@ -43,6 +43,7 @@ public class QuestionViewActivity extends AppCompatActivity {
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        //Initialize the data from the database and start all methods to build the page.
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_question_view);
         QuestionListView = findViewById(R.id.QuestionViewRecycler);
@@ -62,6 +63,7 @@ public class QuestionViewActivity extends AppCompatActivity {
     }
 
     private void setupResponseButton(String documentId) {
+        //Making the response button and implementing it's functionality.
         ImageButton responseButton = findViewById(R.id.replyButton);
         EditText replyBox = findViewById(R.id.replyBox);
 
@@ -102,6 +104,7 @@ public class QuestionViewActivity extends AppCompatActivity {
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     private void handleQuestionData(DocumentSnapshot document) {
+        //Method to display the Question data in the correct boxes.
         QuestionDatabaseRecord record = document.toObject(QuestionDatabaseRecord.class);
 
         TextView titleView = findViewById(R.id.questionTitleView);
@@ -142,6 +145,7 @@ public class QuestionViewActivity extends AppCompatActivity {
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     private void handleResponses(QuerySnapshot responsesDoc) {
+        //This section makes the recycler for the responses work.
         List<Response> responses = new ArrayList<>();
 
         List<Task<DocumentSnapshot>> userQueries = responsesDoc
