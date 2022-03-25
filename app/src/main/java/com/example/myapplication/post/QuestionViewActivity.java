@@ -337,8 +337,7 @@ public class QuestionViewActivity extends AppCompatActivity {
         QuestionViewRecyclerAdapter adapter = new QuestionViewRecyclerAdapter(
                 responses,
                 currentUser,
-                currentUser != null &&
-                        question.getAuthor().getUserID().equals(currentUser.getUserID()));
+                question);
         QuestionListView.setAdapter(adapter);
     }
 }
