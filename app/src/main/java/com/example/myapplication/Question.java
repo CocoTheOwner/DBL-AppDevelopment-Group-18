@@ -23,8 +23,9 @@ public class Question extends InteractablePost {
      * @param content      the content of the post
      * @param creationDate the date on which the post was created
      */
-    public Question(String postID, User author, Content content, Date creationDate, List<String> tags) {
-        super(postID, author, content, creationDate);
+    public Question(String postID, User author, Content content,
+                    Date creationDate, List<String> tags, int voteScore) {
+        super(postID, author, content, creationDate, voteScore);
 
         this.tags = new TagCollection(tags);
     }
@@ -54,6 +55,7 @@ public class Question extends InteractablePost {
         return new Question(id,
                 user,
                 Content.fromDatabaseRecord(record.post.content),
-                record.post.creationDate, record.tags);
+                record.post.creationDate, record.tags,
+                record.post.voteScore);
     }
 }

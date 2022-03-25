@@ -29,6 +29,8 @@ public abstract class InteractablePost extends Post {
      */
     private final List<Long> downvotedBy = new ArrayList<>();
 
+    private int voteScore;
+
     /**
      * Create a new post.
      *
@@ -37,8 +39,12 @@ public abstract class InteractablePost extends Post {
      * @param content      the content of the post
      * @param creationDate the date on which the post was created
      */
-    public InteractablePost(String postID, User author, Content content, Date creationDate) {
+    public InteractablePost(String postID, User author,
+                            Content content, Date creationDate,
+                            int voteScore) {
         super(postID, author, content, creationDate);
+
+        this.voteScore = voteScore;
     }
 
     /**
@@ -46,7 +52,7 @@ public abstract class InteractablePost extends Post {
      * @return the current vote score
      */
     public int getVoteScore() {
-        return upvotedBy.size() - downvotedBy.size();
+        return voteScore;
     }
 
     public String getVoteScoreString() {

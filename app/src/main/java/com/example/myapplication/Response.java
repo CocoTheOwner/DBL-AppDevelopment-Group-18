@@ -15,14 +15,14 @@ public class Response extends InteractablePost {
      * @param content      the content of the post
      * @param creationDate the date on which the post was created
      */
-    public Response(String postID, User author, Content content, Date creationDate) {
-        super(postID, author, content, creationDate);
+    public Response(String postID, User author, Content content, Date creationDate, int voteScore) {
+        super(postID, author, content, creationDate, voteScore);
     }
 
     public static Response fromDatabaseRecord(String id, PostDatabaseRecord record, UserDatabaseRecord userRecord) {
         return new Response(id,
                 User.fromDatabaseRecord(record.authorId, userRecord),
                 Content.fromDatabaseRecord(record.content),
-                record.creationDate);
+                record.creationDate, record.voteScore);
     }
 }
