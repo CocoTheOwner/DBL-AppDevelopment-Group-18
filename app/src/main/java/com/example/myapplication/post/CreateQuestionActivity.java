@@ -177,7 +177,7 @@ public class CreateQuestionActivity extends AppCompatActivity {
                         new ContentDatabaseRecord(
                                 imageId,
                                 title, body
-                        ), date), tags);
+                        ), date), tags, null);
 
 
         db.collection("questions").add(newQuestionRecord).addOnSuccessListener(doc -> {

@@ -25,6 +25,7 @@ import com.google.firebase.storage.FirebaseStorage;
 
 import java.util.List;
 import java.util.function.BiConsumer;
+import java.util.function.Consumer;
 
 import kotlin.reflect.KVisibility;
 
@@ -33,12 +34,15 @@ public class QuestionViewRecyclerAdapter extends RecyclerView.Adapter<QuestionVi
     private User currentUser;
     private Question question;
     private FirebaseFirestore db;
+    private Consumer<String> onClick;
 
-    public QuestionViewRecyclerAdapter(List<Response> responses, User currentUser, Question question) {
+    public QuestionViewRecyclerAdapter(List<Response> responses, User currentUser,
+                                       Question question, Consumer<String> onClick) {
         this.responses = responses;
         this.currentUser = currentUser;
         this.question = question;
         this.db = FirebaseFirestore.getInstance();
+        this.onClick = onClick;
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder{
@@ -49,6 +53,7 @@ public class QuestionViewRecyclerAdapter extends RecyclerView.Adapter<QuestionVi
         private ImageButton downVote;
         private ImageView accept;
         private TextView voteScore;
+        private TextView bestAnswer;
 
         public MyViewHolder(final View view){
             super(view);
@@ -59,6 +64,7 @@ public class QuestionViewRecyclerAdapter extends RecyclerView.Adapter<QuestionVi
             downVote = view.findViewById(R.id.ReplyDownVote);
             accept = view.findViewById(R.id.ReplyAccept);
             voteScore = view.findViewById(R.id.ReplyScore);
+            bestAnswer = view.findViewById(R.id.BestAnswer);
 
         }
 
@@ -171,6 +177,14 @@ public class QuestionViewRecyclerAdapter extends RecyclerView.Adapter<QuestionVi
             }
             holder.setUpButtons(responseDoc);
         }
+
+        if (response.getPostID().equals(question.getBestAnswerId())) {
+            holder.bestAnswer.setVisibility(View.VISIBLE);
+        }
+
+        holder.accept.setOnClickListener(v -> {
+            onClick.accept(response.getPostID());
+        });
     }
 
     @Override

@@ -10,8 +10,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.icu.text.SymbolTable;
-import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
@@ -35,7 +33,6 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
@@ -47,7 +44,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.function.BiConsumer;
-import java.util.function.BiFunction;
 import java.util.stream.Collectors;
 
 public class QuestionViewActivity extends AppCompatActivity {
@@ -72,11 +68,11 @@ public class QuestionViewActivity extends AppCompatActivity {
         String documentId = intent.getStringExtra("documentId");
 
         setupResponseButton(documentId);
-        fetchQuestionDate(documentId);
+        fetchQuestionData(documentId);
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)
-    private void fetchQuestionDate(String documentId) {
+    private void fetchQuestionData(String documentId) {
         db.collection("questions")
                 .document(documentId)
                 .get()
@@ -362,13 +358,27 @@ public class QuestionViewActivity extends AppCompatActivity {
         });
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
     private void setResponseAdapter(Question question,
                                     List<Response> responses,
                                     @Nullable User currentUser) {
         QuestionViewRecyclerAdapter adapter = new QuestionViewRecyclerAdapter(
                 responses,
                 currentUser,
-                question);
+                question,
+                responseId -> {
+                    setBestAnswer(question, currentUser, responseId);
+                });
         QuestionListView.setAdapter(adapter);
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    private void setBestAnswer(Question question, User currentUser, String responseId) {
+        db.collection("questions")
+                .document(question.getPostID())
+                .update("bestAnswer", responseId)
+                .addOnSuccessListener(x -> {
+                    fetchQuestionData(question.getPostID());
+                });
     }
 }

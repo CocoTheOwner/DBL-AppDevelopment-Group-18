@@ -91,7 +91,8 @@
         android:layout_marginRight="16dp"
         android:text="Question marked as best answer"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        android:visibility="gone"/>
 
     <ImageView
         android:id="@+id/ReplyDelete"

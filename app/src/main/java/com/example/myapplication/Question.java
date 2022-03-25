@@ -14,6 +14,9 @@ public class Question extends InteractablePost {
      */
     private final List<Response> responses = new ArrayList<>();
 
+
+    private String bestAnswerId;
+
     private TagCollection tags = new TagCollection();
     /**
      * Create a new post.
@@ -24,10 +27,11 @@ public class Question extends InteractablePost {
      * @param creationDate the date on which the post was created
      */
     public Question(String postID, User author, Content content,
-                    Date creationDate, List<String> tags, int voteScore) {
+                    Date creationDate, List<String> tags, int voteScore, String bestAnswerId) {
         super(postID, author, content, creationDate, voteScore);
 
         this.tags = new TagCollection(tags);
+        this.bestAnswerId = bestAnswerId;
     }
 
     /**
@@ -50,12 +54,16 @@ public class Question extends InteractablePost {
         return this.tags;
     }
 
+    public String getBestAnswerId() {
+        return bestAnswerId;
+    }
 
     public static Question fromDatabaseRecord(String id, QuestionDatabaseRecord record, User user) {
         return new Question(id,
                 user,
                 Content.fromDatabaseRecord(record.post.content),
                 record.post.creationDate, record.tags,
-                record.post.voteScore);
+                record.post.voteScore,
+                record.bestAnswer);
     }
 }

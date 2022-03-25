@@ -8,10 +8,13 @@ public class QuestionDatabaseRecord {
 
     public List<String> tags;
 
+    public String bestAnswer;
+
     public QuestionDatabaseRecord() {}
 
-    public QuestionDatabaseRecord(PostDatabaseRecord post, List<String> tags) {
+    public QuestionDatabaseRecord(PostDatabaseRecord post, List<String> tags, String bestAnswer) {
             this.post = post;
             this.tags = tags;
+            this.bestAnswer = bestAnswer;
     }
 }
