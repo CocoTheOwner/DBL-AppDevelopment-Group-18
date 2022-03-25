@@ -33,6 +33,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
@@ -41,6 +42,7 @@ import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.function.BiConsumer;
@@ -354,6 +356,20 @@ public class QuestionViewActivity extends AppCompatActivity {
                 }).collect(Collectors.toList());
 
         Tasks.whenAllSuccess(userQueries).addOnSuccessListener(x -> {
+
+
+            for (int i = 0; i < responses.size(); i++) {
+                if (responses.get(i).getPostID().equals(question.getBestAnswerId())) {
+                    Response bestResp = responses.get(i);
+                    responses.set(i, responses.get(0));
+                    responses.set(0, bestResp);
+                    break;
+                }
+            }
+
+            responses.subList(1, responses.size())
+                    .sort((a, b) -> b.getVoteScore() - a.getVoteScore());
+
             setResponseAdapter(question, responses, currentUser);
         });
     }
