@@ -357,18 +357,19 @@ public class QuestionViewActivity extends AppCompatActivity {
 
         Tasks.whenAllSuccess(userQueries).addOnSuccessListener(x -> {
 
-
-            for (int i = 0; i < responses.size(); i++) {
-                if (responses.get(i).getPostID().equals(question.getBestAnswerId())) {
-                    Response bestResp = responses.get(i);
-                    responses.set(i, responses.get(0));
-                    responses.set(0, bestResp);
-                    break;
+            if (responses.size() > 1) {
+                for (int i = 0; i < responses.size(); i++) {
+                    if (responses.get(i).getPostID().equals(question.getBestAnswerId())) {
+                        Response bestResp = responses.get(i);
+                        responses.set(i, responses.get(0));
+                        responses.set(0, bestResp);
+                        break;
+                    }
                 }
-            }
 
-            responses.subList(1, responses.size())
-                    .sort((a, b) -> b.getVoteScore() - a.getVoteScore());
+                responses.subList(1, responses.size())
+                        .sort((a, b) -> b.getVoteScore() - a.getVoteScore());
+            }
 
             setResponseAdapter(question, responses, currentUser);
         });
