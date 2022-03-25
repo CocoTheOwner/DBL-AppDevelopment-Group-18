@@ -8,11 +8,16 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.icu.text.SymbolTable;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.myapplication.ContentDatabaseRecord;
@@ -32,7 +37,11 @@ import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
+import java.io.File;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -45,6 +54,7 @@ public class QuestionViewActivity extends AppCompatActivity {
     private RecyclerView QuestionListView;
     private FirebaseFirestore db;
     private FirebaseAuth auth;
+    private StorageReference storageRef;
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
@@ -56,6 +66,7 @@ public class QuestionViewActivity extends AppCompatActivity {
 
         db = FirebaseFirestore.getInstance();
         auth = FirebaseAuth.getInstance();
+        storageRef = FirebaseStorage.getInstance().getReference();
 
         Intent intent = getIntent();
         String documentId = intent.getStringExtra("documentId");
@@ -132,6 +143,26 @@ public class QuestionViewActivity extends AppCompatActivity {
         setupQuestionButtonVisibility(currentUser, question.getAuthor(), question);
         setupResponses(question, currentUser);
         displayScore(question.getPostID());
+
+        String attachment = question.getContent().getAttachment();
+
+        if (attachment != null) {
+            ImageView attachmentView = findViewById(R.id.QuestionImage);
+
+            try {
+                File localFile = File.createTempFile(attachment, "jpg");
+
+                storageRef.child("images/" + attachment).getFile(localFile).addOnSuccessListener(taskSnapshot -> {
+                    Bitmap bitmap = BitmapFactory.decodeFile(localFile.getAbsolutePath());
+
+                    attachmentView.setImageBitmap(bitmap);
+                }).addOnFailureListener(e -> {e.printStackTrace();});
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+        }
 
         if (currentUser != null) {
             setUpVoteButtons(question, currentUser);

@@ -16,7 +16,9 @@ public class Content {
     /**
      * List of non-text attachments.
      */
-    private final List<File> attachments;
+    private List<File> attachments;
+
+    private String attachment;
 
     /**
      * The title of the content.
@@ -34,14 +36,18 @@ public class Content {
      * @param title         the title
      * @param body          the body
      */
-    public Content(@NonNull List<File> attachments, String title, String body) {
-        this.attachments = attachments;
+    public Content(String attachment, String title, String body) {
+        this.attachment = attachment;
         this.title = title;
         this.body = body;
     }
 
     public int getSearchQueryScore(String query) {
         return FuzzySearch.weightedRatio(query, title) + FuzzySearch.weightedRatio(query, body);
+    }
+
+    public String getAttachment() {
+        return attachment;
     }
 
     public String getTitle() {
@@ -57,6 +63,6 @@ public class Content {
     }
 
     public static Content fromDatabaseRecord(ContentDatabaseRecord record) {
-        return new Content(new ArrayList<>(), record.title, record.body);
+        return new Content(record.attachment, record.title, record.body);
     }
 }
