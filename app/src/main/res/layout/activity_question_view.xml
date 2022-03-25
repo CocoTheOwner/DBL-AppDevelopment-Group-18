@@ -93,14 +93,14 @@
                 android:id="@+id/questionTitleView"
                 android:layout_width="306dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
                 android:layout_marginEnd="4dp"
+                android:layout_marginTop="12dp"
                 android:text="Question Title"
                 android:textColor="#000000"
                 android:textSize="18sp"
                 android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toBottomOf="@+id/deletedText" />
 
             <TextView
                 android:id="@+id/QuestUser"
@@ -195,6 +195,19 @@
                 app:layout_constraintTop_toBottomOf="@+id/QuestionViewRecycler"
                 app:layout_constraintVertical_bias="1.0"
                 app:srcCompat="@android:drawable/ic_menu_send" />
+
+            <TextView
+                android:id="@+id/deletedText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:layout_marginLeft="12dp"
+                android:textColor="@color/orangered"
+                android:text="@string/post_is_deleted"
+                android:textStyle="italic"
+                app:layout_constraintStart_toEndOf="@+id/QuestionUpVote"
+                app:layout_constraintTop_toTopOf="parent"
+                android:visibility="gone"/>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

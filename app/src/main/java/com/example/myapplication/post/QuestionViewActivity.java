@@ -2,6 +2,7 @@ package com.example.myapplication.post;
 
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -10,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.media.Image;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
@@ -139,13 +141,39 @@ public class QuestionViewActivity extends AppCompatActivity {
     private void handleData(@Nullable User currentUser, Question question) {
         displayQuestionData(question);
         setupQuestionButtonVisibility(currentUser, question.getAuthor(), question);
+        setupDeleteButton(question);
         setupResponses(question, currentUser);
         displayScore(question.getPostID());
+        displayAttachment(question);
 
+        if (currentUser != null) {
+            setUpVoteButtons(question, currentUser);
+        }
+    }
+
+    private void setupDeleteButton(Question question) {
+        ImageButton deleteButton = findViewById(R.id.QuestionDeleteButton);
+
+        deleteButton.setOnClickListener(v -> {
+            new AlertDialog.Builder(this).setMessage("Do you want to delete this post?")
+                    .setPositiveButton("Yes", (dialog, id) -> {
+                        db.collection("questions")
+                                .document(question.getPostID())
+                                .delete();
+
+                        findViewById(R.id.deletedText).setVisibility(View.VISIBLE);
+                    })
+                    .setNegativeButton("No", (dialog, id ) -> {})
+                    .create()
+                    .show();
+        });
+    }
+
+    private void displayAttachment(Question question) {
         String attachment = question.getContent().getAttachment();
+        ImageView attachmentView = findViewById(R.id.QuestionImage);
 
         if (attachment != null) {
-            ImageView attachmentView = findViewById(R.id.QuestionImage);
 
             try {
                 File localFile = File.createTempFile(attachment, "jpg");
@@ -159,11 +187,8 @@ public class QuestionViewActivity extends AppCompatActivity {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-
-        }
-
-        if (currentUser != null) {
-            setUpVoteButtons(question, currentUser);
+        } else {
+            attachmentView.setVisibility(View.GONE);
         }
     }
 
