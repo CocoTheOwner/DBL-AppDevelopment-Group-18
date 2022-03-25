@@ -30,7 +30,8 @@
 
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/ic_upvote" />
+        app:srcCompat="@drawable/ic_upvote"
+        android:visibility="invisible"/>
 
     <TextView
         android:id="@+id/ReplyScore"
@@ -54,7 +55,8 @@
         android:layout_marginTop="4dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/ReplyScore"
-        app:srcCompat="@drawable/ic_downvote" />
+        app:srcCompat="@drawable/ic_downvote"
+        android:visibility="invisible"/>
 
     <TextView
         android:id="@+id/ReplyTags"
@@ -101,7 +103,8 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/ReplyAccept"
-        app:srcCompat="@drawable/ic_delete" />
+        app:srcCompat="@drawable/ic_delete"
+        android:visibility="invisible"/>
 
     <ImageView
         android:id="@+id/ReplyAccept"
@@ -112,7 +115,8 @@
         android:layout_marginTop="4dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/ReplyDownVote"
-        app:srcCompat="@drawable/ic_accept" />
+        app:srcCompat="@drawable/ic_accept"
+        android:visibility="invisible"/>
 
     <TextView
         android:id="@+id/textView"

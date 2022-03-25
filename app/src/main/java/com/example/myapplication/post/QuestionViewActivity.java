@@ -208,7 +208,7 @@ public class QuestionViewActivity extends AppCompatActivity {
     }
 
     private void setResponseAdapter(List<Response> responses, User currentUser) {
-        QuestionViewRecyclerAdapter adapter = new QuestionViewRecyclerAdapter(responses);
+        QuestionViewRecyclerAdapter adapter = new QuestionViewRecyclerAdapter(responses, currentUser);
         QuestionListView.setAdapter(adapter);
     }
 }
