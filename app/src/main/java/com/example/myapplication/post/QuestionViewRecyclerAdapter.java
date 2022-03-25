@@ -21,28 +21,28 @@ import com.example.myapplication.VoteDatabaseRecord;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.storage.FirebaseStorage;
 
 import java.util.List;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
-
-import kotlin.reflect.KVisibility;
 
 public class QuestionViewRecyclerAdapter extends RecyclerView.Adapter<QuestionViewRecyclerAdapter.MyViewHolder> {
     private List<Response> responses;
     private User currentUser;
     private Question question;
     private FirebaseFirestore db;
-    private Consumer<String> onClick;
+    private Consumer<String> acceptButtonAction;
+    private BiConsumer<View, String> deleteButtonAction;
 
     public QuestionViewRecyclerAdapter(List<Response> responses, User currentUser,
-                                       Question question, Consumer<String> onClick) {
+                                       Question question, Consumer<String> acceptButtonAction,
+                                       BiConsumer<View, String> deleteButtonAction) {
         this.responses = responses;
         this.currentUser = currentUser;
         this.question = question;
         this.db = FirebaseFirestore.getInstance();
-        this.onClick = onClick;
+        this.acceptButtonAction = acceptButtonAction;
+        this.deleteButtonAction = deleteButtonAction;
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder{
@@ -54,6 +54,7 @@ public class QuestionViewRecyclerAdapter extends RecyclerView.Adapter<QuestionVi
         private ImageView accept;
         private TextView voteScore;
         private TextView bestAnswer;
+        private TextView deletedText;
 
         public MyViewHolder(final View view){
             super(view);
@@ -65,6 +66,7 @@ public class QuestionViewRecyclerAdapter extends RecyclerView.Adapter<QuestionVi
             accept = view.findViewById(R.id.ReplyAccept);
             voteScore = view.findViewById(R.id.ReplyScore);
             bestAnswer = view.findViewById(R.id.BestAnswer);
+            deletedText = view.findViewById(R.id.ResponseDeletedText);
 
         }
 
@@ -183,7 +185,11 @@ public class QuestionViewRecyclerAdapter extends RecyclerView.Adapter<QuestionVi
         }
 
         holder.accept.setOnClickListener(v -> {
-            onClick.accept(response.getPostID());
+            acceptButtonAction.accept(response.getPostID());
+        });
+
+        holder.delete.setOnClickListener(v -> {
+            deleteButtonAction.accept(holder.deletedText, response.getPostID());
         });
     }
 

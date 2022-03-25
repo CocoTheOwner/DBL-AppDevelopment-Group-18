@@ -28,10 +28,10 @@
         android:layout_marginLeft="20dp"
         android:layout_marginTop="16dp"
 
+        android:visibility="invisible"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/ic_upvote"
-        android:visibility="invisible"/>
+        app:srcCompat="@drawable/ic_upvote" />
 
     <TextView
         android:id="@+id/ReplyScore"
@@ -53,30 +53,27 @@
         android:layout_marginStart="20dp"
         android:layout_marginLeft="20dp"
         android:layout_marginTop="4dp"
+        android:visibility="invisible"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/ReplyScore"
-        app:srcCompat="@drawable/ic_downvote"
-        android:visibility="invisible"/>
+        app:srcCompat="@drawable/ic_downvote" />
 
     <TextView
         android:id="@+id/ReplyTags"
         android:layout_width="127dp"
         android:layout_height="19dp"
-        android:layout_marginTop="6dp"
         android:layout_marginEnd="16dp"
-        android:layout_marginRight="16dp"
         android:text="tags"
         android:textSize="10sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/BestAnswer" />
+        app:layout_constraintTop_toTopOf="@+id/ReplyUser" />
 
     <TextView
         android:id="@+id/ReplyUser"
         android:layout_width="127dp"
         android:layout_height="19dp"
-        android:layout_marginTop="6dp"
         android:layout_marginEnd="12dp"
-        android:layout_marginRight="12dp"
+        android:layout_marginTop="6dp"
         android:text="By:"
         android:textSize="10sp"
         app:layout_constraintEnd_toStartOf="@+id/ReplyTags"
@@ -86,13 +83,11 @@
         android:id="@+id/BestAnswer"
         android:layout_width="266dp"
         android:layout_height="17dp"
-        android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
-        android:layout_marginRight="16dp"
         android:text="Question marked as best answer"
+        android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:visibility="gone"/>
+        app:layout_constraintTop_toBottomOf="@+id/ResponseDeletedText" />
 
     <ImageView
         android:id="@+id/ReplyDelete"
@@ -101,11 +96,11 @@
         android:layout_marginStart="20dp"
         android:layout_marginLeft="20dp"
         android:layout_marginTop="6dp"
+        android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/ReplyAccept"
-        app:srcCompat="@drawable/ic_delete"
-        android:visibility="invisible"/>
+        app:srcCompat="@drawable/ic_delete" />
 
     <ImageView
         android:id="@+id/ReplyAccept"
@@ -114,10 +109,10 @@
         android:layout_marginStart="20dp"
         android:layout_marginLeft="20dp"
         android:layout_marginTop="4dp"
+        android:visibility="invisible"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/ReplyDownVote"
-        app:srcCompat="@drawable/ic_accept"
-        android:visibility="invisible"/>
+        app:srcCompat="@drawable/ic_accept" />
 
     <TextView
         android:id="@+id/textView"
@@ -135,5 +130,17 @@
         android:background="#AFAFAF"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
+
+    <TextView
+        android:id="@+id/ResponseDeletedText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/post_is_deleted"
+        android:textColor="@color/orangered"
+        android:layout_marginTop="6dp"
+        android:layout_marginLeft="12dp"
+        app:layout_constraintStart_toEndOf="@+id/ReplyUpVote"
+        app:layout_constraintTop_toTopOf="parent"
+        android:visibility="gone"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

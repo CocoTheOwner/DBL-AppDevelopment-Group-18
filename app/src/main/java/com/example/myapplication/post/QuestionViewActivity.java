@@ -11,7 +11,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.media.Image;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
@@ -35,7 +34,6 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
@@ -44,7 +42,6 @@ import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.function.BiConsumer;
@@ -155,15 +152,15 @@ public class QuestionViewActivity extends AppCompatActivity {
         ImageButton deleteButton = findViewById(R.id.QuestionDeleteButton);
 
         deleteButton.setOnClickListener(v -> {
-            new AlertDialog.Builder(this).setMessage("Do you want to delete this post?")
-                    .setPositiveButton("Yes", (dialog, id) -> {
+            new AlertDialog.Builder(this).setMessage(R.string.reafirm_delete_post)
+                    .setPositiveButton(R.string.yes, (dialog, id) -> {
                         db.collection("questions")
                                 .document(question.getPostID())
                                 .delete();
 
-                        findViewById(R.id.deletedText).setVisibility(View.VISIBLE);
+                        findViewById(R.id.questionDeletedText).setVisibility(View.VISIBLE);
                     })
-                    .setNegativeButton("No", (dialog, id ) -> {})
+                    .setNegativeButton(R.string.no, (dialog, id ) -> {})
                     .create()
                     .show();
         });
@@ -410,6 +407,21 @@ public class QuestionViewActivity extends AppCompatActivity {
                 question,
                 responseId -> {
                     setBestAnswer(question, currentUser, responseId);
+                },
+                (deletedText, responseId) -> {
+                    new AlertDialog.Builder(this)
+                            .setMessage(R.string.reafirm_delete_post)
+                            .setPositiveButton(R.string.yes, (d, i) -> {
+                                deletedText.setVisibility(View.VISIBLE);
+                                db.collection("questions")
+                                        .document(question.getPostID())
+                                        .collection("responses")
+                                        .document(responseId)
+                                        .delete();
+                            })
+                            .setNegativeButton(R.string.no, (d, i) -> {})
+                            .create()
+                            .show();
                 });
         QuestionListView.setAdapter(adapter);
     }
