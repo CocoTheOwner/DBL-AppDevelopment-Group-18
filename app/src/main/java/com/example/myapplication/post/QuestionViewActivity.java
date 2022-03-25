@@ -91,14 +91,21 @@ public class QuestionViewActivity extends AppCompatActivity {
         TextView QScoreText = findViewById(R.id.QuestionScore);
 
         if (auth.getCurrentUser() != null ) {
-            System.out.println(auth.getCurrentUser().getUid());
-            System.out.println(author.getUserID());
             if (!auth.getCurrentUser().getUid().equals(author.getUserID())) {
                 QUpVoteButton.setVisibility(View.VISIBLE);
                 QDownVoteButton.setVisibility(View.VISIBLE);
             }
 
+            db.collection("users")
+                    .document(auth.getCurrentUser().getUid())
+                    .get()
+                    .addOnSuccessListener(doc -> {
+                       UserDatabaseRecord user = doc.toObject(UserDatabaseRecord.class);
 
+                       if (user.userType == User.UserType.MODERATOR) {
+                           deleteQButton.setVisibility(View.VISIBLE);
+                       }
+                    });
         }
     }
 
