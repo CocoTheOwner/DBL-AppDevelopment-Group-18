@@ -134,7 +134,7 @@ public class QuestionViewActivity extends AppCompatActivity {
         ImageButton QUpVoteButton = findViewById(R.id.QuestionUpVote);
         ImageButton QDownVoteButton = findViewById(R.id.QuestionDownVote);
 
-        if (auth.getCurrentUser() != null ) {
+        if (currentUser != null ) {
             if (!auth.getCurrentUser().getUid().equals(author.getUserID())) {
                 QUpVoteButton.setVisibility(View.VISIBLE);
                 QDownVoteButton.setVisibility(View.VISIBLE);
@@ -163,7 +163,7 @@ public class QuestionViewActivity extends AppCompatActivity {
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)
-    private void setupResponses(Question question, User currentUser) {
+    private void setupResponses(Question question, @Nullable User currentUser) {
         db.collection("questions")
                 .document(question.getPostID())
                 .collection("responses")
@@ -178,7 +178,8 @@ public class QuestionViewActivity extends AppCompatActivity {
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     private void fetchResponseAuthors(Question question,
-                                      QuerySnapshot responsesDoc, User currentUser) {
+                                      QuerySnapshot responsesDoc,
+                                      @Nullable User currentUser) {
         List<Response> responses = new ArrayList<>();
 
         List<Task<DocumentSnapshot>> userQueries = responsesDoc
@@ -204,15 +205,17 @@ public class QuestionViewActivity extends AppCompatActivity {
 
         Tasks.whenAllSuccess(userQueries).addOnSuccessListener(x -> {
             setResponseAdapter(question, responses, currentUser);
-
         });
     }
 
-    private void setResponseAdapter(Question question, List<Response> responses, User currentUser) {
+    private void setResponseAdapter(Question question,
+                                    List<Response> responses,
+                                    @Nullable User currentUser) {
         QuestionViewRecyclerAdapter adapter = new QuestionViewRecyclerAdapter(
                 responses,
                 currentUser,
-                question.getAuthor().getUserID().equals(currentUser.getUserID()));
+                currentUser != null &&
+                        question.getAuthor().getUserID().equals(currentUser.getUserID()));
         QuestionListView.setAdapter(adapter);
     }
 }

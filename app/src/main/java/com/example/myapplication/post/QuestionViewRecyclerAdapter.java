@@ -62,13 +62,15 @@ public class QuestionViewRecyclerAdapter extends RecyclerView.Adapter<QuestionVi
         holder.answerUserN.setText("posted by: " + response.getAuthor().getUserName());
         holder.body.setText(response.getContent().getBody());
 
-        if (currentUser.getUserType() == User.UserType.MODERATOR) {
-            holder.delete.setVisibility(View.VISIBLE);
-        }
+        if (currentUser != null) {
+            if (currentUser.getUserType() == User.UserType.MODERATOR) {
+                holder.delete.setVisibility(View.VISIBLE);
+            }
 
-        if (!currentUser.getUserID().equals(response.getAuthor().getUserID())) {
-            holder.upVote.setVisibility(View.VISIBLE);
-            holder.downVote.setVisibility(View.VISIBLE);
+            if (!currentUser.getUserID().equals(response.getAuthor().getUserID())) {
+                holder.upVote.setVisibility(View.VISIBLE);
+                holder.downVote.setVisibility(View.VISIBLE);
+            }
         }
 
         if (this.currentUserIsAuthor) {
