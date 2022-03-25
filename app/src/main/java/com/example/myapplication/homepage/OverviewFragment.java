@@ -25,6 +25,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.android.gms.tasks.Tasks;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -67,7 +68,9 @@ public class OverviewFragment extends Fragment {
     public void onStart() {
         super.onStart();
 
-        db.collection("questions").get().addOnSuccessListener(questionDocs -> {
+        db.collection("questions")
+                .orderBy("post.creationDate", Query.Direction.DESCENDING)
+                .get().addOnSuccessListener(questionDocs -> {
 
             List<Question> questions = new ArrayList<>();
 
