@@ -131,6 +131,7 @@ public class QuestionViewActivity extends AppCompatActivity {
         displayQuestionData(question);
         setupQuestionButtonVisibility(currentUser, question.getAuthor(), question);
         setupResponses(question, currentUser);
+        displayScore(question.getPostID());
 
         if (currentUser != null) {
             setUpVoteButtons(question, currentUser);
@@ -184,6 +185,8 @@ public class QuestionViewActivity extends AppCompatActivity {
         ImageButton questionUpVoteButton = findViewById(R.id.QuestionUpVote);
         ImageButton questionDownVoteButton = findViewById(R.id.QuestionDownVote);
 
+
+
         questionUpVoteButton.setOnClickListener(v -> {
             fetchVoteData(question, currentUser, (upVoted, downVoted) -> {
                 if (downVoted) {
@@ -206,11 +209,14 @@ public class QuestionViewActivity extends AppCompatActivity {
                         db.collection("questions")
                                 .document(question.getPostID())
                                 .update("post.voteScore", FieldValue.increment(2));
+
                     } else {
                         db.collection("questions")
                                 .document(question.getPostID())
                                 .update("post.voteScore", FieldValue.increment(1));
                     }
+
+                    displayScore(question.getPostID());
                 }
             });
         });
@@ -223,6 +229,8 @@ public class QuestionViewActivity extends AppCompatActivity {
                             .collection("upVotes")
                             .document(currentUser.getUserID())
                             .delete();
+
+
                 }
 
                 if (!downVoted) {
@@ -241,9 +249,22 @@ public class QuestionViewActivity extends AppCompatActivity {
                                 .document(question.getPostID())
                                 .update("post.voteScore", FieldValue.increment(-1));
                     }
+
+                    displayScore(question.getPostID());
                 }
             });
         });
+    }
+
+    private void displayScore(String questionId) {
+        TextView voteScore = findViewById(R.id.QuestionScore);
+
+        db.collection("questions")
+                .document(questionId)
+                .get()
+                .addOnSuccessListener(doc -> {
+                    voteScore.setText(doc.toObject(QuestionDatabaseRecord.class).post.voteScore + "");
+                });
     }
 
 
