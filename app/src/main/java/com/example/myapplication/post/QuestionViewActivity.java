@@ -23,11 +23,13 @@ import com.example.myapplication.R;
 import com.example.myapplication.Response;
 import com.example.myapplication.User;
 import com.example.myapplication.UserDatabaseRecord;
+import com.example.myapplication.VoteDatabaseRecord;
 import com.google.android.gms.tasks.Task;
 import com.google.android.gms.tasks.Tasks;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.text.SimpleDateFormat;
@@ -124,11 +126,18 @@ public class QuestionViewActivity extends AppCompatActivity {
     @RequiresApi(api = Build.VERSION_CODES.N)
     private void handleData(@Nullable User currentUser, Question question) {
         displayQuestionData(question);
-        setupQuestionDeletionAndVote(currentUser, question.getAuthor());
+        setupQuestionButtonVisibility(currentUser, question.getAuthor(), question);
         setupResponses(question, currentUser);
+
+        if (currentUser != null) {
+            fetchVoteData(question, currentUser);
+        }
     }
 
-    private void setupQuestionDeletionAndVote(User currentUser, User author) {
+    private void setupQuestionButtonVisibility(
+            @Nullable User currentUser,
+            User author,
+            Question question) {
         //Make delete and best answer buttons invisible for correct users.
         ImageButton deleteQButton = findViewById(R.id.QuestionDeleteButton);
         ImageButton QUpVoteButton = findViewById(R.id.QuestionUpVote);
@@ -143,6 +152,70 @@ public class QuestionViewActivity extends AppCompatActivity {
                 deleteQButton.setVisibility(View.VISIBLE);
             }
         }
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    private void fetchVoteData(Question question, User currentUser) {
+        db.collection("questions")
+                .document(question.getPostID())
+                .collection("upVotes")
+                .whereEqualTo("voterId", currentUser.getUserID())
+                .get()
+                .addOnSuccessListener(upDocs -> {
+                    db.collection("questions")
+                            .document(question.getPostID())
+                            .collection("downVotes")
+                            .whereEqualTo("voterId", currentUser.getUserID())
+                            .get()
+                            .addOnSuccessListener(downDocs -> {
+                               handleVoteData(question,
+                                       currentUser,
+                                       upDocs.size() > 0,
+                                       downDocs.size() > 0);
+                            });
+                });
+    }
+
+    private void handleVoteData(Question question, User currentUser,
+                                boolean upVoted, boolean downVoted) {
+        ImageButton questionUpVoteButton = findViewById(R.id.QuestionUpVote);
+        ImageButton questionDownVoteButton = findViewById(R.id.QuestionDownVote);
+
+        questionUpVoteButton.setOnClickListener(v -> {
+            if (downVoted) {
+                db.collection("questions")
+                        .document(question.getPostID())
+                        .collection("downVotes")
+                        .document(currentUser.getUserID())
+                        .delete();
+            }
+
+            if (!upVoted) {
+                db.collection("questions")
+                        .document(question.getPostID())
+                        .collection("upVotes")
+                        .document(currentUser.getUserID())
+                        .set(new VoteDatabaseRecord(currentUser.getUserID()));
+            }
+        });
+
+        questionDownVoteButton.setOnClickListener(v -> {
+            if (upVoted) {
+                db.collection("questions")
+                        .document(question.getPostID())
+                        .collection("upVotes")
+                        .document(currentUser.getUserID())
+                        .delete();
+            }
+
+            if (!downVoted) {
+                db.collection("questions")
+                        .document(question.getPostID())
+                        .collection("downVotes")
+                        .document(currentUser.getUserID())
+                        .set(new VoteDatabaseRecord(currentUser.getUserID()));
+            }
+        });
     }
 
     private void displayQuestionData(Question question) {
