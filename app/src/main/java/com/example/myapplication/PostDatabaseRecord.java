@@ -9,11 +9,14 @@ public class PostDatabaseRecord {
 
     public Date creationDate;
 
+    public int voteScore;
+
     public PostDatabaseRecord() {}
 
     public PostDatabaseRecord(String authorId, ContentDatabaseRecord content, Date creationDate) {
         this.authorId = authorId;
         this.content = content;
         this.creationDate =  creationDate;
+        this.voteScore = 0;
     }
 }

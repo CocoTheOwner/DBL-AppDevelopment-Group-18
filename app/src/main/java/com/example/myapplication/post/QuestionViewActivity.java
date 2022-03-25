@@ -28,6 +28,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.android.gms.tasks.Tasks;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -36,6 +37,8 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.function.BiConsumer;
+import java.util.function.BiFunction;
 import java.util.stream.Collectors;
 
 public class QuestionViewActivity extends AppCompatActivity {
@@ -130,7 +133,7 @@ public class QuestionViewActivity extends AppCompatActivity {
         setupResponses(question, currentUser);
 
         if (currentUser != null) {
-            fetchVoteData(question, currentUser);
+            setUpVoteButtons(question, currentUser);
         }
     }
 
@@ -154,8 +157,10 @@ public class QuestionViewActivity extends AppCompatActivity {
         }
     }
 
+
+
     @RequiresApi(api = Build.VERSION_CODES.N)
-    private void fetchVoteData(Question question, User currentUser) {
+    private void fetchVoteData(Question question, User currentUser, BiConsumer<Boolean, Boolean> f) {
         db.collection("questions")
                 .document(question.getPostID())
                 .collection("upVotes")
@@ -168,55 +173,79 @@ public class QuestionViewActivity extends AppCompatActivity {
                             .whereEqualTo("voterId", currentUser.getUserID())
                             .get()
                             .addOnSuccessListener(downDocs -> {
-                               handleVoteData(question,
-                                       currentUser,
-                                       upDocs.size() > 0,
-                                       downDocs.size() > 0);
+                               f.accept(upDocs.size() > 0, downDocs.size() > 0);
                             });
                 });
     }
 
-    private void handleVoteData(Question question, User currentUser,
-                                boolean upVoted, boolean downVoted) {
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    private void setUpVoteButtons(Question question, User currentUser) {
+
         ImageButton questionUpVoteButton = findViewById(R.id.QuestionUpVote);
         ImageButton questionDownVoteButton = findViewById(R.id.QuestionDownVote);
 
         questionUpVoteButton.setOnClickListener(v -> {
-            if (downVoted) {
-                db.collection("questions")
-                        .document(question.getPostID())
-                        .collection("downVotes")
-                        .document(currentUser.getUserID())
-                        .delete();
-            }
+            fetchVoteData(question, currentUser, (upVoted, downVoted) -> {
+                if (downVoted) {
+                    db.collection("questions")
+                            .document(question.getPostID())
+                            .collection("downVotes")
+                            .document(currentUser.getUserID())
+                            .delete();
+                }
 
-            if (!upVoted) {
-                db.collection("questions")
-                        .document(question.getPostID())
-                        .collection("upVotes")
-                        .document(currentUser.getUserID())
-                        .set(new VoteDatabaseRecord(currentUser.getUserID()));
-            }
+                if (!upVoted) {
+                    db.collection("questions")
+                            .document(question.getPostID())
+                            .collection("upVotes")
+                            .document(currentUser.getUserID())
+                            .set(new VoteDatabaseRecord(currentUser.getUserID()));
+
+
+                    if (downVoted) {
+                        db.collection("questions")
+                                .document(question.getPostID())
+                                .update("post.voteScore", FieldValue.increment(2));
+                    } else {
+                        db.collection("questions")
+                                .document(question.getPostID())
+                                .update("post.voteScore", FieldValue.increment(1));
+                    }
+                }
+            });
         });
 
         questionDownVoteButton.setOnClickListener(v -> {
-            if (upVoted) {
-                db.collection("questions")
-                        .document(question.getPostID())
-                        .collection("upVotes")
-                        .document(currentUser.getUserID())
-                        .delete();
-            }
+            fetchVoteData(question, currentUser, (upVoted, downVoted) -> {
+                if (upVoted) {
+                    db.collection("questions")
+                            .document(question.getPostID())
+                            .collection("upVotes")
+                            .document(currentUser.getUserID())
+                            .delete();
+                }
 
-            if (!downVoted) {
-                db.collection("questions")
-                        .document(question.getPostID())
-                        .collection("downVotes")
-                        .document(currentUser.getUserID())
-                        .set(new VoteDatabaseRecord(currentUser.getUserID()));
-            }
+                if (!downVoted) {
+                    db.collection("questions")
+                            .document(question.getPostID())
+                            .collection("downVotes")
+                            .document(currentUser.getUserID())
+                            .set(new VoteDatabaseRecord(currentUser.getUserID()));
+
+                    if (upVoted) {
+                        db.collection("questions")
+                                .document(question.getPostID())
+                                .update("post.voteScore", FieldValue.increment(-2));
+                    } else {
+                        db.collection("questions")
+                                .document(question.getPostID())
+                                .update("post.voteScore", FieldValue.increment(-1));
+                    }
+                }
+            });
         });
     }
+
 
     private void displayQuestionData(Question question) {
         //Method to display the Question data in the correct boxes.
