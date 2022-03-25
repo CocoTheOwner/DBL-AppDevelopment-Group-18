@@ -1,11 +1,21 @@
 package com.example.myapplication.post;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.FileProvider;
 
+import android.Manifest;
+import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.health.SystemHealthManager;
 import android.view.View;
 import android.widget.Button;
@@ -13,6 +23,8 @@ import android.widget.EditText;
 import android.widget.MultiAutoCompleteTextView;
 import android.widget.Toast;
 
+import java.io.File;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.time.format.DateTimeFormatter;
 import java.time.LocalDateTime;
@@ -28,6 +40,8 @@ import com.example.myapplication.homepage.HomePageActivity;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -36,6 +50,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 public class CreateQuestionActivity extends AppCompatActivity {
@@ -46,14 +61,23 @@ public class CreateQuestionActivity extends AppCompatActivity {
     private FirebaseFirestore db;
     private Button submit;
     private Button exit;
+
     private FirebaseAuth auth;
+
+    // The following are needed for adding attachments to the post.
+    private Button add_image;
+    ActivityResultLauncher<String> pickerLauncherViaFiles;
+    ActivityResultLauncher<Uri> imageViaCamera;
+    //Uri Parameter of the launch method must be the destination where the picture is saved
+    private Uri tempLocURI;
+    private static final int CAM_REQUESTCODE = 1001;
+    private StorageReference storageRef;
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_question);
-
 
 
         db = FirebaseFirestore.getInstance();
@@ -82,6 +106,18 @@ public class CreateQuestionActivity extends AppCompatActivity {
                     .add(R.id.login_banner, BannerFragment.class, bundle)
                     .commit();
         }
+
+        // Setup the ActivityForResult launchers we need.
+        setupLaunchers();
+        storageRef = FirebaseStorage.getInstance().getReference();
+        // TODO: Add user choice between viaFiles or viaCamera!
+        add_image = findViewById(R.id.add_image_button);
+        add_image.setOnClickListener(view -> {
+            // Check the required permissions. OnRequestPermissionsResult will redirect to
+            // camera activity result (callback of requestPermissions).
+            String[] cameraPerms = {Manifest.permission.CAMERA};
+            ActivityCompat.requestPermissions(this, cameraPerms, CAM_REQUESTCODE);
+        });
 
     }
 
@@ -162,5 +198,133 @@ public class CreateQuestionActivity extends AppCompatActivity {
     private void uploadTag(String tag) {
         db.collection("tags")
                 .add(new TagDatabaseRecord(tag));
+    }
+
+    private void setupLaunchers() {
+        // Start another activity with the goal of getting a result from it.
+        // In this case, the other activity is a built-in activity for getting content from
+        // the phone's files.
+        // The input is the mime type to filter by, in our case we use: "image/*".
+        pickerLauncherViaFiles = registerForActivityResult( // Via files
+                // prompt the user to pick a piece of content, receiving a content:
+                // Uri for that content
+                new ActivityResultContracts.GetContent(),
+                result -> { // Here we choose what to do with the selected image
+                    if (result != null) { // If an image was selected, we can use the URI stored in 'result'
+                        //TODO: Decide what to do with the selected image (Use picasso?)
+                    } else { // User does not select an image (e.g., presses the return button)
+                        Toast.makeText(getApplicationContext(),
+                                "No image selected",
+                                Toast.LENGTH_SHORT).show();
+                    }
+                });
+
+
+        imageViaCamera = registerForActivityResult(
+                // An ActivityResultContract to take a picture saving it into the provided
+                // content-Uri.
+                // Returns true if the image was saved into the given Uri.
+                new ActivityResultContracts.TakePicture(),
+                result -> { // Here we choose what to do based on user action
+                    if (result == true) { // The user has taken a picture
+                        //TODO Decide what to do with the selected image (Use picasso?)
+
+                        uploadPictureToStorage();
+
+                    } else { // User has returned without taking a picture
+                        Toast.makeText(getApplicationContext(),
+                                "No picture taken",
+                                Toast.LENGTH_SHORT).show();
+                    }
+                });
+    }
+
+    private void uploadPictureToStorage() {
+        // TODO: We probably do not want this dialog to pop up?
+        ProgressDialog dialog = new ProgressDialog(CreateQuestionActivity.this);
+        dialog.setTitle("Upload in progress");
+        dialog.show();
+
+        // Store the image in the firebase Storage with a randomly generated ID
+        StorageReference picRef = storageRef.child("images/" + UUID.randomUUID().toString());
+        picRef.putFile(tempLocURI)
+                .addOnSuccessListener(taskSnapshot -> {
+                    dialog.dismiss();
+                    Toast.makeText(getApplicationContext(), "success", Toast.LENGTH_SHORT).show();
+                })
+                .addOnFailureListener(e -> {
+                    dialog.dismiss();
+                    Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
+                })
+                .addOnProgressListener(snapshot -> {
+                    double progress = (100.0 * snapshot.getBytesTransferred() / snapshot.getTotalByteCount());
+                    dialog.setMessage("Progress: " + (int) progress + "%");
+                });
+    }
+
+    private void launchCameraActivity() {
+        File photoFile = null; // Initialized to null as otherwise it may not have been initialized
+
+        try {
+            photoFile = createImageFile(); // Create a temporary file in the app's pictures dir
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        if (photoFile != null) { // We have a temporary file location
+            tempLocURI = FileProvider.getUriForFile(this, // Get URI for temporary file
+                    "com.example.android.fileprovider",
+                    photoFile);
+            imageViaCamera.launch(tempLocURI); // Launch the activity with the URI for the location
+        }
+    }
+
+    private File createImageFile() throws IOException {
+        // Create an image file name
+        // As far as I can tell we only need one temportary file
+        // TODO: check if this is also the case if we want to store multiple URIs before uploading
+        String imageFileName = "temporary_picture_taken";
+        File storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES); // Designated directory for storing pictures belonging to this app.
+        // We temporarily store the image on the user's phone to ensure we can get a full-quality image
+        File image = File.createTempFile(
+                imageFileName,  /* prefix */
+                ".jpg",   /* suffix */
+                storageDir      /* directory */
+        );
+
+        // Save a file: path for use with ACTION_VIEW intents
+        //currentPhotoPath = image.getAbsolutePath();
+        return image;
+    }
+
+
+    // Callback method for ActivityCompat.requestPermissions
+    // Used for further modularization of the code and to ensure the user is directly
+    // redirected to the camera activity when granting permissions (instead of having to click the
+    // button another time)
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+
+        // length == 0 for possible cancellation
+        if (grantResults.length == 0) {
+            return;
+        }
+        // In case we also have other things requiring permissions (mic, location), using a switch
+        switch (requestCode) {
+            case CAM_REQUESTCODE: { // Camera permissions were requested
+
+                // Camera Permission granted
+                if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    launchCameraActivity(); // we can launch the camera activity
+                } else { // Denied
+                    // user can no longer grant permissions from the app itself after denying once.
+                    Toast.makeText(getApplicationContext(),
+                            "Camera permissions are required to use this feature!",
+                            Toast.LENGTH_SHORT).show();
+                }
+                break;
+            }
+        }
     }
 }
