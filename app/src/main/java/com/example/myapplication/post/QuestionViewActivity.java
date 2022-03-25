@@ -168,7 +168,7 @@ public class QuestionViewActivity extends AppCompatActivity {
                 .document(question.getPostID())
                 .collection("responses")
                 .addSnapshotListener((responseSnapshot, e) -> {
-                    fetchResponseAuthors(responseSnapshot, currentUser);
+                    fetchResponseAuthors(question, responseSnapshot, currentUser);
                 });
 
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
@@ -177,7 +177,8 @@ public class QuestionViewActivity extends AppCompatActivity {
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)
-    private void fetchResponseAuthors(QuerySnapshot responsesDoc, User currentUser) {
+    private void fetchResponseAuthors(Question question,
+                                      QuerySnapshot responsesDoc, User currentUser) {
         List<Response> responses = new ArrayList<>();
 
         List<Task<DocumentSnapshot>> userQueries = responsesDoc
@@ -202,13 +203,16 @@ public class QuestionViewActivity extends AppCompatActivity {
                 }).collect(Collectors.toList());
 
         Tasks.whenAllSuccess(userQueries).addOnSuccessListener(x -> {
-            setResponseAdapter(responses, currentUser);
+            setResponseAdapter(question, responses, currentUser);
 
         });
     }
 
-    private void setResponseAdapter(List<Response> responses, User currentUser) {
-        QuestionViewRecyclerAdapter adapter = new QuestionViewRecyclerAdapter(responses, currentUser);
+    private void setResponseAdapter(Question question, List<Response> responses, User currentUser) {
+        QuestionViewRecyclerAdapter adapter = new QuestionViewRecyclerAdapter(
+                responses,
+                currentUser,
+                question.getAuthor().getUserID().equals(currentUser.getUserID()));
         QuestionListView.setAdapter(adapter);
     }
 }

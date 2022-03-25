@@ -21,10 +21,12 @@ import kotlin.reflect.KVisibility;
 public class QuestionViewRecyclerAdapter extends RecyclerView.Adapter<QuestionViewRecyclerAdapter.MyViewHolder> {
     private List<Response> responses;
     private User currentUser;
+    private boolean currentUserIsAuthor;
 
-    public QuestionViewRecyclerAdapter(List<Response> responses, User currentUser) {
+    public QuestionViewRecyclerAdapter(List<Response> responses, User currentUser, boolean currentUserIsAuthor) {
         this.responses = responses;
         this.currentUser = currentUser;
+        this.currentUserIsAuthor = currentUserIsAuthor;
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder{
@@ -33,6 +35,7 @@ public class QuestionViewRecyclerAdapter extends RecyclerView.Adapter<QuestionVi
         private ImageView delete;
         private ImageButton upVote;
         private ImageButton downVote;
+        private ImageView accept;
 
         public MyViewHolder(final View view){
             super(view);
@@ -41,6 +44,7 @@ public class QuestionViewRecyclerAdapter extends RecyclerView.Adapter<QuestionVi
             delete = view.findViewById(R.id.ReplyDelete);
             upVote = view.findViewById(R.id.ReplyUpVote);
             downVote = view.findViewById(R.id.ReplyDownVote);
+            accept = view.findViewById(R.id.ReplyAccept);
         }
     }
 
@@ -65,6 +69,10 @@ public class QuestionViewRecyclerAdapter extends RecyclerView.Adapter<QuestionVi
         if (!currentUser.getUserID().equals(response.getAuthor().getUserID())) {
             holder.upVote.setVisibility(View.VISIBLE);
             holder.downVote.setVisibility(View.VISIBLE);
+        }
+
+        if (this.currentUserIsAuthor) {
+            holder.accept.setVisibility(View.VISIBLE);
         }
     }
 
