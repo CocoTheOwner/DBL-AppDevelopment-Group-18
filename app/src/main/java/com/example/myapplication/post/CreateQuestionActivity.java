@@ -74,6 +74,8 @@ public class CreateQuestionActivity extends AppCompatActivity {
     private static final int CAM_REQUESTCODE = 1001;
     private StorageReference storageRef;
 
+    private boolean imageAttached = false;
+
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -145,7 +147,9 @@ public class CreateQuestionActivity extends AppCompatActivity {
 
         createPost(questionTitle, questionText, tags, now);
 
-
+        if (imageAttached) {
+            uploadPictureToStorage();
+        }
         //TODO
         // new question entry {
         // add Title to database
@@ -234,7 +238,7 @@ public class CreateQuestionActivity extends AppCompatActivity {
 
                         imagePreview.setImageURI(tempLocURI);
 
-                        uploadPictureToStorage();
+                        imageAttached = true;
 
                     } else { // User has returned without taking a picture
                         Toast.makeText(getApplicationContext(),
@@ -268,6 +272,7 @@ public class CreateQuestionActivity extends AppCompatActivity {
     }
 
     private void launchCameraActivity() {
+
         File photoFile = null; // Initialized to null as otherwise it may not have been initialized
 
         try {
