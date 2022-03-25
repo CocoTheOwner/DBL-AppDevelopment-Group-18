@@ -10,12 +10,14 @@
     <EditText
         android:id="@+id/question_text"
         android:layout_width="349dp"
-        android:layout_height="233dp"
+        android:layout_height="0dp"
         android:layout_marginTop="32dp"
         android:ems="10"
         android:hint="Type your question here."
         android:textSize="13sp"
+        app:layout_constraintBottom_toTopOf="@+id/imagePreview"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/question_tags" />
 
@@ -26,7 +28,7 @@
         android:layout_gravity="center_horizontal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"/>
+        app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
         android:id="@+id/question_title"
@@ -74,12 +76,11 @@
         android:id="@+id/add_image_button"
         android:layout_width="113dp"
         android:layout_height="48dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginBottom="20dp"
         android:text="Add image"
         android:textSize="7sp"
         app:backgroundTint="#757575"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.064"
+        app:layout_constraintBottom_toTopOf="@+id/submit_question"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/question_text" />
 
@@ -120,5 +121,16 @@
         app:layout_constraintHorizontal_bias="0.14"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/login_banner" />
+
+    <ImageView
+        android:id="@+id/imagePreview"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginEnd="32dp"
+        app:layout_constraintBottom_toTopOf="@+id/submit_question"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/add_image_button"
+        app:layout_constraintTop_toBottomOf="@+id/question_text"
+        tools:srcCompat="@tools:sample/avatars" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

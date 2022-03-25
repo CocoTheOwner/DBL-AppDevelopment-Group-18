@@ -20,6 +20,7 @@ import android.os.health.SystemHealthManager;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.MultiAutoCompleteTextView;
 import android.widget.Toast;
 
@@ -228,6 +229,10 @@ public class CreateQuestionActivity extends AppCompatActivity {
                 result -> { // Here we choose what to do based on user action
                     if (result == true) { // The user has taken a picture
                         //TODO Decide what to do with the selected image (Use picasso?)
+
+                        ImageView imagePreview = findViewById(R.id.imagePreview);
+
+                        imagePreview.setImageURI(tempLocURI);
 
                         uploadPictureToStorage();
 
