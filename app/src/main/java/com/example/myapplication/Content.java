@@ -3,6 +3,7 @@ package com.example.myapplication;
 import androidx.annotation.NonNull;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 
 import me.xdrop.fuzzywuzzy.FuzzySearch;
@@ -56,6 +57,6 @@ public class Content {
     }
 
     public static Content fromDatabaseRecord(ContentDatabaseRecord record) {
-        return new Content(record.attachments, record.title, record.body);
+        return new Content(new ArrayList<>(), record.title, record.body);
     }
 }

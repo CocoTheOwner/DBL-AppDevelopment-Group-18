@@ -115,7 +115,7 @@ public class QuestionViewActivity extends AppCompatActivity {
                         .document(documentId)
                         .collection("responses")
                         .add(new PostDatabaseRecord(auth.getCurrentUser().getUid(),
-                                new ContentDatabaseRecord(new ArrayList<>(), "",
+                                new ContentDatabaseRecord(null, "",
                                         replyBox.getText().toString()),
                                 new Date()));
             });

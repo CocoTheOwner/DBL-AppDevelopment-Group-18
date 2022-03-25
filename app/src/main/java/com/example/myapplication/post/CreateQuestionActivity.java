@@ -3,6 +3,7 @@ package com.example.myapplication.post;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
@@ -52,6 +53,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.UUID;
+import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
 public class CreateQuestionActivity extends AppCompatActivity {
@@ -145,11 +147,16 @@ public class CreateQuestionActivity extends AppCompatActivity {
         Date now = new Date();
         String questionTime = dtf.format(now);
 
-        createPost(questionTitle, questionText, tags, now);
-
         if (imageAttached) {
-            uploadPictureToStorage();
+            uploadPictureToStorage(imageId -> {
+                createPost(questionTitle, questionText, tags, now, imageId);
+            });
+        } else {
+            createPost(questionTitle, questionText, tags, now, null);
         }
+
+
+
         //TODO
         // new question entry {
         // add Title to database
@@ -161,30 +168,35 @@ public class CreateQuestionActivity extends AppCompatActivity {
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
-    private void createPost(String title, String body, List<String> tags, Date date) {
+    private void createPost(String title, String body, List<String> tags, Date date, @Nullable String imageId) {
 
         String userId = auth.getCurrentUser().getUid();
 
         QuestionDatabaseRecord newQuestionRecord = new QuestionDatabaseRecord(
                 new PostDatabaseRecord(userId,
                         new ContentDatabaseRecord(
-                                new ArrayList<>(),
+                                imageId,
                                 title, body
                         ), date), tags);
 
 
         db.collection("questions").add(newQuestionRecord).addOnSuccessListener(doc -> {
-            Intent intent = new Intent(CreateQuestionActivity.this, QuestionViewActivity.class);
-
-            intent.putExtra("documentId", doc.getId());
-
-            startActivity(intent);
+                gotoQuestionView(doc.getId());
         }).addOnFailureListener(
                 error -> Toast.makeText(getApplicationContext(),
                         "Failed to create question", Toast.LENGTH_LONG).show());
 
         updateTags(tags);
     }
+
+    private void gotoQuestionView(String id) {
+        Intent intent = new Intent(CreateQuestionActivity.this, QuestionViewActivity.class);
+
+        intent.putExtra("documentId", id);
+
+        startActivity(intent);
+    }
+
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     private void updateTags(List<String> tags) {
@@ -248,18 +260,23 @@ public class CreateQuestionActivity extends AppCompatActivity {
                 });
     }
 
-    private void uploadPictureToStorage() {
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    private String uploadPictureToStorage(Consumer<String> callback) {
         // TODO: We probably do not want this dialog to pop up?
         ProgressDialog dialog = new ProgressDialog(CreateQuestionActivity.this);
         dialog.setTitle("Upload in progress");
         dialog.show();
 
+        String id = UUID.randomUUID().toString();
+
         // Store the image in the firebase Storage with a randomly generated ID
-        StorageReference picRef = storageRef.child("images/" + UUID.randomUUID().toString());
+        StorageReference picRef = storageRef.child("images/" + id);
         picRef.putFile(tempLocURI)
                 .addOnSuccessListener(taskSnapshot -> {
                     dialog.dismiss();
                     Toast.makeText(getApplicationContext(), "success", Toast.LENGTH_SHORT).show();
+
+                    callback.accept(id);
                 })
                 .addOnFailureListener(e -> {
                     dialog.dismiss();
@@ -269,6 +286,8 @@ public class CreateQuestionActivity extends AppCompatActivity {
                     double progress = (100.0 * snapshot.getBytesTransferred() / snapshot.getTotalByteCount());
                     dialog.setMessage("Progress: " + (int) progress + "%");
                 });
+
+        return id;
     }
 
     private void launchCameraActivity() {
