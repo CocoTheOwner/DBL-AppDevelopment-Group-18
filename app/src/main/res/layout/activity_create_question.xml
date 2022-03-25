@@ -9,11 +9,12 @@
 
     <EditText
         android:id="@+id/question_text"
-        android:layout_width="349dp"
+        android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginTop="32dp"
         android:ems="10"
         android:hint="Type your question here."
+        android:layout_marginHorizontal="20dp"
         android:textSize="13sp"
         app:layout_constraintBottom_toTopOf="@+id/imagePreview"
         app:layout_constraintEnd_toEndOf="parent"
@@ -32,12 +33,12 @@
 
     <EditText
         android:id="@+id/question_title"
-        android:layout_width="346dp"
-        android:layout_height="48dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:layout_marginTop="40dp"
         android:ems="10"
         android:hint="Question title"
-
+        android:layout_marginHorizontal="20dp"
         android:inputType="textPersonName"
         android:textSize="13sp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -47,10 +48,10 @@
 
     <MultiAutoCompleteTextView
         android:id="@+id/question_tags"
-        android:layout_width="346dp"
-        android:layout_height="48dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:layout_marginTop="12dp"
-
+        android:layout_marginHorizontal="20dp"
         android:ems="10"
         android:hint="Tags (e.g. 2IS70, course)"
         android:inputType="textPersonName"
@@ -62,7 +63,8 @@
 
     <Button
         android:id="@+id/submit_question"
-        android:layout_width="347dp"
+        android:layout_width="0dp"
+        android:layout_marginHorizontal="20dp"
         android:layout_height="wrap_content"
         android:layout_marginBottom="16dp"
         android:hapticFeedbackEnabled="true"
@@ -74,13 +76,13 @@
 
     <Button
         android:id="@+id/add_image_button"
-        android:layout_width="113dp"
-        android:layout_height="48dp"
-        android:layout_marginBottom="20dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="16dp"
         android:text="Add image"
         android:textSize="7sp"
         app:backgroundTint="#757575"
-        app:layout_constraintBottom_toTopOf="@+id/submit_question"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/question_text" />
 
@@ -110,8 +112,8 @@
 
     <TextView
         android:id="@+id/CreateTitle"
-        android:layout_width="184dp"
-        android:layout_height="40dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
         android:text="New question"
         android:textColor="#000000"
