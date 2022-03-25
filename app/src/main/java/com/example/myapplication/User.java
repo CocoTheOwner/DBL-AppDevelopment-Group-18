@@ -121,6 +121,10 @@ public class User {
         return userID;
     }
 
+    public UserType getUserType() {
+        return userType;
+    }
+
     /**
      * Resets the password of the user through the Firebase password reset sequence.
      */

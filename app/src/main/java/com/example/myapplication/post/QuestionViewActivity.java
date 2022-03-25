@@ -1,5 +1,6 @@
 package com.example.myapplication.post;
 
+import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.DefaultItemAnimator;
@@ -7,17 +8,16 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
-import android.media.Image;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.myapplication.ContentDatabaseRecord;
 import com.example.myapplication.PostDatabaseRecord;
+import com.example.myapplication.Question;
 import com.example.myapplication.QuestionDatabaseRecord;
 import com.example.myapplication.R;
 import com.example.myapplication.Response;
@@ -56,10 +56,47 @@ public class QuestionViewActivity extends AppCompatActivity {
         String documentId = intent.getStringExtra("documentId");
 
         setupResponseButton(documentId);
+        fetchQuestionDate(documentId);
+    }
 
-        db.collection("questions").document(documentId).get().addOnCompleteListener(task -> {
-            handleQuestionData(task.getResult());
-        });
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    private void fetchQuestionDate(String documentId) {
+        db.collection("questions")
+                .document(documentId)
+                .get()
+                .addOnSuccessListener(questionDoc -> {
+                    QuestionDatabaseRecord record = questionDoc.toObject(QuestionDatabaseRecord.class);
+
+                    db.collection("users")
+                            .document(record.post.authorId)
+                            .get()
+                            .addOnSuccessListener(authDoc -> {
+                                User author = User.fromDatabaseRecord(authDoc.getId(),
+                                        authDoc.toObject(UserDatabaseRecord.class));
+
+                                Question question = Question.fromDatabaseRecord(questionDoc.getId(),
+                                        record, author);
+
+                                fetchUserData(question);
+                            });
+                });
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    private void fetchUserData(Question question) {
+        if (auth.getCurrentUser() != null) {
+            db.collection("users")
+                    .document(auth.getCurrentUser().getUid())
+                    .get()
+                    .addOnSuccessListener(userDoc -> {
+                       User user = User.fromDatabaseRecord(userDoc.getId(),
+                               userDoc.toObject(UserDatabaseRecord.class));
+
+                       handleData(user, question);
+                    });
+        } else {
+            handleData(null, question);
+        }
     }
 
     private void setupResponseButton(String documentId) {
@@ -83,78 +120,64 @@ public class QuestionViewActivity extends AppCompatActivity {
         }
     }
 
-    private void QuestionDeletionAndVote(User author) {
+
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    private void handleData(@Nullable User currentUser, Question question) {
+        displayQuestionData(question);
+        setupQuestionDeletionAndVote(currentUser, question.getAuthor());
+        setupResponses(question, currentUser);
+    }
+
+    private void setupQuestionDeletionAndVote(User currentUser, User author) {
         //Make delete and best answer buttons invisible for correct users.
         ImageButton deleteQButton = findViewById(R.id.QuestionDeleteButton);
         ImageButton QUpVoteButton = findViewById(R.id.QuestionUpVote);
         ImageButton QDownVoteButton = findViewById(R.id.QuestionDownVote);
-        TextView QScoreText = findViewById(R.id.QuestionScore);
 
         if (auth.getCurrentUser() != null ) {
             if (!auth.getCurrentUser().getUid().equals(author.getUserID())) {
                 QUpVoteButton.setVisibility(View.VISIBLE);
                 QDownVoteButton.setVisibility(View.VISIBLE);
             }
-
-            db.collection("users")
-                    .document(auth.getCurrentUser().getUid())
-                    .get()
-                    .addOnSuccessListener(doc -> {
-                       UserDatabaseRecord user = doc.toObject(UserDatabaseRecord.class);
-
-                       if (user.userType == User.UserType.MODERATOR) {
-                           deleteQButton.setVisibility(View.VISIBLE);
-                       }
-                    });
+            if (currentUser.getUserType() == User.UserType.MODERATOR) {
+                deleteQButton.setVisibility(View.VISIBLE);
+            }
         }
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.N)
-    private void handleQuestionData(DocumentSnapshot document) {
+    private void displayQuestionData(Question question) {
         //Method to display the Question data in the correct boxes.
-        QuestionDatabaseRecord record = document.toObject(QuestionDatabaseRecord.class);
-
         TextView titleView = findViewById(R.id.questionTitleView);
         TextView questionView = findViewById(R.id.QuestText);
         TextView timeView = findViewById(R.id.QuestTime);
         TextView userView = findViewById(R.id.QuestUser);
 
 
-        titleView.setText(record.post.content.title);
-        questionView.setText(record.post.content.body);
+        titleView.setText(question.getContent().getTitle());
+        questionView.setText(question.getContent().getBody());
 
         SimpleDateFormat dtf = new SimpleDateFormat("dd/MM/yyyy");
-        timeView.setText("Posted on: " + dtf.format(record.post.creationDate));
+        timeView.setText("Posted on: " + dtf.format(question.getCreationDate()));
 
-        db.collection("users")
-                .document(record.post.authorId)
-                .get().addOnSuccessListener(doc -> {
-                    UserDatabaseRecord user = doc.toObject(UserDatabaseRecord.class);
-                    userView.setText("By: " + user.userName);
-                    QuestionDeletionAndVote(User.fromDatabaseRecord(doc.getId(), user));
-        });
-
-        setAdapter(document);
+        userView.setText("By: " + question.getAuthor().getUserName());
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)
-    private void setAdapter(DocumentSnapshot document) {
+    private void setupResponses(Question question, User currentUser) {
         db.collection("questions")
-                .document(document.getId())
+                .document(question.getPostID())
                 .collection("responses")
                 .addSnapshotListener((responseSnapshot, e) -> {
-                    handleResponses(responseSnapshot);
+                    fetchResponseAuthors(responseSnapshot, currentUser);
                 });
 
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
         QuestionListView.setLayoutManager(layoutManager);
         QuestionListView.setItemAnimator(new DefaultItemAnimator());
-
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)
-    private void handleResponses(QuerySnapshot responsesDoc) {
-        //This section makes the recycler for the responses work.
+    private void fetchResponseAuthors(QuerySnapshot responsesDoc, User currentUser) {
         List<Response> responses = new ArrayList<>();
 
         List<Task<DocumentSnapshot>> userQueries = responsesDoc
@@ -179,8 +202,13 @@ public class QuestionViewActivity extends AppCompatActivity {
                 }).collect(Collectors.toList());
 
         Tasks.whenAllSuccess(userQueries).addOnSuccessListener(x -> {
-            QuestionViewRecyclerAdapter adapter = new QuestionViewRecyclerAdapter(responses);
-            QuestionListView.setAdapter(adapter);
+            setResponseAdapter(responses, currentUser);
+
         });
+    }
+
+    private void setResponseAdapter(List<Response> responses, User currentUser) {
+        QuestionViewRecyclerAdapter adapter = new QuestionViewRecyclerAdapter(responses);
+        QuestionListView.setAdapter(adapter);
     }
 }

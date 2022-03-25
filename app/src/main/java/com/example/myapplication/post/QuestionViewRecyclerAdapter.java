@@ -3,7 +3,6 @@ package com.example.myapplication.post;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -14,18 +13,18 @@ import com.example.myapplication.Response;
 
 import java.util.List;
 
-public class QuestionViewRecyclerAdapter extends RecyclerView.Adapter<QuestionViewRecyclerAdapter.myViewHolder> {
+public class QuestionViewRecyclerAdapter extends RecyclerView.Adapter<QuestionViewRecyclerAdapter.MyViewHolder> {
     private List<Response> responses;
 
     public QuestionViewRecyclerAdapter(List<Response> responses) {
         this.responses = responses;
     }
 
-    public class myViewHolder extends RecyclerView.ViewHolder{
+    public class MyViewHolder extends RecyclerView.ViewHolder{
         private TextView answerUserN;
         private TextView body;
 
-        public myViewHolder(final View view){
+        public MyViewHolder(final View view){
             super(view);
             answerUserN = view.findViewById(R.id.ReplyUser);
             body = view.findViewById(R.id.ReplyText);
@@ -34,13 +33,13 @@ public class QuestionViewRecyclerAdapter extends RecyclerView.Adapter<QuestionVi
 
     @NonNull
     @Override
-    public QuestionViewRecyclerAdapter.myViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View answerView = LayoutInflater.from(parent.getContext()).inflate(R.layout.answer_list_item, parent, false);
-        return new myViewHolder(answerView);
+        return new MyViewHolder(answerView);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull QuestionViewRecyclerAdapter.myViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
         //Sets the text for the questions
         Response response = responses.get(position);
         holder.answerUserN.setText("posted by: " + response.getAuthor().getUserName());
