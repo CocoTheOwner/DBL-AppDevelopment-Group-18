@@ -117,6 +117,10 @@ public class User {
         return email;
     }
 
+    public String getUserID() {
+        return userID;
+    }
+
     /**
      * Resets the password of the user through the Firebase password reset sequence.
      */

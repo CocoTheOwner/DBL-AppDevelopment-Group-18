@@ -21,6 +21,7 @@ import com.example.myapplication.PostDatabaseRecord;
 import com.example.myapplication.QuestionDatabaseRecord;
 import com.example.myapplication.R;
 import com.example.myapplication.Response;
+import com.example.myapplication.User;
 import com.example.myapplication.UserDatabaseRecord;
 import com.google.android.gms.tasks.Task;
 import com.google.android.gms.tasks.Tasks;
@@ -58,7 +59,6 @@ public class QuestionViewActivity extends AppCompatActivity {
 
         db.collection("questions").document(documentId).get().addOnCompleteListener(task -> {
             handleQuestionData(task.getResult());
-            QuestionDeletionAndVote(task.getResult());
         });
     }
 
@@ -83,7 +83,7 @@ public class QuestionViewActivity extends AppCompatActivity {
         }
     }
 
-    private void QuestionDeletionAndVote(DocumentSnapshot document) {
+    private void QuestionDeletionAndVote(User author) {
         //Make delete and best answer buttons invisible for correct users.
         ImageButton deleteQButton = findViewById(R.id.QuestionDeleteButton);
         ImageButton QUpVoteButton = findViewById(R.id.QuestionUpVote);
@@ -91,14 +91,14 @@ public class QuestionViewActivity extends AppCompatActivity {
         TextView QScoreText = findViewById(R.id.QuestionScore);
 
         if (auth.getCurrentUser() != null ) {
-            //TODO
-            // IMPLEMENT DELETION FOR IF OP AND OTHERWISE VOTING HERE
-        } else {
-            //If a gues delete illegal buttons and move the score down.
-            deleteQButton.setVisibility(View.GONE);
-            QUpVoteButton.setVisibility(View.GONE);
-            QDownVoteButton.setVisibility(View.GONE);
-            QScoreText.setTranslationY(50);
+            System.out.println(auth.getCurrentUser().getUid());
+            System.out.println(author.getUserID());
+            if (!auth.getCurrentUser().getUid().equals(author.getUserID())) {
+                QUpVoteButton.setVisibility(View.VISIBLE);
+                QDownVoteButton.setVisibility(View.VISIBLE);
+            }
+
+
         }
     }
 
@@ -122,7 +122,9 @@ public class QuestionViewActivity extends AppCompatActivity {
         db.collection("users")
                 .document(record.post.authorId)
                 .get().addOnSuccessListener(doc -> {
-                    userView.setText("By: " + doc.toObject(UserDatabaseRecord.class).userName);
+                    UserDatabaseRecord user = doc.toObject(UserDatabaseRecord.class);
+                    userView.setText("By: " + user.userName);
+                    QuestionDeletionAndVote(User.fromDatabaseRecord(doc.getId(), user));
         });
 
         setAdapter(document);

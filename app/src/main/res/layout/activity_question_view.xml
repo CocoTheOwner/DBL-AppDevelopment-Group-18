@@ -41,7 +41,8 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/QuestionDownVote"
                 app:srcCompat="@drawable/ic_delete"
-                android:contentDescription="DeletionButton" />
+                android:contentDescription="DeletionButton"
+                android:visibility="invisible"/>
 
             <TextView
                 android:id="@+id/QuestionScore"
@@ -64,7 +65,8 @@
                 android:layout_marginTop="16dp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/ic_upvote" />
+                app:srcCompat="@drawable/ic_upvote"
+                android:visibility="invisible"/>
 
             <ImageButton
                 android:id="@+id/QuestionDownVote"
@@ -73,7 +75,8 @@
                 android:layout_marginStart="4dp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/QuestionScore"
-                app:srcCompat="@drawable/ic_downvote" />
+                app:srcCompat="@drawable/ic_downvote"
+                android:visibility="invisible"/>
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/QuestionTagsView"
