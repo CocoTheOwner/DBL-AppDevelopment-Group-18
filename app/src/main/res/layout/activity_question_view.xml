@@ -1,189 +1,199 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/register_register"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#E1E1E1"
+    android:background="#FFFFFF"
+    android:fillViewport="true"
     tools:context=".post.CreateQuestionActivity">
 
     <androidx.fragment.app.FragmentContainerView
-        android:id="@+id/login_banner"
+        android:id="@+id/header"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:name="com.example.myapplication.BannerFragment"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintEnd_toStartOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent"
+        android:name="com.example.myapplication.BannerFragment"
         />
 
-    <ProgressBar
-        android:id="@+id/login_progress"
-        style="?android:attr/progressBarStyle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <TextView
-        android:id="@+id/CreateTitle"
-        android:layout_width="292dp"
-        android:layout_height="68dp"
-        android:layout_marginTop="16dp"
-        android:background="#FFFFFF"
-        android:text="Title of Question"
-        android:textColor="#000000"
-        android:textSize="22sp"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.867"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/login_banner" />
-
-    <Button
-        android:id="@+id/button2"
-        android:layout_width="43dp"
-        android:layout_height="38dp"
-        android:layout_marginTop="12dp"
-        android:layout_marginEnd="2dp"
-        android:layout_marginRight="2dp"
-        android:text="+"
-        android:textSize="14sp"
-        app:backgroundTint="#C81919"
-        app:layout_constraintEnd_toStartOf="@+id/QuestText"
-        app:layout_constraintHorizontal_bias="0.062"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/login_banner" />
-
-    <Button
-        android:id="@+id/button3"
-        android:layout_width="43dp"
-        android:layout_height="38dp"
-        android:layout_marginTop="4dp"
-        android:text="-"
-        android:textSize="14sp"
-        app:backgroundTint="#C81919"
-        app:layout_constraintEnd_toStartOf="@+id/QuestText"
-        app:layout_constraintHorizontal_bias="0.055"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/button2" />
-
-    <Button
-        android:id="@+id/replyButton"
-        android:layout_width="76dp"
-        android:layout_height="80dp"
-        android:text="Post  reply"
-        android:textSize="12sp"
-        app:backgroundTint="#C81919"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.571"
-        app:layout_constraintStart_toEndOf="@+id/replyBox"
-        app:layout_constraintTop_toBottomOf="@+id/answerView"
-        app:layout_constraintVertical_bias="0.488" />
-
-    <TextView
-        android:id="@+id/QuestTime"
-        android:layout_width="150dp"
-        android:layout_height="23dp"
-        android:layout_marginTop="4dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginRight="8dp"
-        android:background="#FFFFFF"
-        android:text="time of post"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/CreateTitle" />
-
-    <TextView
-        android:id="@+id/QuestUser"
-        android:layout_width="129dp"
-        android:layout_height="23dp"
-        android:layout_marginStart="60dp"
-        android:layout_marginLeft="60dp"
-        android:layout_marginTop="4dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginRight="16dp"
-        android:background="#FFFFFF"
-        android:text="By: user"
-        app:layout_constraintEnd_toStartOf="@+id/QuestTime"
-        app:layout_constraintHorizontal_bias="0.4"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/CreateTitle" />
-
-    <View
-        android:id="@+id/view"
-        android:layout_width="wrap_content"
-        android:layout_height="1dp"
-        android:layout_marginTop="12dp"
-        android:background="#C81919"
-        app:layout_constraintBottom_toTopOf="@+id/answerView"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/QuestText"
-        app:layout_constraintVertical_bias="0.0" />
-
-    <TextView
-        android:id="@+id/QuestText"
-        android:layout_width="292dp"
-        android:layout_height="134dp"
-        android:layout_marginTop="8dp"
-        android:background="#FFFFFF"
-        android:text="question text"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.861"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/horizontalScrollView" />
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/answerView"
+    <ScrollView
+        android:layout_height="0dp"
         android:layout_width="match_parent"
-        android:layout_height="295dp"
-        android:layout_marginBottom="148dp"
-        android:background="#C8C8C8"
-        android:outlineAmbientShadowColor="@color/black"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <HorizontalScrollView
-        android:id="@+id/horizontalScrollView"
-        android:layout_width="294dp"
-        android:layout_height="26dp"
-        android:layout_marginTop="4dp"
-        android:background="#FFFFFF"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.893"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/QuestTime">
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:orientation="vertical" />
-    </HorizontalScrollView>
-
-    <EditText
-        android:id="@+id/replyBox"
-        android:layout_width="264dp"
-        android:layout_height="134dp"
-        android:layout_marginStart="12dp"
-        android:layout_marginLeft="16dp"
-        android:background="#8FFFFFFF"
-        android:ems="10"
-        android:fadingEdge="horizontal|vertical"
-        android:inputType="textPersonName"
-        android:shadowColor="@color/black"
-        android:text="Fill in your reply."
-        android:textSize="10sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/answerView" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/header"
+        app:layout_constraintBottom_toBottomOf="parent">
 
 
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <ImageButton
+                android:id="@+id/QuestionDeleteButton"
+                android:layout_width="38dp"
+                android:layout_height="28dp"
+                android:layout_marginStart="4dp"
+                android:layout_marginTop="16dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/QuestionDownVote"
+                app:srcCompat="@drawable/ic_delete"
+                android:contentDescription="DeletionButton" />
+
+            <TextView
+                android:id="@+id/QuestionScore"
+                android:layout_width="38dp"
+                android:layout_height="25dp"
+                android:layout_marginStart="4dp"
+                android:gravity="center"
+                android:text="0"
+                android:textColor="#000000"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/QuestionUpVote" />
+
+            <ImageButton
+                android:id="@+id/QuestionUpVote"
+                android:layout_width="38dp"
+                android:layout_height="32dp"
+                android:layout_marginStart="4dp"
+                android:layout_marginTop="16dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/ic_upvote" />
+
+            <ImageButton
+                android:id="@+id/QuestionDownVote"
+                android:layout_width="38dp"
+                android:layout_height="32dp"
+                android:layout_marginStart="4dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/QuestionScore"
+                app:srcCompat="@drawable/ic_downvote" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/QuestionTagsView"
+                android:layout_width="306dp"
+                android:layout_height="45dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="4dp"
+                android:orientation="horizontal"
+                android:padding="10dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/QuestUser" />
+
+            <TextView
+                android:id="@+id/questionTitleView"
+                android:layout_width="306dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="4dp"
+                android:text="Question Title"
+                android:textColor="#000000"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/QuestUser"
+                android:layout_width="168dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:layout_marginEnd="4dp"
+                android:text="By: ....."
+                android:textSize="12sp"
+                app:layout_constraintEnd_toStartOf="@+id/QuestTime"
+                app:layout_constraintTop_toBottomOf="@+id/questionTitleView" />
+
+            <TextView
+                android:id="@+id/QuestTime"
+                android:layout_width="134dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:layout_marginEnd="4dp"
+                android:text="At:"
+                android:textSize="12sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/questionTitleView" />
+
+            <TextView
+                android:id="@+id/QuestText"
+                android:layout_width="306dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="4dp"
+                android:text="This is my Question"
+                android:textColor="#000000"
+                android:textSize="12sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/QuestionTagsView" />
+
+            <ImageView
+                android:id="@+id/QuestionImage"
+                android:layout_width="306dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="4dp"
+                android:layout_marginRight="4dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/QuestText"
+                app:srcCompat="@android:drawable/ic_menu_report_image" />
+
+            <View
+                android:id="@+id/view"
+                android:layout_width="match_parent"
+                android:layout_height="4dp"
+                android:layout_marginTop="12dp"
+                android:background="@color/red"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/QuestionImage" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/QuestionViewRecycler"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:nestedScrollingEnabled="false"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/view" />
+
+            <EditText
+                android:id="@+id/replyBox"
+                android:layout_width="273dp"
+                android:layout_height="82dp"
+                android:layout_marginStart="4dp"
+                android:layout_marginTop="20dp"
+                android:ellipsize="end"
+                android:ems="10"
+                android:gravity="top|left"
+                android:hint="Type your reply here"
+                android:inputType="textPersonName"
+                android:textColor="#000000"
+                android:textSize="12sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/QuestionViewRecycler"
+                app:layout_constraintVertical_bias="1.0" />
+
+            <ImageButton
+                android:id="@+id/replyButton"
+                android:layout_width="82dp"
+                android:layout_height="82dp"
+                android:layout_marginTop="20dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/QuestionViewRecycler"
+                app:layout_constraintVertical_bias="1.0"
+                app:srcCompat="@android:drawable/ic_menu_send" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </ScrollView>
 </androidx.constraintlayout.widget.ConstraintLayout>

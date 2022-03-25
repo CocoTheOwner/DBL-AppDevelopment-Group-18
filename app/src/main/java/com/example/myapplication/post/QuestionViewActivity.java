@@ -7,11 +7,13 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
+import android.media.Image;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.myapplication.ContentDatabaseRecord;
@@ -34,34 +36,35 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class QuestionViewActivity extends AppCompatActivity {
-    private RecyclerView answerListView;
+    private RecyclerView QuestionListView;
     private FirebaseFirestore db;
     private FirebaseAuth auth;
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        //Initialize the data from the database and start all methods to build the page.
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_question_view);
-        answerListView = findViewById(R.id.answerView);
+        QuestionListView = findViewById(R.id.QuestionViewRecycler);
 
         db = FirebaseFirestore.getInstance();
         auth = FirebaseAuth.getInstance();
-
 
         Intent intent = getIntent();
         String documentId = intent.getStringExtra("documentId");
 
         setupResponseButton(documentId);
 
-
         db.collection("questions").document(documentId).get().addOnCompleteListener(task -> {
             handleQuestionData(task.getResult());
+            QuestionDeletionAndVote(task.getResult());
         });
     }
 
     private void setupResponseButton(String documentId) {
-        Button responseButton = findViewById(R.id.replyButton);
+        //Making the response button and implementing it's functionality.
+        ImageButton responseButton = findViewById(R.id.replyButton);
         EditText replyBox = findViewById(R.id.replyBox);
 
         if (auth.getCurrentUser() != null) {
@@ -80,11 +83,31 @@ public class QuestionViewActivity extends AppCompatActivity {
         }
     }
 
+    private void QuestionDeletionAndVote(DocumentSnapshot document) {
+        //Make delete and best answer buttons invisible for correct users.
+        ImageButton deleteQButton = findViewById(R.id.QuestionDeleteButton);
+        ImageButton QUpVoteButton = findViewById(R.id.QuestionUpVote);
+        ImageButton QDownVoteButton = findViewById(R.id.QuestionDownVote);
+        TextView QScoreText = findViewById(R.id.QuestionScore);
+
+        if (auth.getCurrentUser() != null ) {
+            //TODO
+            // IMPLEMENT DELETION FOR IF OP AND OTHERWISE VOTING HERE
+        } else {
+            //If a gues delete illegal buttons and move the score down.
+            deleteQButton.setVisibility(View.GONE);
+            QUpVoteButton.setVisibility(View.GONE);
+            QDownVoteButton.setVisibility(View.GONE);
+            QScoreText.setTranslationY(50);
+        }
+    }
+
     @RequiresApi(api = Build.VERSION_CODES.N)
     private void handleQuestionData(DocumentSnapshot document) {
+        //Method to display the Question data in the correct boxes.
         QuestionDatabaseRecord record = document.toObject(QuestionDatabaseRecord.class);
 
-        TextView titleView = findViewById(R.id.CreateTitle);
+        TextView titleView = findViewById(R.id.questionTitleView);
         TextView questionView = findViewById(R.id.QuestText);
         TextView timeView = findViewById(R.id.QuestTime);
         TextView userView = findViewById(R.id.QuestUser);
@@ -94,8 +117,7 @@ public class QuestionViewActivity extends AppCompatActivity {
         questionView.setText(record.post.content.body);
 
         SimpleDateFormat dtf = new SimpleDateFormat("dd/MM/yyyy");
-
-        timeView.setText(dtf.format(record.post.creationDate));
+        timeView.setText("Posted on: " + dtf.format(record.post.creationDate));
 
         db.collection("users")
                 .document(record.post.authorId)
@@ -108,7 +130,6 @@ public class QuestionViewActivity extends AppCompatActivity {
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     private void setAdapter(DocumentSnapshot document) {
-
         db.collection("questions")
                 .document(document.getId())
                 .collection("responses")
@@ -116,16 +137,15 @@ public class QuestionViewActivity extends AppCompatActivity {
                     handleResponses(responseSnapshot);
                 });
 
-
-
-
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
-        answerListView.setLayoutManager(layoutManager);
-        answerListView.setItemAnimator(new DefaultItemAnimator());
+        QuestionListView.setLayoutManager(layoutManager);
+        QuestionListView.setItemAnimator(new DefaultItemAnimator());
+
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     private void handleResponses(QuerySnapshot responsesDoc) {
+        //This section makes the recycler for the responses work.
         List<Response> responses = new ArrayList<>();
 
         List<Task<DocumentSnapshot>> userQueries = responsesDoc
@@ -140,7 +160,6 @@ public class QuestionViewActivity extends AppCompatActivity {
                             .get();
 
 
-
                     userQuery.addOnSuccessListener(userDoc ->
                             responses
                                     .add(Response.fromDatabaseRecord(responseDoc.getId(),
@@ -151,18 +170,8 @@ public class QuestionViewActivity extends AppCompatActivity {
                 }).collect(Collectors.toList());
 
         Tasks.whenAllSuccess(userQueries).addOnSuccessListener(x -> {
-            AnswersRecyclerAdapter adapter = new AnswersRecyclerAdapter(responses);
-            answerListView.setAdapter(adapter);
+            QuestionViewRecyclerAdapter adapter = new QuestionViewRecyclerAdapter(responses);
+            QuestionListView.setAdapter(adapter);
         });
     }
-
-//    private void setUserInfo() {
-//        usersList.add(new User("Marnick", "Computer Science", User.getNewUserID(), User.UserType.USER, "", ""));
-//        usersList.add(new User("Fleur", "Computer Science", User.getNewUserID(), User.UserType.USER, "", ""));
-//        usersList.add(new User("Sjoerd", "Computer Science", User.getNewUserID(), User.UserType.USER, "", ""));
-//        usersList.add(new User("Rob", "Computer Science", User.getNewUserID(), User.UserType.USER, "", ""));
-//        usersList.add(new User("Robie", "Computer Science", User.getNewUserID(), User.UserType.USER, "", ""));
-//        usersList.add(new User("Rafael", "Computer Science", User.getNewUserID(), User.UserType.USER, "", ""));
-//
-//    }
 }
