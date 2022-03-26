@@ -16,21 +16,22 @@
         android:layout_height="wrap_content"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
         android:name="com.example.myapplication.BannerFragment"
         />
 
-    <ScrollView
-        android:layout_height="0dp"
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
-        app:layout_constraintStart_toStartOf="parent"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/header"
-        app:layout_constraintBottom_toBottomOf="parent">
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/header">
 
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="8000dp">
 
             <ImageButton
                 android:id="@+id/QuestionDeleteButton"
@@ -38,11 +39,11 @@
                 android:layout_height="28dp"
                 android:layout_marginStart="4dp"
                 android:layout_marginTop="16dp"
+                android:contentDescription="DeletionButton"
+                android:visibility="invisible"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/QuestionDownVote"
-                app:srcCompat="@drawable/ic_delete"
-                android:contentDescription="DeletionButton"
-                android:visibility="invisible"/>
+                app:srcCompat="@drawable/ic_delete" />
 
             <TextView
                 android:id="@+id/QuestionScore"
@@ -63,20 +64,20 @@
                 android:layout_height="32dp"
                 android:layout_marginStart="4dp"
                 android:layout_marginTop="16dp"
+                android:visibility="invisible"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/ic_upvote"
-                android:visibility="invisible"/>
+                app:srcCompat="@drawable/ic_upvote" />
 
             <ImageButton
                 android:id="@+id/QuestionDownVote"
                 android:layout_width="38dp"
                 android:layout_height="32dp"
                 android:layout_marginStart="4dp"
+                android:visibility="invisible"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/QuestionScore"
-                app:srcCompat="@drawable/ic_downvote"
-                android:visibility="invisible"/>
+                app:srcCompat="@drawable/ic_downvote" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/QuestionTagsView"
@@ -93,8 +94,8 @@
                 android:id="@+id/questionTitleView"
                 android:layout_width="306dp"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="4dp"
                 android:layout_marginTop="12dp"
+                android:layout_marginEnd="4dp"
                 android:text="Question Title"
                 android:textColor="#000000"
                 android:textSize="18sp"
@@ -180,36 +181,32 @@
                 android:inputType="textPersonName"
                 android:textColor="#000000"
                 android:textSize="12sp"
-                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/QuestionViewRecycler"
-                app:layout_constraintVertical_bias="1.0" />
+                app:layout_constraintTop_toBottomOf="@+id/QuestionViewRecycler" />
 
             <ImageButton
                 android:id="@+id/replyButton"
                 android:layout_width="82dp"
                 android:layout_height="82dp"
                 android:layout_marginTop="20dp"
-                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/QuestionViewRecycler"
-                app:layout_constraintVertical_bias="1.0"
                 app:srcCompat="@android:drawable/ic_menu_send" />
 
             <TextView
                 android:id="@+id/questionDeletedText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="12dp"
                 android:layout_marginLeft="12dp"
-                android:textColor="@color/orangered"
+                android:layout_marginTop="12dp"
                 android:text="@string/post_is_deleted"
+                android:textColor="@color/orangered"
                 android:textStyle="italic"
+                android:visibility="gone"
                 app:layout_constraintStart_toEndOf="@+id/QuestionUpVote"
-                app:layout_constraintTop_toTopOf="parent"
-                android:visibility="gone"/>
+                app:layout_constraintTop_toTopOf="parent" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-    </ScrollView>
+    </androidx.core.widget.NestedScrollView>
 </androidx.constraintlayout.widget.ConstraintLayout>

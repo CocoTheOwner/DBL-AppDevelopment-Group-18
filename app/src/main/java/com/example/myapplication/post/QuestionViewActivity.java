@@ -345,7 +345,11 @@ public class QuestionViewActivity extends AppCompatActivity {
                     fetchResponseAuthors(question, responseSnapshot, currentUser);
                 });
 
-        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getApplicationContext()) {
+//            public boolean canScrollVertically() {
+//                return false;
+//            }
+        };
         QuestionListView.setLayoutManager(layoutManager);
         QuestionListView.setItemAnimator(new DefaultItemAnimator());
     }
@@ -378,6 +382,8 @@ public class QuestionViewActivity extends AppCompatActivity {
                 }).collect(Collectors.toList());
 
         Tasks.whenAllSuccess(userQueries).addOnSuccessListener(x -> {
+
+            System.out.println(responses.size());
 
             if (responses.size() > 1) {
                 for (int i = 0; i < responses.size(); i++) {
