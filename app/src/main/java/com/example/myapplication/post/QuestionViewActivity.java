@@ -345,11 +345,7 @@ public class QuestionViewActivity extends AppCompatActivity {
                     fetchResponseAuthors(question, responseSnapshot, currentUser);
                 });
 
-        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getApplicationContext()) {
-//            public boolean canScrollVertically() {
-//                return false;
-//            }
-        };
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
         QuestionListView.setLayoutManager(layoutManager);
         QuestionListView.setItemAnimator(new DefaultItemAnimator());
     }
