@@ -10,7 +10,7 @@
         android:id="@+id/ReplyText"
         android:layout_width="266dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="8dp"
         android:layout_marginEnd="16dp"
         android:background="#FFFFFF"
         android:text="Answer"
@@ -60,26 +60,14 @@
         app:srcCompat="@drawable/ic_downvote" />
 
     <TextView
-        android:id="@+id/ReplyTags"
-        android:layout_width="386dp"
-        android:layout_height="19dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="16dp"
-        android:text="tags"
-        android:textSize="10sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
         android:id="@+id/ReplyUser"
         android:layout_width="250dp"
         android:layout_height="19dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="12dp"
+        android:layout_marginTop="16dp"
         android:text="By:"
         android:textSize="10sp"
-        app:layout_constraintEnd_toStartOf="@+id/ReplyTags"
-        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.025"
         app:layout_constraintStart_toEndOf="@+id/ReplyUpVote"
         app:layout_constraintTop_toBottomOf="@+id/BestAnswer" />
 
@@ -122,10 +110,10 @@
         android:id="@+id/textView"
         android:layout_width="646dp"
         android:layout_height="49dp"
-        android:layout_marginTop="28dp"
+        android:layout_marginTop="12dp"
         android:layout_marginEnd="16dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintHorizontal_bias="0.846"
         app:layout_constraintStart_toEndOf="@+id/ReplyScore"
         app:layout_constraintTop_toBottomOf="@+id/ReplyText" />
 
