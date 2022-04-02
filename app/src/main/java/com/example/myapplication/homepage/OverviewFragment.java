@@ -12,7 +12,6 @@ import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.os.health.SystemHealthManager;
 import android.view.View;
 
 import com.example.myapplication.Question;
@@ -34,7 +33,7 @@ import java.util.stream.Collectors;
 
 public class OverviewFragment extends Fragment {
 
-    private HomePageViewModel model;
+    private FrontPageViewModel model;
     private FirebaseFirestore db;
     private RecyclerView categoryRecyclerView;
 
@@ -50,7 +49,7 @@ public class OverviewFragment extends Fragment {
         db = FirebaseFirestore.getInstance();
 
          model = new ViewModelProvider(requireActivity())
-                .get(HomePageViewModel.class);
+                .get(FrontPageViewModel.class);
 
         categoryRecyclerView = view.findViewById(R.id.categoryRecyclerView);
 

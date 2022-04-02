@@ -9,32 +9,22 @@ import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
-import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.SearchView;
-import android.widget.Toast;
 
 import com.example.myapplication.R;
 import com.example.myapplication.TagCollection;
 import com.example.myapplication.TagDatabaseRecord;
-import com.example.myapplication.UserSettingsActivity;
-import com.example.myapplication.login.LoginPage;
-import com.example.myapplication.post.CreateQuestionActivity;
-import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 
-import java.util.List;
 import java.util.stream.Collectors;
 
-public class HomePageActivity extends AppCompatActivity {
+public class FrontPageActivity extends AppCompatActivity {
 
-    private HomePageViewModel model;
+    private FrontPageViewModel model;
     private FragmentContainerView fragmentContainer;
     private RecyclerView tags;
     private RecyclerView.Adapter tagAdapter;
@@ -49,7 +39,7 @@ public class HomePageActivity extends AppCompatActivity {
         db = FirebaseFirestore.getInstance();
 
         fragmentContainer = findViewById(R.id.main_page_fragment_container);
-        model = new ViewModelProvider(this).get(HomePageViewModel.class);
+        model = new ViewModelProvider(this).get(FrontPageViewModel.class);
 
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction()

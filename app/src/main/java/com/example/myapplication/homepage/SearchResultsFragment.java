@@ -27,7 +27,6 @@ import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.function.Function;
 import java.util.stream.Collectors;
 
 public class SearchResultsFragment extends Fragment {
@@ -35,7 +34,7 @@ public class SearchResultsFragment extends Fragment {
     private List<Question> sortedQuestions;
     private RecyclerView results;
     private SearchResultsRecyclerAdapter resultsAdapter;
-    private HomePageViewModel model;
+    private FrontPageViewModel model;
     private String query = "";
     private FirebaseFirestore db;
 
@@ -47,7 +46,7 @@ public class SearchResultsFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         model = new ViewModelProvider(requireActivity())
-                .get(HomePageViewModel.class);
+                .get(FrontPageViewModel.class);
 
         db = FirebaseFirestore.getInstance();
 

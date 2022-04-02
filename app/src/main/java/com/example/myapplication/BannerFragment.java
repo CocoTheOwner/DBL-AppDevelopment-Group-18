@@ -7,34 +7,15 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProvider;
-import androidx.recyclerview.widget.DefaultItemAnimator;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.example.myapplication.homepage.Category;
-import com.example.myapplication.homepage.CategoryRecyclerAdapter;
-import com.example.myapplication.homepage.HomePageActivity;
-import com.example.myapplication.homepage.HomePageViewModel;
+import com.example.myapplication.homepage.FrontPageActivity;
 import com.example.myapplication.login.LoginPage;
 import com.example.myapplication.post.CreateQuestionActivity;
-import com.example.myapplication.post.QuestionViewActivity;
-import com.google.android.gms.tasks.Task;
-import com.google.android.gms.tasks.Tasks;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.FirebaseFirestore;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.stream.Collectors;
 
 public class BannerFragment extends Fragment {
 
@@ -61,7 +42,7 @@ public class BannerFragment extends Fragment {
         TextView bannerText = v.findViewById(R.id.banner_text);
 
         bannerText.setOnClickListener(x -> {
-            startActivity(new Intent(requireActivity(), HomePageActivity.class));
+            startActivity(new Intent(requireActivity(), FrontPageActivity.class));
         });
     }
 

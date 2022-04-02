@@ -17,7 +17,6 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
-import android.os.health.SystemHealthManager;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -28,8 +27,6 @@ import android.widget.Toast;
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
-import java.time.format.DateTimeFormatter;
-import java.time.LocalDateTime;
 
 import com.example.myapplication.BannerFragment;
 import com.example.myapplication.ContentDatabaseRecord;
@@ -38,20 +35,16 @@ import com.example.myapplication.QuestionDatabaseRecord;
 import com.example.myapplication.R;
 import com.example.myapplication.TagCollection;
 import com.example.myapplication.TagDatabaseRecord;
-import com.example.myapplication.homepage.HomePageActivity;
+import com.example.myapplication.homepage.FrontPageActivity;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
-import java.util.Map;
 import java.util.UUID;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
@@ -95,7 +88,7 @@ public class CreateQuestionActivity extends AppCompatActivity {
         exit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent home = new Intent(CreateQuestionActivity.this, HomePageActivity.class);
+                Intent home = new Intent(CreateQuestionActivity.this, FrontPageActivity.class);
                 startActivity(home);
             }
         });

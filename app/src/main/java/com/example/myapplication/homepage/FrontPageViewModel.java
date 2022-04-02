@@ -6,13 +6,13 @@ import androidx.lifecycle.ViewModel;
 
 import com.example.myapplication.TagCollection;
 
-public class HomePageViewModel extends ViewModel {
+public class FrontPageViewModel extends ViewModel {
     private MutableLiveData<TagCollection> tags = new MutableLiveData<>(new TagCollection());
     private MutableLiveData<String> searchString = new MutableLiveData<>("");
 
     private final TagCollection availableTags = new TagCollection();
 
-    public HomePageViewModel() {
+    public FrontPageViewModel() {
 
     }
 

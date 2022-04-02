@@ -10,7 +10,7 @@ import android.view.*;
 import android.widget.*;
 
 import com.example.myapplication.R;
-import com.example.myapplication.homepage.HomePageActivity;
+import com.example.myapplication.homepage.FrontPageActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.*;
@@ -32,7 +32,7 @@ public class LoginPage extends AppCompatActivity implements View.OnClickListener
         mAuth = FirebaseAuth.getInstance();
 
         if (mAuth.getCurrentUser() != null && mAuth.getCurrentUser().isEmailVerified()) {
-            startActivity(new Intent(this, HomePageActivity.class));
+            startActivity(new Intent(this, FrontPageActivity.class));
         }
 
         // Register button (clickable text)
@@ -82,7 +82,7 @@ public class LoginPage extends AppCompatActivity implements View.OnClickListener
                  This does require some additional checks for each activity, as it risks
                  nullpointer exceptions whenever using data of the current user. */
                 FirebaseAuth.getInstance().signOut();
-                startActivity(new Intent(this, HomePageActivity.class));
+                startActivity(new Intent(this, FrontPageActivity.class));
         }
 
     }
@@ -104,7 +104,7 @@ public class LoginPage extends AppCompatActivity implements View.OnClickListener
                             FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
                             if (user.isEmailVerified()) {
                                 // redirect to landing page
-                                startActivity(new Intent(LoginPage.this, HomePageActivity.class));
+                                startActivity(new Intent(LoginPage.this, FrontPageActivity.class));
                             } else {
                                 // TODO: Allow user to re-send verification email.
                                 Toast.makeText(LoginPage.this,
