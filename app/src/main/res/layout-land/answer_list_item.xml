@@ -8,16 +8,18 @@
 
     <TextView
         android:id="@+id/ReplyText"
-        android:layout_width="266dp"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="4dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginRight="16dp"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="20dp"
         android:background="#FFFFFF"
         android:text="Answer"
         android:textColor="#000000"
         android:textSize="10sp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.027"
+        app:layout_constraintStart_toEndOf="@+id/ReplyScore"
         app:layout_constraintTop_toBottomOf="@+id/ReplyUser" />
 
     <ImageButton
@@ -60,12 +62,14 @@
 
     <TextView
         android:id="@+id/ReplyUser"
-        android:layout_width="282dp"
-        android:layout_height="17dp"
-        android:layout_marginTop="6dp"
+        android:layout_width="250dp"
+        android:layout_height="19dp"
+        android:layout_marginTop="16dp"
         android:text="By:"
         android:textSize="10sp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.03"
+        app:layout_constraintStart_toEndOf="@+id/ReplyUpVote"
         app:layout_constraintTop_toBottomOf="@+id/BestAnswer" />
 
     <TextView
@@ -102,16 +106,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/ReplyDownVote"
         app:srcCompat="@drawable/ic_accept" />
-
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="265dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginRight="16dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/ReplyText" />
 
     <View
         android:layout_width="match_parent"
