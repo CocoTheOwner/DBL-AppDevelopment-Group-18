@@ -330,8 +330,7 @@ public class QuestionViewActivity extends AppCompatActivity {
         titleView.setText(question.getContent().getTitle());
         questionView.setText(question.getContent().getBody());
 
-        SimpleDateFormat dtf = new SimpleDateFormat("dd/MM/yyyy");
-        timeView.setText("Posted on: " + dtf.format(question.getCreationDate()));
+        timeView.setText("Posted on: " + question.getCreationDateString());
 
         userView.setText("By: " + question.getAuthor().getUserName());
     }

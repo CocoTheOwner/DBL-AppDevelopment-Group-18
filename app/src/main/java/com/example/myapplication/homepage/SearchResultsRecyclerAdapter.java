@@ -61,7 +61,8 @@ public class SearchResultsRecyclerAdapter extends RecyclerView.Adapter<SearchRes
                 + " ("+question.getVoteScoreString()+") By "
                                 // TODO: Figure out how to make this color string not hardcoded
                                 // This will probably be done using spannable in the future
-                + "<font color=#87ceeb>"+question.getAuthor().getUserName()+"</font>"));
+                + "<font color=#87ceeb>"+question.getAuthor().getUserName()+"</font>"
+                + "<font color=#c0c0c0> on " + question.getCreationDateString() + "</font>"));
 
         holder.textView.setOnClickListener(v -> {
             listener.onClick(question.getPostID());

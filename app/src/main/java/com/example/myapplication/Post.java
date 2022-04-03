@@ -1,5 +1,6 @@
 package com.example.myapplication;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
@@ -83,6 +84,11 @@ public abstract class Post {
         return creationDate;
     }
 
+
+    public String getCreationDateString() {
+        SimpleDateFormat dtf = new SimpleDateFormat("dd/MM/yyyy");
+        return dtf.format(this.creationDate);
+    }
     /**
      * Get the author of the post.
      * @return the author

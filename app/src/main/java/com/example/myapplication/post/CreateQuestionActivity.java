@@ -155,9 +155,7 @@ public class CreateQuestionActivity extends AppCompatActivity {
                 .map(tag -> TagCollection.trimTag(tag))
                 .collect(Collectors.toList());
 
-        SimpleDateFormat dtf = new SimpleDateFormat("dd/MM/yyyy");
         Date now = new Date();
-        String questionTime = dtf.format(now);
 
         if (imageAttached) {
             uploadPictureToStorage(imageId -> {
