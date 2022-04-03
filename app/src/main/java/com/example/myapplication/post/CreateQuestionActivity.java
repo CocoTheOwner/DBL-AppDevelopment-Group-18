@@ -17,11 +17,13 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.MultiAutoCompleteTextView;
+import android.widget.PopupMenu;
 import android.widget.Toast;
 
 import java.io.File;
@@ -111,12 +113,29 @@ public class CreateQuestionActivity extends AppCompatActivity {
         // TODO: Add user choice between viaFiles or viaCamera!
         add_image = findViewById(R.id.add_image_button);
         add_image.setOnClickListener(view -> {
-            // Check the required permissions. OnRequestPermissionsResult will redirect to
-            // camera activity result (callback of requestPermissions).
-            String[] cameraPerms = {Manifest.permission.CAMERA};
-            ActivityCompat.requestPermissions(this, cameraPerms, CAM_REQUESTCODE);
+            handleImageOptions(view);
         });
 
+    }
+
+    // Show a popup menu, letting the user choose between camera and gallery.
+    private void handleImageOptions(View v) {
+        PopupMenu imageMenu = new PopupMenu(getApplicationContext(), v); // Anchored on the button
+        imageMenu.getMenuInflater().inflate(R.menu.imagemenu, imageMenu.getMenu());
+        imageMenu.setOnMenuItemClickListener(menuItem -> {
+            if (menuItem.getItemId() == R.id.camera) { // Camera option clicked
+                // Check the required permissions. OnRequestPermissionsResult will redirect to
+                // camera activity result (callback of requestPermissions).
+                String[] cameraPerms = {Manifest.permission.CAMERA};
+                ActivityCompat.requestPermissions(this, cameraPerms, CAM_REQUESTCODE);
+            } else if (menuItem.getItemId() == R.id.gallery) { // Gallery chosen
+                pickerLauncherViaFiles.launch("image/*");
+            }
+
+            return true;
+        });
+
+        imageMenu.show();
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
@@ -147,17 +166,6 @@ public class CreateQuestionActivity extends AppCompatActivity {
         } else {
             createPost(questionTitle, questionText, tags, now, null);
         }
-
-
-
-        //TODO
-        // new question entry {
-        // add Title to database
-        // add Quest body to database
-        // add tags to database
-        // add user ID of question poster
-        // add image to base
-
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
@@ -221,7 +229,12 @@ public class CreateQuestionActivity extends AppCompatActivity {
                 new ActivityResultContracts.GetContent(),
                 result -> { // Here we choose what to do with the selected image
                     if (result != null) { // If an image was selected, we can use the URI stored in 'result'
-                        //TODO: Decide what to do with the selected image (Use picasso?)
+                        ImageView imagePreview = findViewById(R.id.imagePreview);
+                        tempLocURI = result;
+
+                        imagePreview.setImageURI(tempLocURI);
+
+                        imageAttached = true;
                     } else { // User does not select an image (e.g., presses the return button)
                         Toast.makeText(getApplicationContext(),
                                 "No image selected",
@@ -237,7 +250,6 @@ public class CreateQuestionActivity extends AppCompatActivity {
                 new ActivityResultContracts.TakePicture(),
                 result -> { // Here we choose what to do based on user action
                     if (result == true) { // The user has taken a picture
-                        //TODO Decide what to do with the selected image (Use picasso?)
 
                         ImageView imagePreview = findViewById(R.id.imagePreview);
 
