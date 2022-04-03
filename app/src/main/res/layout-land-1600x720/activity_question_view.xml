@@ -148,11 +148,12 @@
                 app:layout_constraintTop_toBottomOf="@+id/QuestText"
                 app:srcCompat="@android:drawable/ic_menu_report_image" />
 
+
             <View
                 android:id="@+id/view"
                 android:layout_width="match_parent"
-                android:layout_height="4dp"
-                android:layout_marginTop="12dp"
+                android:layout_height="2dp"
+                android:layout_margin="12dp"
                 android:background="@color/red"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
@@ -164,9 +165,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:nestedScrollingEnabled="false"
+                android:layout_marginTop="10dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/view" />
+
 
             <EditText
                 android:id="@+id/replyBox"
