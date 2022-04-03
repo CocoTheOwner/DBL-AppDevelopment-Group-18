@@ -341,6 +341,12 @@ public class QuestionViewActivity extends AppCompatActivity {
                 .document(question.getPostID())
                 .collection("responses")
                 .addSnapshotListener((responseSnapshot, e) -> {
+
+                    TextView replyCountView = findViewById(R.id.ReplyCount);
+
+                    replyCountView.setText(responseSnapshot.size() +
+                            (responseSnapshot.size() == 1 ? " Response" : " Responses"));
+
                     fetchResponseAuthors(question, responseSnapshot, currentUser);
                 });
 
