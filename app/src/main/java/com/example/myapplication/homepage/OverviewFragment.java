@@ -30,6 +30,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 public class OverviewFragment extends Fragment {
 
@@ -71,24 +72,31 @@ public class OverviewFragment extends Fragment {
                 .orderBy("post.creationDate", Query.Direction.DESCENDING)
                 .get().addOnSuccessListener(questionDocs -> {
 
-            List<Question> questions = new ArrayList<>();
+            Question[] questions = new Question[questionDocs.size()];
 
-            List<Task<DocumentSnapshot>> tasks = questionDocs.getDocuments().stream().map(doc -> {
+            List<Task<DocumentSnapshot>> tasks = IntStream.range(0, questionDocs.size()).mapToObj(index -> {
+
+                DocumentSnapshot doc = questionDocs.getDocuments().get(index);
 
                 QuestionDatabaseRecord record = doc.toObject(QuestionDatabaseRecord.class);
 
                 Task<DocumentSnapshot> task = db.collection("users")
                         .document(record.post.authorId).get();
 
-                task.addOnSuccessListener(doc2 -> questions.add(Question.fromDatabaseRecord(doc.getId(),
-                        record, User.fromDatabaseRecord(doc2.getId(),
-                                doc2.toObject(UserDatabaseRecord.class)))));
+                task.addOnSuccessListener(doc2 -> {
+                    questions[index] =
+                            Question.fromDatabaseRecord(
+                                    doc.getId(),
+                                    record,
+                                    User.fromDatabaseRecord(
+                                            doc2.getId(), doc2.toObject(UserDatabaseRecord.class)));
+                });
 
                 return task;
             }).collect(Collectors.toList());
 
             Tasks.whenAll(tasks).addOnSuccessListener(x -> {
-                updateQuestions(questions);
+                updateQuestions(Arrays.asList(questions));
             });
         });
     }
