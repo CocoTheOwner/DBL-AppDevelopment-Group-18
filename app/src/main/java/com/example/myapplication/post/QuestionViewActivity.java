@@ -388,7 +388,8 @@ public class QuestionViewActivity extends AppCompatActivity {
                     }
                 }
 
-                responses.subList(1, responses.size())
+                responses.subList((question.getBestAnswerId() == null ? 0 : 1),
+                        responses.size())
                         .sort((a, b) -> b.getVoteScore() - a.getVoteScore());
             }
 
