@@ -229,11 +229,17 @@ public class CreateQuestionActivity extends AppCompatActivity {
                 new ActivityResultContracts.GetContent(),
                 result -> { // Here we choose what to do with the selected image
                     if (result != null) { // If an image was selected, we can use the URI stored in 'result'
+
+                        // ImageView used to display a preview of the selected image
                         ImageView imagePreview = findViewById(R.id.imagePreview);
+
+                        // tempLocURI is used for the file to be be included with the post
                         tempLocURI = result;
 
+                        // Display a preview to the user
                         imagePreview.setImageURI(tempLocURI);
 
+                        // Notify the system that an image is attached to the post
                         imageAttached = true;
                     } else { // User does not select an image (e.g., presses the return button)
                         Toast.makeText(getApplicationContext(),
@@ -251,10 +257,13 @@ public class CreateQuestionActivity extends AppCompatActivity {
                 result -> { // Here we choose what to do based on user action
                     if (result == true) { // The user has taken a picture
 
+                        // ImageView used to display a preview of the selected image
                         ImageView imagePreview = findViewById(R.id.imagePreview);
 
+                        // Display a preview to the user
                         imagePreview.setImageURI(tempLocURI);
 
+                        // Notify the system that an image is attached to the post
                         imageAttached = true;
 
                     } else { // User has returned without taking a picture
