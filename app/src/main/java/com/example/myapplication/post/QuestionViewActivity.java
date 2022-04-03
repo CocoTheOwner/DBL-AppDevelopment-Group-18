@@ -330,7 +330,7 @@ public class QuestionViewActivity extends AppCompatActivity {
         titleView.setText(question.getContent().getTitle());
         questionView.setText(question.getContent().getBody());
 
-        timeView.setText("Posted on: " + question.getCreationDateString());
+        timeView.setText(question.getCreationDateString());
 
         userView.setText("By: " + question.getAuthor().getUserName());
     }

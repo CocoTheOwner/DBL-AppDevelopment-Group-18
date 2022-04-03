@@ -86,8 +86,26 @@ public abstract class Post {
 
 
     public String getCreationDateString() {
-        SimpleDateFormat dtf = new SimpleDateFormat("dd/MM/yyyy");
-        return dtf.format(this.creationDate);
+
+        long duration = new Date().getTime() - this.creationDate.getTime();
+
+        long minutes = duration / 1000 / 60;
+        long hours = minutes / 60;
+        long days = hours / 24;
+        long weeks = days / 7;
+
+        if (minutes <= 0) {
+            return "Just now";
+        } else if (hours <= 0) {
+            return minutes + " minutes ago";
+        } else if (days <= 0) {
+            return hours + " hours ago";
+        } else if (weeks <= 0) {
+            return days + " days ago";
+        } else {
+            SimpleDateFormat dtf = new SimpleDateFormat("dd/MM/yyyy");
+            return "on " + dtf.format(this.creationDate);
+        }
     }
     /**
      * Get the author of the post.
