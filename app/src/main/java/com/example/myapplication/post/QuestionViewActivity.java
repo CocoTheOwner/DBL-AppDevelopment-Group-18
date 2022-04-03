@@ -378,8 +378,6 @@ public class QuestionViewActivity extends AppCompatActivity {
 
         Tasks.whenAllSuccess(userQueries).addOnSuccessListener(x -> {
 
-            System.out.println(responses.size());
-
             if (responses.size() > 1) {
                 for (int i = 0; i < responses.size(); i++) {
                     if (responses.get(i).getPostID().equals(question.getBestAnswerId())) {
