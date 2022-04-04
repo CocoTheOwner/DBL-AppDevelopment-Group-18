@@ -17,7 +17,6 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -28,7 +27,6 @@ import android.widget.Toast;
 
 import java.io.File;
 import java.io.IOException;
-import java.text.SimpleDateFormat;
 
 import com.example.myapplication.BannerFragment;
 import com.example.myapplication.ContentDatabaseRecord;
@@ -115,8 +113,8 @@ public class CreateQuestionActivity extends AppCompatActivity {
         add_image.setOnClickListener(view -> {
             handleImageOptions(view);
         });
-
     }
+
 
     // Show a popup menu, letting the user choose between camera and gallery.
     private void handleImageOptions(View v) {
@@ -140,29 +138,44 @@ public class CreateQuestionActivity extends AppCompatActivity {
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     private void submit() {
-        EditText QuestionTitle = (EditText) findViewById(R.id.question_title);
-        EditText QuestionText = (EditText) findViewById(R.id.question_text);
+        EditText questionTitle = findViewById(R.id.question_title);
+        EditText questionText = findViewById(R.id.question_text);
         MultiAutoCompleteTextView tagInputView = findViewById(R.id.question_tags);
 
-        String questionTitle = QuestionTitle.getText().toString();
-        String questionText = QuestionText.getText().toString();
-        List<String> tags = Arrays.asList(tagInputView
-                .getText()
-                .toString()
-                .split("\\s*,\\s*"))
-                .stream()
-                .filter(s -> !s.isEmpty())
-                .map(tag -> TagCollection.trimTag(tag))
-                .collect(Collectors.toList());
+        if (validateContent(questionTitle)) {
+            String questionTitleString = questionTitle.getText().toString();
+            String questionTextString = questionText.getText().toString();
+            List<String> tags = Arrays.asList(tagInputView
+                    .getText()
+                    .toString()
+                    .split("\\s*,\\s*"))
+                    .stream()
+                    .filter(s -> !s.isEmpty())
+                    .map(tag -> TagCollection.trimTag(tag))
+                    .collect(Collectors.toList());
 
-        Date now = new Date();
 
-        if (imageAttached) {
-            uploadPictureToStorage(imageId -> {
-                createPost(questionTitle, questionText, tags, now, imageId);
-            });
+            Date now = new Date();
+
+            if (imageAttached) {
+                uploadPictureToStorage(imageId -> {
+                    createPost(questionTitleString, questionTextString, tags, now, imageId);
+                });
+            } else {
+                createPost(questionTitleString, questionTextString, tags, now, null);
+            }
+        }
+    }
+
+    private boolean validateContent(EditText questionTitle) {
+        String questionTitleString = questionTitle.getText().toString();
+
+        if (questionTitleString.replaceAll("\\s*", "").length() <= 0) {
+            questionTitle.setError("Your question needs a title");
+
+            return false;
         } else {
-            createPost(questionTitle, questionText, tags, now, null);
+            return true;
         }
     }
 

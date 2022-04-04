@@ -80,7 +80,7 @@
                 android:layout_marginHorizontal="20dp"
                 android:hapticFeedbackEnabled="true"
                 android:text="Submit"
-                app:backgroundTint="#C81919"
+                android:background="@color/red"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.2"
