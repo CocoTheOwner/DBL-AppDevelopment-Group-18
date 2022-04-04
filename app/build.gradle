@@ -8,10 +8,13 @@ android {
 
     defaultConfig {
         applicationId "com.example.myapplication"
-        minSdk 19
+        minSdk 21
         targetSdk 32
         versionCode 1
         versionName "1.0"
+
+        multiDexEnabled true
+
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -30,6 +33,8 @@ android {
 
 
 dependencies {
+    implementation 'com.android.support:multidex:1.0.3'
+
     implementation 'com.google.firebase:firebase-firestore:24.0.1'
     implementation 'com.google.firebase:firebase-storage:20.0.1'
     def fragment_version = "1.4.1"
