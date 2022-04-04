@@ -62,8 +62,9 @@
 
     <TextView
         android:id="@+id/ReplyUser"
-        android:layout_width="250dp"
+        android:layout_width="0dp"
         android:layout_height="19dp"
+        android:layout_marginStart="12dp"
         android:layout_marginTop="16dp"
         android:text="By:"
         android:textSize="10sp"

@@ -61,12 +61,13 @@
 
     <TextView
         android:id="@+id/ReplyUser"
-        android:layout_width="127dp"
+        android:layout_width="0dp"
         android:layout_height="19dp"
         android:layout_marginStart="20dp"
         android:layout_marginTop="20dp"
         android:text="By:"
         android:textSize="10sp"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/ReplyUpVote"
         app:layout_constraintTop_toBottomOf="@+id/BestAnswer" />
 
