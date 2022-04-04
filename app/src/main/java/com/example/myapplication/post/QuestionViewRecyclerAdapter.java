@@ -111,6 +111,12 @@ public class QuestionViewRecyclerAdapter extends RecyclerView.Adapter<QuestionVi
 
         holder.setup(responses, response);
 
+        if (currentUser != null) {
+            if (question.getAuthor().getUserID().equals(currentUser.getUserID())) {
+                holder.accept.setVisibility(View.VISIBLE);
+            }
+        }
+
         if (response.getPostID().equals(question.getBestAnswerId())) {
             holder.bestAnswer.setVisibility(View.VISIBLE);
         }
