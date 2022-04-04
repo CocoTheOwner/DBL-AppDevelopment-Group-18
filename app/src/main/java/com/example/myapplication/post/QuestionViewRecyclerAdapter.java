@@ -50,8 +50,8 @@ public class QuestionViewRecyclerAdapter extends RecyclerView.Adapter<QuestionVi
         private TextView answerUserN;
         private TextView body;
         private ImageView delete;
-        private ImageButton upVote;
-        private ImageButton downVote;
+        private ImageView upVote;
+        private ImageView downVote;
         private ImageView accept;
         private TextView voteScore;
         private TextView bestAnswer;

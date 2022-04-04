@@ -20,7 +20,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/ReplyUser" />
 
-    <ImageButton
+    <ImageView
         android:id="@+id/ReplyUpVote"
         android:layout_width="36dp"
         android:layout_height="28dp"
@@ -28,10 +28,10 @@
         android:layout_marginLeft="20dp"
         android:layout_marginTop="16dp"
 
-        android:visibility="invisible"
+        android:visibility="visible"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/ic_upvote" />
+        app:srcCompat="@drawable/ic_uparrow" />
 
     <TextView
         android:id="@+id/ReplyScore"
@@ -43,20 +43,21 @@
         android:gravity="center"
         android:text="0"
         android:textStyle="bold"
+        android:textColor="@color/black"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/ReplyUpVote" />
 
-    <ImageButton
+    <ImageView
         android:id="@+id/ReplyDownVote"
         android:layout_width="36dp"
         android:layout_height="28dp"
         android:layout_marginStart="20dp"
         android:layout_marginLeft="20dp"
         android:layout_marginTop="4dp"
-        android:visibility="invisible"
+        android:visibility="visible"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/ReplyScore"
-        app:srcCompat="@drawable/ic_downvote" />
+        app:srcCompat="@drawable/ic_downarrow" />
 
     <TextView
         android:id="@+id/ReplyUser"
