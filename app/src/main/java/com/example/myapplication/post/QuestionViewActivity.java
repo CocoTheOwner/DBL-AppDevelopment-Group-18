@@ -119,20 +119,30 @@ public class QuestionViewActivity extends AppCompatActivity {
 
         if (auth.getCurrentUser() != null) {
             responseButton.setOnClickListener(v -> {
+                if (validateResponse(replyBox)) {
+                    String text = replyBox.getText().toString();
+                    replyBox.setText("");
 
-                String text = replyBox.getText().toString();
-                replyBox.setText("");
-
-                db.collection("questions")
-                        .document(documentId)
-                        .collection("responses")
-                        .add(new PostDatabaseRecord(auth.getCurrentUser().getUid(),
-                                new ContentDatabaseRecord(null, "", text ),
-                                new Date()));
+                    db.collection("questions")
+                            .document(documentId)
+                            .collection("responses")
+                            .add(new PostDatabaseRecord(auth.getCurrentUser().getUid(),
+                                    new ContentDatabaseRecord(null, "", text),
+                                    new Date()));
+                }
             });
         } else {
             responseButton.setVisibility(View.GONE);
             replyBox.setVisibility(View.GONE);
+        }
+    }
+    private boolean validateResponse(EditText replyBox) {
+        if (replyBox.getText().toString().replaceAll("\\s*", "").length() <= 0) {
+            replyBox.setError("You cannot submit an empty response");
+
+            return false;
+        } else {
+            return true;
         }
     }
 
