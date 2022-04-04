@@ -1,6 +1,7 @@
 package com.example.myapplication.post;
 
 import android.os.Build;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -153,7 +154,8 @@ public class QuestionViewRecyclerAdapter extends RecyclerView.Adapter<QuestionVi
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
         //Sets the text for the questions
         Response response = responses.get(position);
-        holder.answerUserN.setText("posted by: " + response.getAuthor().getUserName());
+        holder.answerUserN.setText(TextUtils.concat("Response by: ",
+                response.getAuthorAndDateText()));
         holder.body.setText(response.getContent().getBody());
 
         if (currentUser != null) {

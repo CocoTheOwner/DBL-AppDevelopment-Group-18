@@ -1,6 +1,7 @@
 package com.example.myapplication.homepage;
 
 import android.text.Html;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -56,13 +57,11 @@ public class SearchResultsRecyclerAdapter extends RecyclerView.Adapter<SearchRes
         Question question = questions.get(position);
 
         holder.textView.setText(
-                Html.fromHtml(
+                TextUtils.concat(Html.fromHtml(
                         "<u>"+ question.getContent().getTitle()+"</u>"
-                + " ("+question.getVoteScoreString()+") By "
-                                // TODO: Figure out how to make this color string not hardcoded
-                                // This will probably be done using spannable in the future
-                + "<font color=#87ceeb>"+question.getAuthor().getUserName()+"</font>"
-                + " <font color=#c0c0c0>" + question.getCreationDateString() + "</font>"));
+                                + " ("+question.getVoteScoreString()+") By "),
+                        question.getAuthorAndDateText())
+                 );
 
         holder.textView.setOnClickListener(v -> {
             listener.onClick(question.getPostID());

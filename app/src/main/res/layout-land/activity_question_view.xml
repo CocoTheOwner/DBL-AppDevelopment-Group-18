@@ -114,24 +114,10 @@
                 android:id="@+id/QuestUser"
                 android:layout_width="224dp"
                 android:layout_height="18dp"
-                android:layout_marginTop="12dp"
-                android:layout_marginEnd="16dp"
+                android:layout_marginTop="8dp"
                 android:text="By: ....."
                 android:textSize="12sp"
-                app:layout_constraintEnd_toStartOf="@+id/QuestTime"
-                app:layout_constraintHorizontal_bias="0.371"
-                app:layout_constraintStart_toEndOf="@+id/QuestionScore"
-                app:layout_constraintTop_toBottomOf="@+id/questionTitleView" />
-
-            <TextView
-                android:id="@+id/QuestTime"
-                android:layout_width="178dp"
-                android:layout_height="18dp"
-                android:layout_marginTop="12dp"
-                android:layout_marginEnd="232dp"
-                android:text="At:"
-                android:textSize="12sp"
-                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/questionTitleView"
                 app:layout_constraintTop_toBottomOf="@+id/questionTitleView" />
 
             <TextView

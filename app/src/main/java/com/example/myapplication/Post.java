@@ -1,5 +1,8 @@
 package com.example.myapplication;
 
+import android.text.Html;
+import android.text.Spanned;
+
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -107,6 +110,19 @@ public abstract class Post {
             return "on " + dtf.format(this.creationDate);
         }
     }
+
+    public Spanned getAuthorAndDateText() {
+        // TODO: Figure out how to make this color string not hardcoded
+        // This will probably be done using spannable in the future
+
+        String color = author.getUserType() == User.UserType.USER ?
+                "#87ceeb" :
+                "#178b17";
+
+        return Html.fromHtml("<font color="+color+">"+this.getAuthor().getUserName()+"</font>"
+                + " <font color=#a0a0a0>" + this.getCreationDateString() + "</font>");
+    }
+
     /**
      * Get the author of the post.
      * @return the author

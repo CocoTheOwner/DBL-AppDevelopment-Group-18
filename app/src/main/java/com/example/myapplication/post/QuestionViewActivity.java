@@ -13,6 +13,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Build;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -336,16 +337,13 @@ public class QuestionViewActivity extends AppCompatActivity {
         //Method to display the Question data in the correct boxes.
         TextView titleView = findViewById(R.id.questionTitleView);
         TextView questionView = findViewById(R.id.QuestText);
-        TextView timeView = findViewById(R.id.QuestTime);
         TextView userView = findViewById(R.id.QuestUser);
 
 
         titleView.setText(question.getContent().getTitle());
         questionView.setText(question.getContent().getBody());
 
-        timeView.setText(question.getCreationDateString());
-
-        userView.setText("By: " + question.getAuthor().getUserName());
+        userView.setText(TextUtils.concat("By: ", question.getAuthorAndDateText()));
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)
