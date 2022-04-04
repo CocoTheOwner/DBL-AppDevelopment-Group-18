@@ -8,9 +8,6 @@ import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 
 import com.example.myapplication.Post;
-import com.example.myapplication.Question;
-import com.example.myapplication.QuestionDatabaseRecord;
-import com.example.myapplication.R;
 import com.example.myapplication.User;
 import com.example.myapplication.VoteDatabaseRecord;
 import com.google.firebase.firestore.CollectionReference;
@@ -23,12 +20,15 @@ public class Votes {
     private ImageView downVotes;
     private TextView votes;
     private CollectionReference posts;
+    private String voteScoreField;
 
-    public Votes(ImageView upVotes, ImageView downVotes, TextView votes, CollectionReference posts) {
+    public Votes(ImageView upVotes, ImageView downVotes, TextView votes,
+                 CollectionReference posts, String voteScoreField) {
         this.upVotes = upVotes;
         this.downVotes = downVotes;
         this.votes = votes;
         this.posts = posts;
+        this.voteScoreField = voteScoreField;
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)
@@ -101,7 +101,7 @@ public class Votes {
 
                         posts
                                 .document(post.getPostID())
-                                .update("post.voteScore", FieldValue.increment(1));
+                                .update(voteScoreField, FieldValue.increment(1));
 
                         setDownVoteButtonEnabled(true);
 
@@ -114,7 +114,7 @@ public class Votes {
 
                         posts
                                 .document(post.getPostID())
-                                .update("post.voteScore", FieldValue.increment(1));
+                                .update(voteScoreField, FieldValue.increment(1));
 
                         setUpVoteButtonEnabled(false);
                     }
@@ -133,7 +133,7 @@ public class Votes {
 
                         posts
                                 .document(post.getPostID())
-                                .update("post.voteScore", FieldValue.increment(-1));
+                                .update(voteScoreField, FieldValue.increment(-1));
 
                         setUpVoteButtonEnabled(true);
 
@@ -146,7 +146,7 @@ public class Votes {
 
                         posts
                                 .document(post.getPostID())
-                                .update("post.voteScore", FieldValue.increment(-1));
+                                .update(voteScoreField, FieldValue.increment(-1));
 
                         setDownVoteButtonEnabled(false);
                     }
@@ -160,7 +160,7 @@ public class Votes {
                 .document(questionId)
                 .get()
                 .addOnSuccessListener(doc -> {
-                    votes.setText(doc.toObject(QuestionDatabaseRecord.class).post.voteScore + "");
+                    votes.setText(doc.get(voteScoreField) + "");
                 });
     }
 

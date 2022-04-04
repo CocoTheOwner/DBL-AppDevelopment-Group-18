@@ -19,6 +19,7 @@ import com.example.myapplication.R;
 import com.example.myapplication.Response;
 import com.example.myapplication.User;
 import com.example.myapplication.VoteDatabaseRecord;
+import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -56,6 +57,7 @@ public class QuestionViewRecyclerAdapter extends RecyclerView.Adapter<QuestionVi
         private TextView voteScore;
         private TextView bestAnswer;
         private TextView deletedText;
+        private Votes votes;
 
         public MyViewHolder(final View view){
             super(view);
@@ -68,77 +70,12 @@ public class QuestionViewRecyclerAdapter extends RecyclerView.Adapter<QuestionVi
             voteScore = view.findViewById(R.id.ReplyScore);
             bestAnswer = view.findViewById(R.id.BestAnswer);
             deletedText = view.findViewById(R.id.ResponseDeletedText);
-
-        }
-
-        public void displayScore(DocumentReference responseDoc) {
-            responseDoc
-                    .get()
-                    .addOnSuccessListener(doc -> {
-                        voteScore.setText("" + doc.toObject(PostDatabaseRecord.class).voteScore);
-                    });
         }
 
         @RequiresApi(api = Build.VERSION_CODES.N)
-        public void setUpButtons(DocumentReference responseDoc) {
-            upVote.setOnClickListener(v -> {
-                fetchVoteData(responseDoc, (upVoted, downVoted) -> {
-                    if (downVoted) {
-                        responseDoc.collection("downVotes")
-                                .document(currentUser.getUserID())
-                                .delete();
-                    }
-
-                    if (!upVoted) {
-                        responseDoc.collection("upVotes")
-                                .document(currentUser.getUserID())
-                                .set(new VoteDatabaseRecord(currentUser.getUserID()));
-
-                        if (downVoted) {
-                            responseDoc.update("voteScore", FieldValue.increment(2));
-                        } else {
-                            responseDoc.update("voteScore", FieldValue.increment(1));
-                        }
-                    }
-                });
-            });
-
-            downVote.setOnClickListener(v -> {
-                fetchVoteData(responseDoc, (upVoted, downVoted) -> {
-                    if (upVoted) {
-                        responseDoc.collection("upVotes")
-                                .document(currentUser.getUserID())
-                                .delete();
-                    }
-
-                    if (!downVoted) {
-                        responseDoc.collection("downVotes")
-                                .document(currentUser.getUserID())
-                                .set(new VoteDatabaseRecord(currentUser.getUserID()));
-
-                        if (upVoted) {
-                            responseDoc.update("voteScore", FieldValue.increment(-2));
-                        } else {
-                            responseDoc.update("voteScore", FieldValue.increment(-1));
-                        }
-                    }
-                });
-            });
-        }
-
-        @RequiresApi(api = Build.VERSION_CODES.N)
-        private void fetchVoteData(DocumentReference responseDoc, BiConsumer<Boolean, Boolean> f) {
-            responseDoc.collection("upVotes")
-                    .whereEqualTo("voterId", currentUser.getUserID())
-                    .get()
-                    .addOnSuccessListener(upDocs -> {
-                        responseDoc.collection("downVotes")
-                                .whereEqualTo("voterId", currentUser.getUserID())
-                                .get()
-                                .addOnSuccessListener(downDocs -> {
-                                    f.accept(upDocs.size() > 0, downDocs.size() > 0);
-                                });
-                    });
+        public void setup(CollectionReference responses, Response response) {
+            new Votes(upVote, downVote, voteScore, responses, "voteScore")
+                    .setup(response, currentUser);
         }
     }
 
@@ -168,19 +105,11 @@ public class QuestionViewRecyclerAdapter extends RecyclerView.Adapter<QuestionVi
                 holder.downVote.setVisibility(View.VISIBLE);
             }
         }
-        DocumentReference responseDoc = db.collection("questions")
+        CollectionReference responses = db.collection("questions")
                 .document(question.getPostID())
-                .collection("responses")
-                .document(response.getPostID());
+                .collection("responses");
 
-        holder.displayScore(responseDoc);
-
-        if (currentUser != null) {
-            if (question.getAuthor().getUserID().equals(currentUser.getUserID())) {
-                holder.accept.setVisibility(View.VISIBLE);
-            }
-            holder.setUpButtons(responseDoc);
-        }
+        holder.setup(responses, response);
 
         if (response.getPostID().equals(question.getBestAnswerId())) {
             holder.bestAnswer.setVisibility(View.VISIBLE);

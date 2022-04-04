@@ -161,7 +161,8 @@ public class QuestionViewActivity extends AppCompatActivity {
                 findViewById(R.id.QuestionUpVote),
                 findViewById(R.id.QuestionDownVote),
                 findViewById(R.id.QuestionScore),
-                db.collection("questions")
+                db.collection("questions"),
+                "post.voteScore"
         ).setup(question, currentUser);
     }
 
