@@ -151,15 +151,12 @@ public class QuestionViewActivity extends AppCompatActivity {
     @RequiresApi(api = Build.VERSION_CODES.N)
     private void handleData(@Nullable User currentUser, Question question) {
         displayQuestionData(question);
-        setupQuestionButtonVisibility(currentUser, question.getAuthor(), question);
+        setupQuestionButtonVisibility(currentUser);
         setupDeleteButton(question);
         setupResponses(question, currentUser);
         displayScore(question.getPostID());
         displayAttachment(question);
-
-        if (currentUser != null) {
-            setUpVoteButtons(question, currentUser);
-        }
+        setUpVoteButtons(question, currentUser);
     }
 
     private void setupDeleteButton(Question question) {
@@ -203,20 +200,11 @@ public class QuestionViewActivity extends AppCompatActivity {
         }
     }
 
-    private void setupQuestionButtonVisibility(
-            @Nullable User currentUser,
-            User author,
-            Question question) {
+    private void setupQuestionButtonVisibility(@Nullable User currentUser) {
         //Make delete and best answer buttons invisible for correct users.
         ImageButton deleteQButton = findViewById(R.id.QuestionDeleteButton);
-        ImageButton QUpVoteButton = findViewById(R.id.QuestionUpVote);
-        ImageButton QDownVoteButton = findViewById(R.id.QuestionDownVote);
 
         if (currentUser != null ) {
-            if (!auth.getCurrentUser().getUid().equals(author.getUserID())) {
-                QUpVoteButton.setVisibility(View.VISIBLE);
-                QDownVoteButton.setVisibility(View.VISIBLE);
-            }
             if (currentUser.getUserType() == User.UserType.MODERATOR) {
                 deleteQButton.setVisibility(View.VISIBLE);
             }
@@ -244,81 +232,95 @@ public class QuestionViewActivity extends AppCompatActivity {
                 });
     }
 
+    private void setVoteButtonEnabled(ImageView view, boolean enabled) {
+        if (enabled) {
+            view.setAlpha(1f);
+        } else {
+            view.setAlpha(0.3f);
+        }
+        view.setEnabled(enabled);
+    }
+
     @RequiresApi(api = Build.VERSION_CODES.N)
     private void setUpVoteButtons(Question question, User currentUser) {
 
-        ImageButton questionUpVoteButton = findViewById(R.id.QuestionUpVote);
-        ImageButton questionDownVoteButton = findViewById(R.id.QuestionDownVote);
+        ImageView questionUpVoteButton = findViewById(R.id.QuestionUpVote);
+        ImageView questionDownVoteButton = findViewById(R.id.QuestionDownVote);
 
+        setVoteButtonEnabled(questionUpVoteButton, false);
+        setVoteButtonEnabled(questionDownVoteButton, false);
 
+        if (currentUser != null && !currentUser.getUserID().equals(question.getAuthor().getUserID())) {
 
-        questionUpVoteButton.setOnClickListener(v -> {
             fetchVoteData(question, currentUser, (upVoted, downVoted) -> {
-                if (downVoted) {
-                    db.collection("questions")
-                            .document(question.getPostID())
-                            .collection("downVotes")
-                            .document(currentUser.getUserID())
-                            .delete();
-                }
+                setVoteButtonEnabled(questionUpVoteButton, !upVoted);
+                setVoteButtonEnabled(questionDownVoteButton, !downVoted);
+            });
 
-                if (!upVoted) {
-                    db.collection("questions")
-                            .document(question.getPostID())
-                            .collection("upVotes")
-                            .document(currentUser.getUserID())
-                            .set(new VoteDatabaseRecord(currentUser.getUserID()));
-
-
+            questionUpVoteButton.setOnClickListener(v -> {
+                fetchVoteData(question, currentUser, (upVoted, downVoted) -> {
                     if (downVoted) {
                         db.collection("questions")
                                 .document(question.getPostID())
-                                .update("post.voteScore", FieldValue.increment(2));
+                                .collection("downVotes")
+                                .document(currentUser.getUserID())
+                                .delete();
 
-                    } else {
                         db.collection("questions")
                                 .document(question.getPostID())
                                 .update("post.voteScore", FieldValue.increment(1));
+
+                        setVoteButtonEnabled(questionDownVoteButton, true);
+
+                    } else if (!upVoted) {
+                        db.collection("questions")
+                                .document(question.getPostID())
+                                .collection("upVotes")
+                                .document(currentUser.getUserID())
+                                .set(new VoteDatabaseRecord(currentUser.getUserID()));
+
+                        db.collection("questions")
+                                .document(question.getPostID())
+                                .update("post.voteScore", FieldValue.increment(1));
+
+                        setVoteButtonEnabled(questionUpVoteButton, false);
                     }
-
                     displayScore(question.getPostID());
-                }
+                });
             });
-        });
 
-        questionDownVoteButton.setOnClickListener(v -> {
-            fetchVoteData(question, currentUser, (upVoted, downVoted) -> {
-                if (upVoted) {
-                    db.collection("questions")
-                            .document(question.getPostID())
-                            .collection("upVotes")
-                            .document(currentUser.getUserID())
-                            .delete();
-
-
-                }
-
-                if (!downVoted) {
-                    db.collection("questions")
-                            .document(question.getPostID())
-                            .collection("downVotes")
-                            .document(currentUser.getUserID())
-                            .set(new VoteDatabaseRecord(currentUser.getUserID()));
-
+            questionDownVoteButton.setOnClickListener(v -> {
+                fetchVoteData(question, currentUser, (upVoted, downVoted) -> {
                     if (upVoted) {
                         db.collection("questions")
                                 .document(question.getPostID())
-                                .update("post.voteScore", FieldValue.increment(-2));
-                    } else {
+                                .collection("upVotes")
+                                .document(currentUser.getUserID())
+                                .delete();
+
                         db.collection("questions")
                                 .document(question.getPostID())
                                 .update("post.voteScore", FieldValue.increment(-1));
-                    }
 
+                        setVoteButtonEnabled(questionUpVoteButton, true);
+
+                    } else if (!downVoted) {
+                        db.collection("questions")
+                                .document(question.getPostID())
+                                .collection("downVotes")
+                                .document(currentUser.getUserID())
+                                .set(new VoteDatabaseRecord(currentUser.getUserID()));
+
+                        db.collection("questions")
+                                .document(question.getPostID())
+                                .update("post.voteScore", FieldValue.increment(-1));
+
+                        setVoteButtonEnabled(questionDownVoteButton, false);
+                    }
                     displayScore(question.getPostID());
-                }
+                });
             });
-        });
+        }
     }
 
     private void displayScore(String questionId) {

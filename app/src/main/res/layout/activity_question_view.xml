@@ -58,26 +58,26 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/QuestionUpVote" />
 
-            <ImageButton
+            <ImageView
                 android:id="@+id/QuestionUpVote"
                 android:layout_width="38dp"
                 android:layout_height="32dp"
                 android:layout_marginStart="4dp"
                 android:layout_marginTop="16dp"
-                android:visibility="invisible"
+                android:visibility="visible"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/ic_upvote" />
+                app:srcCompat="@drawable/ic_uparrow" />
 
-            <ImageButton
+            <ImageView
                 android:id="@+id/QuestionDownVote"
                 android:layout_width="38dp"
                 android:layout_height="32dp"
                 android:layout_marginStart="4dp"
-                android:visibility="invisible"
+                android:visibility="visible"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/QuestionScore"
-                app:srcCompat="@drawable/ic_downvote" />
+                app:srcCompat="@drawable/ic_downarrow" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/QuestionTagsView"
