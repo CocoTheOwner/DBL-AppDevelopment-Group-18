@@ -191,7 +191,6 @@
                 android:ems="10"
                 android:gravity="top|left"
                 android:hint="Type your reply here"
-                android:inputType="textPersonName"
                 android:textColor="#000000"
                 android:textSize="12sp"
                 app:layout_constraintStart_toStartOf="parent"
