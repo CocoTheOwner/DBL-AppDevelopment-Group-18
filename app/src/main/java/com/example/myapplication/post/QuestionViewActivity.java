@@ -119,12 +119,15 @@ public class QuestionViewActivity extends AppCompatActivity {
 
         if (auth.getCurrentUser() != null) {
             responseButton.setOnClickListener(v -> {
+
+                String text = replyBox.getText().toString();
+                replyBox.setText("");
+
                 db.collection("questions")
                         .document(documentId)
                         .collection("responses")
                         .add(new PostDatabaseRecord(auth.getCurrentUser().getUid(),
-                                new ContentDatabaseRecord(null, "",
-                                        replyBox.getText().toString()),
+                                new ContentDatabaseRecord(null, "", text ),
                                 new Date()));
             });
         } else {
