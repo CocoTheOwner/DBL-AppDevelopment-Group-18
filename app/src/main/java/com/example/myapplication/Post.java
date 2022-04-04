@@ -100,11 +100,23 @@ public abstract class Post {
         if (minutes <= 0) {
             return "Just now";
         } else if (hours <= 0) {
-            return minutes + " minutes ago";
+            if (minutes == 1) {
+                return minutes + " minute ago";
+            } else {
+                return minutes + " minutes ago";
+            }
         } else if (days <= 0) {
-            return hours + " hours ago";
+            if (hours == 1) {
+                return hours + " hour ago";
+            } else {
+                return hours + " hours ago";
+            }
         } else if (weeks <= 0) {
-            return days + " days ago";
+            if (days == 1) {
+                return days + " day ago";
+            } else {
+                return days + " days ago";
+            }
         } else {
             SimpleDateFormat dtf = new SimpleDateFormat("dd/MM/yyyy");
             return "on " + dtf.format(this.creationDate);
