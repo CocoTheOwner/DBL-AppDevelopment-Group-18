@@ -52,7 +52,7 @@ public class QuestionViewActivity extends AppCompatActivity {
     private FirebaseFirestore db;
     private FirebaseAuth auth;
     private StorageReference storageRef;
-    private List<Response> responses;
+    private List<Response> responses = new ArrayList<>();
     private QuestionViewRecyclerAdapter adapter;
 
     @RequiresApi(api = Build.VERSION_CODES.N)
