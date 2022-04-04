@@ -58,6 +58,10 @@ public class Question extends InteractablePost {
         return bestAnswerId;
     }
 
+    public void setBestAnswerId(String bestAnswerId) {
+        this.bestAnswerId = bestAnswerId;
+    }
+
     public static Question fromDatabaseRecord(String id, QuestionDatabaseRecord record, User user) {
         return new Question(id,
                 user,

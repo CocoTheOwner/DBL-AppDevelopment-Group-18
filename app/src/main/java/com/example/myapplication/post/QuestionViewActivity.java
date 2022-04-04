@@ -11,7 +11,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.media.Image;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -29,12 +28,10 @@ import com.example.myapplication.R;
 import com.example.myapplication.Response;
 import com.example.myapplication.User;
 import com.example.myapplication.UserDatabaseRecord;
-import com.example.myapplication.VoteDatabaseRecord;
 import com.google.android.gms.tasks.Task;
 import com.google.android.gms.tasks.Tasks;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.storage.FirebaseStorage;
@@ -42,11 +39,11 @@ import com.google.firebase.storage.StorageReference;
 
 import java.io.File;
 import java.io.IOException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.function.BiConsumer;
+import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
 public class QuestionViewActivity extends AppCompatActivity {
@@ -54,6 +51,8 @@ public class QuestionViewActivity extends AppCompatActivity {
     private FirebaseFirestore db;
     private FirebaseAuth auth;
     private StorageReference storageRef;
+    private List<Response> responses;
+    private QuestionViewRecyclerAdapter adapter;
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
@@ -71,11 +70,15 @@ public class QuestionViewActivity extends AppCompatActivity {
         String documentId = intent.getStringExtra("documentId");
 
         setupResponseButton(documentId);
-        fetchQuestionData(documentId);
+        fetchQuestionAndUserData(documentId, question -> {
+            fetchUserData(user -> {
+                handleData(user, question);
+            });
+        });
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)
-    private void fetchQuestionData(String documentId) {
+    private void fetchQuestionAndUserData(String documentId, Consumer<Question> callback) {
         db.collection("questions")
                 .document(documentId)
                 .get()
@@ -92,13 +95,13 @@ public class QuestionViewActivity extends AppCompatActivity {
                                 Question question = Question.fromDatabaseRecord(questionDoc.getId(),
                                         record, author);
 
-                                fetchUserData(question);
+                                callback.accept(question);
                             });
                 });
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)
-    private void fetchUserData(Question question) {
+    private void fetchUserData(Consumer<User> callback) {
         if (auth.getCurrentUser() != null) {
             db.collection("users")
                     .document(auth.getCurrentUser().getUid())
@@ -107,10 +110,10 @@ public class QuestionViewActivity extends AppCompatActivity {
                        User user = User.fromDatabaseRecord(userDoc.getId(),
                                userDoc.toObject(UserDatabaseRecord.class));
 
-                       handleData(user, question);
+                        callback.accept(user);
                     });
         } else {
-            handleData(null, question);
+            callback.accept(null);
         }
     }
 
@@ -260,7 +263,8 @@ public class QuestionViewActivity extends AppCompatActivity {
         db.collection("questions")
                 .document(question.getPostID())
                 .collection("responses")
-                .addSnapshotListener((responseSnapshot, e) -> {
+                .get()
+                .addOnSuccessListener(responseSnapshot -> {
 
                     TextView replyCountView = findViewById(R.id.ReplyCount);
 
@@ -279,14 +283,13 @@ public class QuestionViewActivity extends AppCompatActivity {
     private void fetchResponseAuthors(Question question,
                                       QuerySnapshot responsesDoc,
                                       @Nullable User currentUser) {
-        List<Response> responses = new ArrayList<>();
-
         List<Task<DocumentSnapshot>> userQueries = responsesDoc
                 .getDocuments()
                 .stream()
                 .map(responseDoc -> {
                     PostDatabaseRecord record = responseDoc.toObject(PostDatabaseRecord.class);
 
+                    responses = new ArrayList<>();
 
                     Task<DocumentSnapshot> userQuery = db.collection("users")
                             .document(record.authorId)
@@ -327,12 +330,12 @@ public class QuestionViewActivity extends AppCompatActivity {
     private void setResponseAdapter(Question question,
                                     List<Response> responses,
                                     @Nullable User currentUser) {
-        QuestionViewRecyclerAdapter adapter = new QuestionViewRecyclerAdapter(
+        adapter = new QuestionViewRecyclerAdapter(
                 responses,
                 currentUser,
                 question,
-                responseId -> {
-                    setBestAnswer(question, currentUser, responseId);
+                (responseId, position) -> {
+                    setBestAnswer(question, responseId, position);
                 },
                 (deletedText, responseId) -> {
                     new AlertDialog.Builder(this)
@@ -353,12 +356,15 @@ public class QuestionViewActivity extends AppCompatActivity {
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)
-    private void setBestAnswer(Question question, User currentUser, String responseId) {
+    private void setBestAnswer(Question question, String responseId, int responsePosition) {
+
+        question.setBestAnswerId(responseId);
+        adapter.setQuestion(question);
+        adapter.notifyItemChanged(0);
+        adapter.notifyItemChanged(responsePosition);
+
         db.collection("questions")
                 .document(question.getPostID())
-                .update("bestAnswer", responseId)
-                .addOnSuccessListener(x -> {
-                    fetchQuestionData(question.getPostID());
-                });
+                .update("bestAnswer", responseId);
     }
 }

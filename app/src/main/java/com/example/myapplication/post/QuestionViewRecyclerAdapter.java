@@ -33,11 +33,12 @@ public class QuestionViewRecyclerAdapter extends RecyclerView.Adapter<QuestionVi
     private User currentUser;
     private Question question;
     private FirebaseFirestore db;
-    private Consumer<String> acceptButtonAction;
+    private BiConsumer<String, Integer> acceptButtonAction;
     private BiConsumer<View, String> deleteButtonAction;
 
     public QuestionViewRecyclerAdapter(List<Response> responses, User currentUser,
-                                       Question question, Consumer<String> acceptButtonAction,
+                                       Question question,
+                                       BiConsumer<String, Integer> acceptButtonAction,
                                        BiConsumer<View, String> deleteButtonAction) {
         this.responses = responses;
         this.currentUser = currentUser;
@@ -45,6 +46,10 @@ public class QuestionViewRecyclerAdapter extends RecyclerView.Adapter<QuestionVi
         this.db = FirebaseFirestore.getInstance();
         this.acceptButtonAction = acceptButtonAction;
         this.deleteButtonAction = deleteButtonAction;
+    }
+
+    public void setQuestion(Question question) {
+        this.question = question;
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder{
@@ -57,7 +62,6 @@ public class QuestionViewRecyclerAdapter extends RecyclerView.Adapter<QuestionVi
         private TextView voteScore;
         private TextView bestAnswer;
         private TextView deletedText;
-        private Votes votes;
 
         public MyViewHolder(final View view){
             super(view);
@@ -122,7 +126,7 @@ public class QuestionViewRecyclerAdapter extends RecyclerView.Adapter<QuestionVi
         }
 
         holder.accept.setOnClickListener(v -> {
-            acceptButtonAction.accept(response.getPostID());
+            acceptButtonAction.accept(response.getPostID(), position);
         });
 
         holder.delete.setOnClickListener(v -> {
