@@ -19,9 +19,9 @@ public class Response extends InteractablePost {
         super(postID, author, content, creationDate, voteScore);
     }
 
-    public static Response fromDatabaseRecord(String id, PostDatabaseRecord record, UserDatabaseRecord userRecord) {
+    public static Response fromDatabaseRecord(String id, PostDatabaseRecord record, User author) {
         return new Response(id,
-                User.fromDatabaseRecord(record.authorId, userRecord),
+                author,
                 Content.fromDatabaseRecord(record.content),
                 record.creationDate, record.voteScore);
     }

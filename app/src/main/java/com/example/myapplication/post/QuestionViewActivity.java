@@ -20,6 +20,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.myapplication.Content;
 import com.example.myapplication.ContentDatabaseRecord;
 import com.example.myapplication.PostDatabaseRecord;
 import com.example.myapplication.Question;
@@ -69,7 +70,6 @@ public class QuestionViewActivity extends AppCompatActivity {
         Intent intent = getIntent();
         String documentId = intent.getStringExtra("documentId");
 
-        setupResponseButton(documentId);
         fetchQuestionAndUserData(documentId, question -> {
             fetchUserData(user -> {
                 handleData(user, question);
@@ -117,7 +117,7 @@ public class QuestionViewActivity extends AppCompatActivity {
         }
     }
 
-    private void setupResponseButton(String documentId) {
+    private void setupResponseButton(Question question, User currentUser) {
         //Making the response button and implementing it's functionality.
         ImageButton responseButton = findViewById(R.id.replyButton);
         EditText replyBox = findViewById(R.id.replyBox);
@@ -128,12 +128,21 @@ public class QuestionViewActivity extends AppCompatActivity {
                     String text = replyBox.getText().toString();
                     replyBox.setText("");
 
+                    PostDatabaseRecord record = new PostDatabaseRecord(auth.getCurrentUser().getUid(),
+                            new ContentDatabaseRecord(null, "", text),
+                            new Date());
+
                     db.collection("questions")
-                            .document(documentId)
+                            .document(question.getPostID())
                             .collection("responses")
-                            .add(new PostDatabaseRecord(auth.getCurrentUser().getUid(),
-                                    new ContentDatabaseRecord(null, "", text),
-                                    new Date()));
+                            .add(record)
+                            .addOnSuccessListener(doc -> {
+                                Response response = Response.fromDatabaseRecord(doc.getId(),
+                                        record, currentUser);
+
+                                responses.add(response);
+                                adapter.notifyItemInserted(responses.size() - 1);
+                            });
                 }
             });
         } else {
@@ -141,6 +150,7 @@ public class QuestionViewActivity extends AppCompatActivity {
             replyBox.setVisibility(View.GONE);
         }
     }
+
     private boolean validateResponse(EditText replyBox) {
         if (replyBox.getText().toString().replaceAll("\\s*", "").length() <= 0) {
             replyBox.setError("You cannot submit an empty response");
@@ -159,6 +169,7 @@ public class QuestionViewActivity extends AppCompatActivity {
         setupDeleteButton(question);
         setupResponses(question, currentUser);
         displayAttachment(question);
+        setupResponseButton(question, currentUser);
 
         new Votes(
                 findViewById(R.id.QuestionUpVote),
@@ -296,11 +307,13 @@ public class QuestionViewActivity extends AppCompatActivity {
                             .get();
 
 
-                    userQuery.addOnSuccessListener(userDoc ->
-                            responses
-                                    .add(Response.fromDatabaseRecord(responseDoc.getId(),
-                                            record,
-                                            userDoc.toObject(UserDatabaseRecord.class))));
+                    userQuery.addOnSuccessListener(userDoc -> {
+                        User author = User.fromDatabaseRecord(userDoc.getId(),
+                                userDoc.toObject(UserDatabaseRecord.class));
+
+                        responses.add(Response.fromDatabaseRecord(
+                                responseDoc.getId(), record, author));
+                    });
 
                     return userQuery;
                 }).collect(Collectors.toList());
