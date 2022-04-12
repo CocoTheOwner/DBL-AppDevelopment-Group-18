@@ -157,6 +157,8 @@ public class CreateQuestionActivity extends AppCompatActivity {
 
             Date now = new Date();
 
+            // if an image is attached, we first have to upload it to the
+            // database before calling createPost().
             if (imageAttached) {
                 uploadPictureToStorage(imageId -> {
                     createPost(questionTitleString, questionTextString, tags, now, imageId);
@@ -182,6 +184,7 @@ public class CreateQuestionActivity extends AppCompatActivity {
     @RequiresApi(api = Build.VERSION_CODES.O)
     private void createPost(String title, String body, List<String> tags, Date date, @Nullable String imageId) {
 
+        // Get the ID of the user that is currently logged in
         String userId = auth.getCurrentUser().getUid();
 
         QuestionDatabaseRecord newQuestionRecord = new QuestionDatabaseRecord(
@@ -191,19 +194,24 @@ public class CreateQuestionActivity extends AppCompatActivity {
                                 title, body
                         ), date), tags, null);
 
-
+        // Upload the question to the database
         db.collection("questions").add(newQuestionRecord).addOnSuccessListener(doc -> {
                 gotoQuestionView(doc.getId());
         }).addOnFailureListener(
                 error -> Toast.makeText(getApplicationContext(),
                         "Failed to create question", Toast.LENGTH_LONG).show());
 
+        // If the user added any tags to their post that have not been used before,
+        // we add these tags to the tags stored on the database. Now these tags will
+        // be included in the autocomplete suggestions when searching.
         updateTags(tags);
     }
 
+    // Redirect the user to the 'View Question' page of their newly created question
     private void gotoQuestionView(String id) {
         Intent intent = new Intent(CreateQuestionActivity.this, QuestionViewActivity.class);
 
+        // We need to know which question to get from the database after redirecting.
         intent.putExtra("documentId", id);
 
         startActivity(intent);
@@ -212,6 +220,9 @@ public class CreateQuestionActivity extends AppCompatActivity {
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     private void updateTags(List<String> tags) {
+        // We get all tags from the database that are equal to tag,
+        // If none are found, this tag is new and we add the tag to the database
+        // via a call to uploadTag().
         for (String tag : tags) {
             db.collection("tags")
                     .whereEqualTo("lower", tag.toLowerCase(Locale.ROOT))
@@ -224,6 +235,7 @@ public class CreateQuestionActivity extends AppCompatActivity {
         }
     }
 
+    // Upload a tag to the tags collection on the Firebase Firestore
     private void uploadTag(String tag) {
         db.collection("tags")
                 .add(new TagDatabaseRecord(tag));
@@ -287,27 +299,32 @@ public class CreateQuestionActivity extends AppCompatActivity {
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     private String uploadPictureToStorage(Consumer<String> callback) {
-        // TODO: We probably do not want this dialog to pop up?
+        // Setup of a simple popup dialog that shows the user the progress of their upload
         ProgressDialog dialog = new ProgressDialog(CreateQuestionActivity.this);
         dialog.setTitle("Upload in progress");
         dialog.show();
 
+        // We generate a random ID to use for the image's ID on the database
         String id = UUID.randomUUID().toString();
 
         // Store the image in the firebase Storage with a randomly generated ID
         StorageReference picRef = storageRef.child("images/" + id);
         picRef.putFile(tempLocURI)
                 .addOnSuccessListener(taskSnapshot -> {
-                    dialog.dismiss();
-                    Toast.makeText(getApplicationContext(), "success", Toast.LENGTH_SHORT).show();
+                    dialog.dismiss(); // Close the dialog
+                    Toast.makeText(getApplicationContext(), // Show a 'success' notification
+                            "File(s) uploaded successfully!",
+                            Toast.LENGTH_SHORT).show();
 
-                    callback.accept(id);
+                    callback.accept(id); // Run the callback method
                 })
                 .addOnFailureListener(e -> {
-                    dialog.dismiss();
-                    Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
+                    dialog.dismiss(); // Close the dialog
+                    Toast.makeText(getApplicationContext(), // Notify user of error encountered
+                            e.getMessage(),
+                            Toast.LENGTH_SHORT).show();
                 })
-                .addOnProgressListener(snapshot -> {
+                .addOnProgressListener(snapshot -> { // Show the user the progress of the upload
                     double progress = (100.0 * snapshot.getBytesTransferred() / snapshot.getTotalByteCount());
                     dialog.setMessage("Progress: " + (int) progress + "%");
                 });
