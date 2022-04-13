@@ -127,7 +127,7 @@ public abstract class Post {
         // TODO: Figure out how to make this color string not hardcoded
         // This will probably be done using spannable in the future
 
-        String color = author.getUserType() == User.UserType.USER ?
+        String color = author.getUserType() == UserType.USER ?
                 "#87ceeb" :
                 "#178b17";
 

@@ -20,7 +20,6 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.example.myapplication.Content;
 import com.example.myapplication.ContentDatabaseRecord;
 import com.example.myapplication.PostDatabaseRecord;
 import com.example.myapplication.Question;
@@ -29,6 +28,7 @@ import com.example.myapplication.R;
 import com.example.myapplication.Response;
 import com.example.myapplication.User;
 import com.example.myapplication.UserDatabaseRecord;
+import com.example.myapplication.UserType;
 import com.google.android.gms.tasks.Task;
 import com.google.android.gms.tasks.Tasks;
 import com.google.firebase.auth.FirebaseAuth;
@@ -226,7 +226,7 @@ public class QuestionViewActivity extends AppCompatActivity {
         ImageButton deleteQButton = findViewById(R.id.QuestionDeleteButton);
 
         if (currentUser != null ) {
-            if (currentUser.getUserType() == User.UserType.MODERATOR) {
+            if (currentUser.getUserType() == UserType.MODERATOR) {
                 deleteQButton.setVisibility(View.VISIBLE);
             }
         }
