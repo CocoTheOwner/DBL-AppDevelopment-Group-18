@@ -49,7 +49,9 @@ public class BannerFragment extends Fragment {
 
         ImageView button = v.findViewById(R.id.newPostButton);
 
-        if (requireActivity().getClass() == CreateQuestionActivity.class || auth.getCurrentUser() == null) {
+        if (requireActivity().getClass() == CreateQuestionActivity.class
+                || requireActivity().getClass() == UserSettingsActivity.class
+                || auth.getCurrentUser() == null) {
             button.setVisibility(View.GONE);
         }
 
@@ -59,7 +61,12 @@ public class BannerFragment extends Fragment {
     }
 
     private void setupProfileButton(View v) {
-        v.findViewById(R.id.profileButton).setOnClickListener(x -> {
+        ImageView button = v.findViewById(R.id.profileButton);
+
+        if (requireActivity().getClass() == UserSettingsActivity.class) {
+            button.setVisibility(View.GONE);
+        }
+        button.setOnClickListener(x -> {
             if (auth.getCurrentUser() == null) {
                 startActivity(new Intent(requireActivity(), LoginPage.class));
             } else {
