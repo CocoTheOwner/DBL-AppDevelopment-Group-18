@@ -31,8 +31,6 @@ public class BannerFragment extends Fragment {
 
         auth = FirebaseAuth.getInstance();
 
-
-
         setupBannerText(view);
         setupNewPostButton(view);
         setupProfileButton(view);
@@ -51,19 +49,13 @@ public class BannerFragment extends Fragment {
 
         ImageView button = v.findViewById(R.id.newPostButton);
 
-        if (getArguments() != null) {
-            if (getArguments().getBoolean("noCreateQuestionButton")) {
-                button.setVisibility(View.GONE);
-            };
-        } else {
-            if (auth.getCurrentUser() == null) {
-                button.setVisibility(View.GONE);
-            }
-
-            button.setOnClickListener(x -> {
-                startActivity(new Intent(requireActivity(), CreateQuestionActivity.class));
-            });
+        if (requireActivity().getClass() == CreateQuestionActivity.class || auth.getCurrentUser() == null) {
+            button.setVisibility(View.GONE);
         }
+
+        button.setOnClickListener(x -> {
+            startActivity(new Intent(requireActivity(), CreateQuestionActivity.class));
+        });
     }
 
     private void setupProfileButton(View v) {

@@ -28,7 +28,6 @@ import android.widget.Toast;
 import java.io.File;
 import java.io.IOException;
 
-import com.example.myapplication.BannerFragment;
 import com.example.myapplication.ContentDatabaseRecord;
 import com.example.myapplication.PostDatabaseRecord;
 import com.example.myapplication.QuestionDatabaseRecord;
@@ -99,10 +98,6 @@ public class CreateQuestionActivity extends AppCompatActivity {
             Bundle bundle = new Bundle();
             bundle.putBoolean("noCreateQuestionButton", true);
 
-            getSupportFragmentManager().beginTransaction()
-                    .setReorderingAllowed(true)
-                    .add(R.id.login_banner, BannerFragment.class, bundle)
-                    .commit();
         }
 
         // Setup the ActivityForResult launchers we need.
