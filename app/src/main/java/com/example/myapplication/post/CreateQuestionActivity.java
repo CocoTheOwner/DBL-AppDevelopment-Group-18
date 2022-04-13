@@ -278,7 +278,7 @@ public class CreateQuestionActivity extends AppCompatActivity {
                 // Returns true if the image was saved into the given Uri.
                 new ActivityResultContracts.TakePicture(),
                 result -> { // Here we choose what to do based on user action
-                    if (result == true) { // The user has taken a picture
+                    if (result) { // The user has taken a picture
 
                         // ImageView used to display a preview of the selected image
                         ImageView imagePreview = findViewById(R.id.imagePreview);
