@@ -142,26 +142,6 @@ public class User {
         return String.valueOf(RANDOM.nextLong());
     }
 
-    /**
-     * Types of users.
-     */
-    public enum UserType {
-        /**
-         * Normal logged-in user.
-         */
-        USER,
-
-        /**
-         * Moderator with access to removing questions, answers and replies.
-         */
-        MODERATOR,
-
-        /**
-         * Guest with no permissions to change, but only view. Effectively read-only.
-         */
-        GUEST
-    }
-
     public static User fromDatabaseRecord(String id, UserDatabaseRecord record) {
         return new User(record.userName,
                 record.program,
