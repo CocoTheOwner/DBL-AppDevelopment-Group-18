@@ -12,14 +12,13 @@ import android.view.View;
 import android.widget.*;
 
 import com.example.myapplication.R;
-import com.example.myapplication.User;
 import com.example.myapplication.UserDatabaseRecord;
+import com.example.myapplication.UserType;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 public class RegisterUser extends AppCompatActivity implements View.OnClickListener {
@@ -109,13 +108,13 @@ public class RegisterUser extends AppCompatActivity implements View.OnClickListe
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
 
-                        User.UserType type;
+                        UserType type;
 
                         if (task.getResult().getAdditionalUserInfo() == null ||
                                 task.getResult().getAdditionalUserInfo().getProfile() == null) {
-                            type = User.UserType.USER;
+                            type = UserType.USER;
                         } else {
-                            type = (User.UserType) task.getResult().getAdditionalUserInfo().getProfile().getOrDefault("UserType", User.UserType.USER);
+                            type = (UserType) task.getResult().getAdditionalUserInfo().getProfile().getOrDefault("UserType", UserType.USER);
                         }
 
                         // Registration was successful.

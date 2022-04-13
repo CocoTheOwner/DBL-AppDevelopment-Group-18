@@ -5,7 +5,6 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -13,20 +12,16 @@ import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.myapplication.PostDatabaseRecord;
 import com.example.myapplication.Question;
 import com.example.myapplication.R;
 import com.example.myapplication.Response;
 import com.example.myapplication.User;
-import com.example.myapplication.VoteDatabaseRecord;
+import com.example.myapplication.UserType;
 import com.google.firebase.firestore.CollectionReference;
-import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.List;
 import java.util.function.BiConsumer;
-import java.util.function.Consumer;
 
 public class QuestionViewRecyclerAdapter extends RecyclerView.Adapter<QuestionViewRecyclerAdapter.MyViewHolder> {
     private List<Response> responses;
@@ -100,7 +95,7 @@ public class QuestionViewRecyclerAdapter extends RecyclerView.Adapter<QuestionVi
         holder.body.setText(response.getContent().getBody());
 
         if (currentUser != null) {
-            if (currentUser.getUserType() == User.UserType.MODERATOR) {
+            if (currentUser.getUserType() == UserType.MODERATOR) {
                 holder.delete.setVisibility(View.VISIBLE);
             }
 
