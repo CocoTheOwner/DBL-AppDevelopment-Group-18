@@ -61,8 +61,11 @@ public class QuestionViewActivity extends AppCompatActivity {
         //Initialize the data from the database and start all methods to build the page.
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_question_view);
+
+        //Recycler to add all questions and answers.
         QuestionListView = findViewById(R.id.QuestionViewRecycler);
 
+        // Set-up for the firebase connection
         db = FirebaseFirestore.getInstance();
         auth = FirebaseAuth.getInstance();
         storageRef = FirebaseStorage.getInstance().getReference();
@@ -78,6 +81,7 @@ public class QuestionViewActivity extends AppCompatActivity {
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)
+    // Retrieve question information from the database.
     private void fetchQuestionAndUserData(String documentId, Consumer<Question> callback) {
         db.collection("questions")
                 .document(documentId)
@@ -101,6 +105,7 @@ public class QuestionViewActivity extends AppCompatActivity {
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)
+    // Get the information about the user's account.
     private void fetchUserData(Consumer<User> callback) {
         if (auth.getCurrentUser() != null) {
             db.collection("users")
@@ -122,6 +127,7 @@ public class QuestionViewActivity extends AppCompatActivity {
         ImageButton responseButton = findViewById(R.id.replyButton);
         EditText replyBox = findViewById(R.id.replyBox);
 
+        //Only show response button if the user is logged in.
         if (auth.getCurrentUser() != null) {
             responseButton.setOnClickListener(v -> {
                 if (validateResponse(replyBox)) {
@@ -146,6 +152,7 @@ public class QuestionViewActivity extends AppCompatActivity {
                 }
             });
         } else {
+            // If the user is a guest, hide the response button.
             responseButton.setVisibility(View.GONE);
             replyBox.setVisibility(View.GONE);
         }
@@ -192,7 +199,7 @@ public class QuestionViewActivity extends AppCompatActivity {
 
                         findViewById(R.id.questionDeletedText).setVisibility(View.VISIBLE);
                     })
-                    .setNegativeButton(R.string.no, (dialog, id ) -> {})
+                    .setNegativeButton(R.string.no, (dialog, id )-> { })
                     .create()
                     .show();
         });
@@ -211,7 +218,7 @@ public class QuestionViewActivity extends AppCompatActivity {
                     Bitmap bitmap = BitmapFactory.decodeFile(localFile.getAbsolutePath());
 
                     attachmentView.setImageBitmap(bitmap);
-                }).addOnFailureListener(e -> {e.printStackTrace();});
+                }).addOnFailureListener(e -> { e.printStackTrace(); });
 
             } catch (IOException e) {
                 e.printStackTrace();
@@ -225,7 +232,7 @@ public class QuestionViewActivity extends AppCompatActivity {
         //Make delete and best answer buttons invisible for correct users.
         ImageButton deleteQButton = findViewById(R.id.QuestionDeleteButton);
 
-        if (currentUser != null ) {
+        if (currentUser != null) {
             if (currentUser.getUserType() == UserType.MODERATOR) {
                 deleteQButton.setVisibility(View.VISIBLE);
             }
@@ -262,7 +269,7 @@ public class QuestionViewActivity extends AppCompatActivity {
         TextView questionView = findViewById(R.id.QuestText);
         TextView userView = findViewById(R.id.QuestUser);
 
-
+        // Setting the title and body text to match the question.
         titleView.setText(question.getContent().getTitle());
         questionView.setText(question.getContent().getBody());
 
@@ -361,7 +368,7 @@ public class QuestionViewActivity extends AppCompatActivity {
                                         .document(responseId)
                                         .delete();
                             })
-                            .setNegativeButton(R.string.no, (d, i) -> {})
+                            .setNegativeButton(R.string.no, (d, i) -> { })
                             .create()
                             .show();
                 });

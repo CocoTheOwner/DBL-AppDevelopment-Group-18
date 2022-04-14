@@ -49,9 +49,6 @@ import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
 public class CreateQuestionActivity extends AppCompatActivity {
-    public static final String TITLE_TEXT = "com.example.myapplication.TITLE_TEXT";
-    public static final String QUESTION_TEXT = "com.example.myapplication.QUESTION_TEXT";
-    public static final String QUESTION_TIME = "com.example.myapplication.QUESTION_TIME";
 
     private FirebaseFirestore db;
     private Button submit;
@@ -60,7 +57,7 @@ public class CreateQuestionActivity extends AppCompatActivity {
     private FirebaseAuth auth;
 
     // The following are needed for adding attachments to the post.
-    private Button add_image;
+    private Button addImage;
     ActivityResultLauncher<String> pickerLauncherViaFiles;
     ActivityResultLauncher<Uri> imageViaCamera;
     //Uri Parameter of the launch method must be the destination where the picture is saved
@@ -81,7 +78,10 @@ public class CreateQuestionActivity extends AppCompatActivity {
 
         auth = FirebaseAuth.getInstance();
 
+        //Submit question button
         submit = findViewById(R.id.submit_question);
+
+        //Cancel question button.
         exit = findViewById(R.id.cancel_button);
 
         exit.setOnClickListener(new View.OnClickListener() {
@@ -104,8 +104,8 @@ public class CreateQuestionActivity extends AppCompatActivity {
         setupLaunchers();
         storageRef = FirebaseStorage.getInstance().getReference();
         // TODO: Add user choice between viaFiles or viaCamera!
-        add_image = findViewById(R.id.add_image_button);
-        add_image.setOnClickListener(view -> {
+        addImage = findViewById(R.id.add_image_button);
+        addImage.setOnClickListener(view -> {
             handleImageOptions(view);
         });
     }
@@ -133,6 +133,7 @@ public class CreateQuestionActivity extends AppCompatActivity {
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     private void submit() {
+        //Fields for entering question text and title.
         EditText questionTitle = findViewById(R.id.question_title);
         EditText questionText = findViewById(R.id.question_text);
         MultiAutoCompleteTextView tagInputView = findViewById(R.id.question_tags);
