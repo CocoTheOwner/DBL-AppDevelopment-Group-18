@@ -242,7 +242,7 @@ public class CreateQuestionActivity extends AppCompatActivity {
         // In this case, the other activity is a built-in activity for getting content from
         // the phone's files.
         // The input is the mime type to filter by, in our case we use: "image/*".
-        pickerLauncherViaFiles = registerForActivityResult( // Via files
+        pickerLauncherViaFiles = registerForActivityResult(// Via files
                 // prompt the user to pick a piece of content, receiving a content:
                 // Uri for that content
                 new ActivityResultContracts.GetContent(),
