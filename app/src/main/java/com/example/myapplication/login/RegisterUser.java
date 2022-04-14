@@ -85,7 +85,7 @@ public class RegisterUser extends AppCompatActivity implements View.OnClickListe
         String program = programDropdown.getSelectedItem().toString();
 
         // If the credentials conform to requirements, we attempt to create an account.
-        if (checkCredentials(email, username, password)) {
+        if (checkCredentials(email, username, password, editTextUsername, editTextEmail, editTextPassword)) {
             createUser(email, username, password, program);
         }
     }
@@ -178,32 +178,41 @@ public class RegisterUser extends AppCompatActivity implements View.OnClickListe
      * @return boolean value whether requires adhere to the requirements
      * TODO: Move this to user?
      */
-    private boolean checkCredentials (String email, String username, String password) {
+    public static boolean checkCredentials(String email, String username, String password,
+                                           EditText editTextUsername, EditText editTextEmail, EditText editTextPassword) {
         // Username cannot be empty, possibly want a minimum length as well.
         if (username.isEmpty()) {
-            editTextUsername.setError("Username is required!");
-            editTextUsername.requestFocus();
+            if (editTextUsername != null) {
+                editTextUsername.setError("Username is required!");
+                editTextUsername.requestFocus();
+            }
             return false;
         }
 
         // Provided email should be a valid email (also implies non-empty)
         if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
-            editTextEmail.setError("Email is invalid!");
-            editTextEmail.requestFocus();
+            if (editTextEmail != null) {
+                editTextEmail.setError("Email is invalid!");
+                editTextEmail.requestFocus();
+            }
             return false;
         }
 
         // Additionally, the email should be tue domain.
         if (!(email.endsWith("@student.tue.nl") || email.endsWith("@tue.nl"))) {
-            editTextEmail.setError("Please use your TU/e email");
-            editTextEmail.requestFocus();
+            if (editTextEmail != null) {
+                editTextEmail.setError("Please use your TU/e email");
+                editTextEmail.requestFocus();
+            }
             return false;
         }
 
         // Firebase requires passwords to have lengths of at least 6 characters.
         if (password.length() < 6) {
-            editTextPassword.setError("Password should have length of at least 6!");
-            editTextPassword.requestFocus();
+            if (editTextPassword != null) {
+                editTextPassword.setError("Password should have length of at least 6!");
+                editTextPassword.requestFocus();
+            }
             return false;
         }
         return true;
