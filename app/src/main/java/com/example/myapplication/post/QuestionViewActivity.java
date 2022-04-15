@@ -239,30 +239,6 @@ public class QuestionViewActivity extends AppCompatActivity {
         }
     }
 
-
-
-    @RequiresApi(api = Build.VERSION_CODES.N)
-    private void fetchVoteData(Question question, User currentUser, BiConsumer<Boolean, Boolean> f) {
-        db.collection("questions")
-                .document(question.getPostID())
-                .collection("upVotes")
-                .whereEqualTo("voterId", currentUser.getUserID())
-                .get()
-                .addOnSuccessListener(upDocs -> {
-                    db.collection("questions")
-                            .document(question.getPostID())
-                            .collection("downVotes")
-                            .whereEqualTo("voterId", currentUser.getUserID())
-                            .get()
-                            .addOnSuccessListener(downDocs -> {
-                               f.accept(upDocs.size() > 0, downDocs.size() > 0);
-                            });
-                });
-    }
-
-
-
-
     private void displayQuestionData(Question question) {
         //Method to display the Question data in the correct boxes.
         TextView titleView = findViewById(R.id.questionTitleView);
