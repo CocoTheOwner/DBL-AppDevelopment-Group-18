@@ -34,7 +34,6 @@ import java.util.stream.IntStream;
 
 public class OverviewFragment extends Fragment {
 
-    private FrontPageViewModel model;
     private FirebaseFirestore db;
     private RecyclerView categoryRecyclerView;
 
@@ -48,9 +47,6 @@ public class OverviewFragment extends Fragment {
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
 
         db = FirebaseFirestore.getInstance();
-
-         model = new ViewModelProvider(requireActivity())
-                .get(FrontPageViewModel.class);
 
         categoryRecyclerView = view.findViewById(R.id.categoryRecyclerView);
 
@@ -89,6 +85,7 @@ public class OverviewFragment extends Fragment {
                                     doc.getId(),
                                     record,
                                     User.fromDatabaseRecord(
+
                                             doc2.getId(), doc2.toObject(UserDatabaseRecord.class)));
                 });
 

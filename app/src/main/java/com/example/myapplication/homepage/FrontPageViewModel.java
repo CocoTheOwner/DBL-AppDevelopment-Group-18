@@ -10,12 +10,6 @@ public class FrontPageViewModel extends ViewModel {
     private MutableLiveData<TagCollection> tags = new MutableLiveData<>(new TagCollection());
     private MutableLiveData<String> searchString = new MutableLiveData<>("");
 
-    private final TagCollection availableTags = new TagCollection();
-
-    public FrontPageViewModel() {
-
-    }
-
     public void setSearchString(String string) {
         searchString.setValue(string);
     }
