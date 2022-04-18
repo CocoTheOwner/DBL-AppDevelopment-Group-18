@@ -2,6 +2,8 @@ package com.example.myapplication;
 
 import androidx.annotation.NonNull;
 
+import com.example.myapplication.databaseRecords.UserDatabaseRecord;
+
 import java.util.Random;
 
 /**

@@ -1,5 +1,7 @@
 package com.example.myapplication;
 
+import com.example.myapplication.databaseRecords.QuestionDatabaseRecord;
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;

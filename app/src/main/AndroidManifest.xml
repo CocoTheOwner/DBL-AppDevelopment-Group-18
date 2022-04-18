@@ -14,19 +14,19 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MyApplication">
         <activity
-            android:name=".UserSettingsActivity"
+            android:name=".view.UserSettingsActivity"
             android:exported="false" />
         <activity
-            android:name=".homepage.FrontPageActivity"
+            android:name=".view.FrontPageActivity"
             android:exported="false" />
         <activity
-            android:name=".login.ResetPassword"
+            android:name=".view.ResetPassword"
             android:exported="false" />
         <activity
-            android:name=".login.RegisterUser"
+            android:name=".view.RegisterUser"
             android:exported="false" />
         <activity
-            android:name=".login.LoginPage"
+            android:name=".view.LoginPage"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -35,10 +35,10 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".post.QuestionViewActivity"
+            android:name=".view.QuestionViewActivity"
             android:exported="false" />
         <activity
-            android:name=".post.CreateQuestionActivity"
+            android:name=".view.CreateQuestionActivity"
             android:exported="true" />
 
         <provider

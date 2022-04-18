@@ -1,4 +1,4 @@
-package com.example.myapplication.homepage;
+package com.example.myapplication.view;
 
 import com.example.myapplication.Question;
 

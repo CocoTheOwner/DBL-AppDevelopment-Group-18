@@ -1,4 +1,4 @@
-package com.example.myapplication;
+package com.example.myapplication.databaseRecords;
 
 public class VoteDatabaseRecord {
     public String voterId;

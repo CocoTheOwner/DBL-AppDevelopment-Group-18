@@ -1,4 +1,4 @@
-package com.example.myapplication.post;
+package com.example.myapplication.homepage;
 
 import android.os.Build;
 import android.widget.ImageView;
@@ -9,7 +9,7 @@ import androidx.annotation.RequiresApi;
 
 import com.example.myapplication.Post;
 import com.example.myapplication.User;
-import com.example.myapplication.VoteDatabaseRecord;
+import com.example.myapplication.databaseRecords.VoteDatabaseRecord;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FieldValue;
 

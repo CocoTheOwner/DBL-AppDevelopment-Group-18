@@ -1,4 +1,4 @@
-package com.example.myapplication.homepage;
+package com.example.myapplication.view;
 
 import android.text.Html;
 import android.text.TextUtils;

@@ -1,4 +1,4 @@
-package com.example.myapplication.homepage;
+package com.example.myapplication.view;
 
 import android.content.Intent;
 import android.os.Build;
@@ -15,11 +15,11 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.View;
 
 import com.example.myapplication.Question;
-import com.example.myapplication.QuestionDatabaseRecord;
+import com.example.myapplication.databaseRecords.QuestionDatabaseRecord;
 import com.example.myapplication.R;
 import com.example.myapplication.User;
-import com.example.myapplication.UserDatabaseRecord;
-import com.example.myapplication.post.QuestionViewActivity;
+import com.example.myapplication.databaseRecords.UserDatabaseRecord;
+import com.example.myapplication.homepage.FrontPageViewModel;
 import com.google.android.gms.tasks.Task;
 import com.google.android.gms.tasks.Tasks;
 import com.google.firebase.firestore.DocumentSnapshot;

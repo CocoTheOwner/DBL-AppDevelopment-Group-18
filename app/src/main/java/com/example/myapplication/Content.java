@@ -1,9 +1,8 @@
 package com.example.myapplication;
 
-import androidx.annotation.NonNull;
+import com.example.myapplication.databaseRecords.ContentDatabaseRecord;
 
 import java.io.File;
-import java.util.ArrayList;
 import java.util.List;
 
 import me.xdrop.fuzzywuzzy.FuzzySearch;

@@ -1,4 +1,6 @@
-package com.example.myapplication;
+package com.example.myapplication.databaseRecords;
+
+import com.example.myapplication.UserType;
 
 public class UserDatabaseRecord {
 

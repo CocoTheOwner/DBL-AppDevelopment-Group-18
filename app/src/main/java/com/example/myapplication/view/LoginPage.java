@@ -1,4 +1,4 @@
-package com.example.myapplication.login;
+package com.example.myapplication.view;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -16,7 +16,6 @@ import android.widget.Toast;
 
 
 import com.example.myapplication.R;
-import com.example.myapplication.homepage.FrontPageActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -118,6 +117,7 @@ public class LoginPage extends AppCompatActivity
                 mAuth.signOut();
                 startActivity(new Intent(
                         this, FrontPageActivity.class));
+                break;
             default:
                 Toast.makeText(LoginPage.this,
                         "Something went wrong!",

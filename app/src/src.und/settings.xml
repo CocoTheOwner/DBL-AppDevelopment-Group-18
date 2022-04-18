@@ -53,8 +53,6 @@
                   name="homepage"/>
                 <dir
                   name="login"/>
-                <dir
-                  name="post"/>
               </dir>
             </dir>
           </dir>
@@ -85,20 +83,6 @@
             name="values-night"/>
           <dir
             name="xml"/>
-        </dir>
-      </dir>
-      <dir
-        name="test">
-        <dir
-          name="java">
-          <dir
-            name="com">
-            <dir
-              name="example">
-              <dir
-                name="myapplication"/>
-            </dir>
-          </dir>
         </dir>
       </dir>
     </dir>

@@ -7,7 +7,7 @@ import static org.junit.Assert.*;
 
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 
-import com.example.myapplication.login.RegisterUser;
+import com.example.myapplication.view.RegisterUser;
 
 
 /**

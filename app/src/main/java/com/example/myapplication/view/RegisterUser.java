@@ -1,4 +1,4 @@
-package com.example.myapplication.login;
+package com.example.myapplication.view;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
@@ -18,7 +18,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.myapplication.R;
-import com.example.myapplication.UserDatabaseRecord;
+import com.example.myapplication.databaseRecords.UserDatabaseRecord;
 import com.example.myapplication.UserType;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;

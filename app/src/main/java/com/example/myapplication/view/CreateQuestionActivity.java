@@ -1,4 +1,4 @@
-package com.example.myapplication.post;
+package com.example.myapplication.view;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
@@ -28,13 +28,12 @@ import android.widget.Toast;
 import java.io.File;
 import java.io.IOException;
 
-import com.example.myapplication.ContentDatabaseRecord;
-import com.example.myapplication.PostDatabaseRecord;
-import com.example.myapplication.QuestionDatabaseRecord;
+import com.example.myapplication.databaseRecords.ContentDatabaseRecord;
+import com.example.myapplication.databaseRecords.PostDatabaseRecord;
+import com.example.myapplication.databaseRecords.QuestionDatabaseRecord;
 import com.example.myapplication.R;
 import com.example.myapplication.TagCollection;
-import com.example.myapplication.TagDatabaseRecord;
-import com.example.myapplication.homepage.FrontPageActivity;
+import com.example.myapplication.databaseRecords.TagDatabaseRecord;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;

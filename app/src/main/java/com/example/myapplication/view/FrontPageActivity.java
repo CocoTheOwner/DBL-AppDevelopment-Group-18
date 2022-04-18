@@ -1,4 +1,4 @@
-package com.example.myapplication.homepage;
+package com.example.myapplication.view;
 
 import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.RequiresApi;
@@ -17,7 +17,8 @@ import android.widget.SearchView;
 
 import com.example.myapplication.R;
 import com.example.myapplication.TagCollection;
-import com.example.myapplication.TagDatabaseRecord;
+import com.example.myapplication.databaseRecords.TagDatabaseRecord;
+import com.example.myapplication.homepage.FrontPageViewModel;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.stream.Collectors;

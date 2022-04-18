@@ -8,7 +8,7 @@
     android:layout_height="match_parent"
     android:background="#FFFFFF"
     android:fillViewport="true"
-    tools:context=".post.CreateQuestionActivity">
+    tools:context=".view.CreateQuestionActivity">
 
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/header"

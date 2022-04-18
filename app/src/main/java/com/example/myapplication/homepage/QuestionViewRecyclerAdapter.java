@@ -1,4 +1,4 @@
-package com.example.myapplication.post;
+package com.example.myapplication.homepage;
 
 import android.os.Build;
 import android.text.TextUtils;

@@ -1,4 +1,4 @@
-package com.example.myapplication.post;
+package com.example.myapplication.view;
 
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
@@ -20,15 +20,17 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.example.myapplication.ContentDatabaseRecord;
-import com.example.myapplication.PostDatabaseRecord;
+import com.example.myapplication.databaseRecords.ContentDatabaseRecord;
+import com.example.myapplication.databaseRecords.PostDatabaseRecord;
 import com.example.myapplication.Question;
-import com.example.myapplication.QuestionDatabaseRecord;
+import com.example.myapplication.databaseRecords.QuestionDatabaseRecord;
 import com.example.myapplication.R;
 import com.example.myapplication.Response;
 import com.example.myapplication.User;
-import com.example.myapplication.UserDatabaseRecord;
+import com.example.myapplication.databaseRecords.UserDatabaseRecord;
 import com.example.myapplication.UserType;
+import com.example.myapplication.homepage.QuestionViewRecyclerAdapter;
+import com.example.myapplication.homepage.Votes;
 import com.google.android.gms.tasks.Task;
 import com.google.android.gms.tasks.Tasks;
 import com.google.firebase.auth.FirebaseAuth;
@@ -43,7 +45,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
 

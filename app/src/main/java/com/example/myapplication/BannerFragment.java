@@ -12,9 +12,10 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.example.myapplication.homepage.FrontPageActivity;
-import com.example.myapplication.login.LoginPage;
-import com.example.myapplication.post.CreateQuestionActivity;
+import com.example.myapplication.view.FrontPageActivity;
+import com.example.myapplication.view.LoginPage;
+import com.example.myapplication.view.CreateQuestionActivity;
+import com.example.myapplication.view.UserSettingsActivity;
 import com.google.firebase.auth.FirebaseAuth;
 
 public class BannerFragment extends Fragment {
